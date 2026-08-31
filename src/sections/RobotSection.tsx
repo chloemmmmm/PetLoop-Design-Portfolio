@@ -9,7 +9,7 @@ export function RobotSection() {
     <section className="section product-story product-story--robot">
       <div className="site-shell product-story__grid product-story__grid--reverse">
         <figure className="source-figure product-story__media">
-          <img src={assetUrl(media.robot.src)} alt={media.robot.alt} />
+          <img src={assetUrl(media.robot.src)} alt={media.robot.alt} loading="lazy" decoding="async" />
           <figcaption>Mechanical build and interaction evolution documented in the original course project.</figcaption>
         </figure>
         <div className="product-story__copy">
