@@ -1,6 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { expect, it } from 'vitest'
+import { expect, it, vi } from 'vitest'
 import { AppRoutes } from '../app/routes'
 
 function renderDemo() {
@@ -39,4 +39,29 @@ it('opens event evidence from the timeline', () => {
   fireEvent.click(screen.getByRole('button', { name: /resting pattern detected/i }))
   expect(screen.getByRole('heading', { name: /event evidence/i })).toBeInTheDocument()
   expect(screen.getByText(/low movement intensity with stable posture cues/i)).toBeInTheDocument()
+})
+
+it('runs Comfort through the robot states and records the interaction', () => {
+  vi.useFakeTimers()
+  renderDemo()
+
+  fireEvent.click(screen.getByRole('button', { name: /^robot$/i }))
+  fireEvent.click(screen.getByRole('button', { name: /^comfort$/i }))
+  fireEvent.click(screen.getByRole('button', { name: /send comfort/i }))
+
+  expect(screen.getByText(/connecting/i)).toBeInTheDocument()
+
+  act(() => {
+    vi.advanceTimersByTime(700)
+  })
+  expect(screen.getByText(/comfort mode activated/i)).toBeInTheDocument()
+
+  act(() => {
+    vi.advanceTimersByTime(900)
+  })
+  expect(screen.getByText(/interaction recorded/i)).toBeInTheDocument()
+
+  fireEvent.click(screen.getByRole('button', { name: /^overview$/i }))
+  expect(screen.getByRole('button', { name: /comfort interaction/i })).toBeInTheDocument()
+  vi.useRealTimers()
 })
