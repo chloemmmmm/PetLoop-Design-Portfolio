@@ -44,6 +44,7 @@ export function RobotActionPanel({ mode, phase, onSelectMode, onSend, onReset }:
           <button
             key={item.id}
             type="button"
+            aria-label={item.label}
             aria-pressed={mode === item.id}
             onClick={() => onSelectMode(item.id)}
             disabled={phase === 'connecting' || phase === 'active'}
