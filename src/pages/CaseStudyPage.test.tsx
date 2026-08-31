@@ -35,3 +35,11 @@ it('surfaces research insights and the Luna persona without invented validation 
   expect(screen.getByText(/MFCC/)).toBeInTheDocument()
   expect(screen.queryByText(/97%|100\+ users|clinical/i)).not.toBeInTheDocument()
 })
+
+it('shows the complete PetLoop feedback loop and demo entry', () => {
+  renderPage()
+  for (const label of ['Pet', 'Wearable', 'PetLoop Console', 'Owner', 'Desktop Robot']) {
+    expect(screen.getByText(label)).toBeInTheDocument()
+  }
+  expect(screen.getByRole('link', { name: /launch interactive demo/i })).toHaveAttribute('href', expect.stringContaining('/demo'))
+})
