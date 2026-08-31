@@ -1,0 +1,33 @@
+:root {
+  --forest: #42543A;
+  --sage: #DDE6D3;
+  --mist: #EEF2E9;
+  --ivory: #F7F5EE;
+  --charcoal: #20241F;
+  --soft-grey: #777C74;
+  --white: #FFFFFF;
+  --line: rgba(32, 36, 31, 0.12);
+  --shadow-soft: 0 18px 50px rgba(32, 36, 31, 0.08);
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+  --space-1: 0.375rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: 4.5rem;
+  --space-8: 7rem;
+  --container: 1440px;
+  --font-sans: Inter, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --display-xl: clamp(3.6rem, 10vw, 9.8rem);
+  --display-lg: clamp(2.8rem, 6vw, 6.6rem);
+  --display-md: clamp(2rem, 4vw, 4rem);
+  --body-lg: clamp(1.05rem, 1.6vw, 1.35rem);
+  --body: 1rem;
+  --small: 0.82rem;
+  --motion-fast: 160ms;
+  --motion-base: 320ms;
+  --focus: 0 0 0 3px rgba(66, 84, 58, 0.28);
+}
