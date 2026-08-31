@@ -26,3 +26,17 @@ it('changes the dashboard time range through the shared demo state', () => {
   expect(sevenDays).toHaveAttribute('aria-pressed', 'true')
   expect(screen.getByText(/showing 7-day simulated view/i)).toBeInTheDocument()
 })
+
+it('opens metric evidence from the dashboard cards', () => {
+  renderDemo()
+  fireEvent.click(screen.getByRole('button', { name: /activity metric/i }))
+  expect(screen.getByRole('heading', { name: /activity evidence/i })).toBeInTheDocument()
+  expect(screen.getByText(/movement pattern \/ simulated/i)).toBeInTheDocument()
+})
+
+it('opens event evidence from the timeline', () => {
+  renderDemo()
+  fireEvent.click(screen.getByRole('button', { name: /resting pattern detected/i }))
+  expect(screen.getByRole('heading', { name: /event evidence/i })).toBeInTheDocument()
+  expect(screen.getByText(/low movement intensity with stable posture cues/i)).toBeInTheDocument()
+})
