@@ -1,6 +1,6 @@
 import { useReducer } from 'react'
 import { Link } from 'react-router-dom'
-import { demoDisclaimer, demoPet } from '../data/demo'
+import { demoDisclaimer, demoMetrics, demoPet } from '../data/demo'
 import { demoReducer, initialDemoState } from '../demo/demoState'
 import type { TimeRange } from '../demo/types'
 import '../styles/demo.css'
@@ -19,6 +19,8 @@ const rangeMessage: Record<TimeRange, string> = {
 
 export function DemoPage() {
   const [state, dispatch] = useReducer(demoReducer, initialDemoState)
+  const selectedMetric = demoMetrics.find((metric) => metric.id === state.selectedMetric) ?? null
+  const selectedEvent = state.timeline.find((event) => event.id === state.selectedEventId) ?? null
 
   return (
     <main className="demo-page">
@@ -67,6 +69,71 @@ export function DemoPage() {
             <div><dt>Battery</dt><dd>{demoPet.battery}%</dd></div>
           </dl>
         </section>
+
+        <div className="demo-evidence-grid">
+          <section className="metric-panel" aria-labelledby="metric-heading">
+            <div className="panel-heading">
+              <div><p>01 / SIGNAL SUMMARY</p><h2 id="metric-heading">What PetLoop is noticing</h2></div>
+              <span>Click a metric for evidence</span>
+            </div>
+            <div className="metric-grid">
+              {demoMetrics.map((metric) => (
+                <button
+                  key={metric.id}
+                  type="button"
+                  className="metric-card"
+                  aria-label={`${metric.label} metric`}
+                  aria-pressed={state.selectedMetric === metric.id}
+                  onClick={() => dispatch({ type: 'selectMetric', metric: metric.id })}
+                >
+                  <span>{metric.label}</span>
+                  <strong>{metric.value}</strong>
+                  <em>View evidence ↗</em>
+                </button>
+              ))}
+            </div>
+            {selectedMetric && (
+              <aside className="evidence-detail" aria-live="polite">
+                <p>METRIC EVIDENCE / SIMULATED</p>
+                <h3>{selectedMetric.label} evidence</h3>
+                <strong>{selectedMetric.value}</strong>
+                <span>{selectedMetric.note}</span>
+              </aside>
+            )}
+          </section>
+
+          <section className="timeline-panel" aria-labelledby="timeline-heading">
+            <div className="panel-heading">
+              <div><p>02 / EVENT TIMELINE</p><h2 id="timeline-heading">From signal to interpretation</h2></div>
+              <span>Evidence remains inspectable</span>
+            </div>
+            <ol className="event-timeline">
+              {state.timeline.map((event) => (
+                <li key={event.id}>
+                  <button
+                    type="button"
+                    aria-label={event.title}
+                    aria-pressed={state.selectedEventId === event.id}
+                    onClick={() => dispatch({ type: 'selectEvent', eventId: event.id })}
+                  >
+                    <time>{event.time}</time>
+                    <span>{event.kind}</span>
+                    <strong>{event.title}</strong>
+                    <em>{event.status}</em>
+                  </button>
+                </li>
+              ))}
+            </ol>
+            {selectedEvent && (
+              <aside className="evidence-detail evidence-detail--event" aria-live="polite">
+                <p>EVENT EVIDENCE / SIMULATED</p>
+                <h3>Event evidence</h3>
+                <strong>{selectedEvent.title}</strong>
+                <span>{selectedEvent.detail}</span>
+              </aside>
+            )}
+          </section>
+        </div>
       </div>
     </main>
   )
