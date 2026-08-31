@@ -18,7 +18,7 @@ export function WearableSection() {
           </div>
         </div>
         <figure className="source-figure product-story__media">
-          <img src={assetUrl(media.wearable.src)} alt={media.wearable.alt} />
+          <img src={assetUrl(media.wearable.src)} alt={media.wearable.alt} loading="lazy" decoding="async" />
           <figcaption>Sketches, material tests and physical wearing prototype from the original project.</figcaption>
         </figure>
       </div>
