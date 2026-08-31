@@ -3,9 +3,11 @@ import { MemoryRouter } from 'react-router-dom'
 import { expect, it, vi } from 'vitest'
 import { AppRoutes } from '../app/routes'
 
+const routerFuture = { v7_startTransition: true, v7_relativeSplatPath: true } as const
+
 function renderDemo() {
   return render(
-    <MemoryRouter initialEntries={['/demo']}>
+    <MemoryRouter initialEntries={['/demo']} future={routerFuture}>
       <AppRoutes />
     </MemoryRouter>,
   )
