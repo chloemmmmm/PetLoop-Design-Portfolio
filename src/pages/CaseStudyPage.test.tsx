@@ -4,7 +4,11 @@ import { expect, it } from 'vitest'
 import { CaseStudyPage } from './CaseStudyPage'
 
 function renderPage() {
-  return render(<MemoryRouter><CaseStudyPage /></MemoryRouter>)
+  return render(
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <CaseStudyPage />
+    </MemoryRouter>,
+  )
 }
 
 it('exposes semantic case-study navigation and demo CTA', () => {
@@ -44,4 +48,15 @@ it('shows the complete PetLoop feedback loop and demo entry', () => {
     expect(within(loop).getByText(label)).toBeInTheDocument()
   }
   expect(screen.getByRole('link', { name: /launch interactive demo/i })).toHaveAttribute('href', expect.stringContaining('/demo'))
+})
+
+it('prioritizes the hero image and lazy-loads later case-study evidence', () => {
+  renderPage()
+  const images = screen.getAllByRole('img')
+  expect(images[0]).toHaveAttribute('loading', 'eager')
+  expect(images[0]).toHaveAttribute('decoding', 'async')
+  for (const image of images.slice(1)) {
+    expect(image).toHaveAttribute('loading', 'lazy')
+    expect(image).toHaveAttribute('decoding', 'async')
+  }
 })
