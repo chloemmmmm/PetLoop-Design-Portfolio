@@ -4,6 +4,7 @@ import { demoDisclaimer, demoMetrics, demoPet } from '../data/demo'
 import { demoReducer, initialDemoState } from '../demo/demoState'
 import type { TimeRange } from '../demo/types'
 import '../styles/demo.css'
+import '../styles/demo-evidence.css'
 
 const ranges: Array<{ id: TimeRange; label: string; ariaLabel: string }> = [
   { id: 'today', label: 'Today', ariaLabel: 'Today' },
