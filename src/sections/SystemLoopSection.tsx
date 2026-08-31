@@ -27,7 +27,7 @@ export function SystemLoopSection() {
 
         <div className="system-loop__evidence">
           <figure className="source-figure source-figure--system">
-            <img src={assetUrl(media.system.src)} alt={media.system.alt} />
+            <img src={assetUrl(media.system.src)} alt={media.system.alt} loading="lazy" decoding="async" />
             <figcaption>Original system mapping reorganized for the portfolio narrative.</figcaption>
           </figure>
           <div className="pipeline" aria-label="Data interpretation pipeline">
