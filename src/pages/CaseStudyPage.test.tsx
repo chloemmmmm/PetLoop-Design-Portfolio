@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { expect, it } from 'vitest'
 import { CaseStudyPage } from './CaseStudyPage'
@@ -38,9 +38,10 @@ it('surfaces research insights and the Luna persona without invented validation 
 
 it('shows the complete PetLoop feedback loop and demo entry', () => {
   renderPage()
-  expect(screen.getAllByText('Pet')).toHaveLength(2)
+  const loop = screen.getByRole('list', { name: /petloop feedback loop/i })
+  expect(within(loop).getAllByText('Pet')).toHaveLength(2)
   for (const label of ['Wearable', 'PetLoop Console', 'Owner', 'Desktop Robot']) {
-    expect(screen.getByText(label)).toBeInTheDocument()
+    expect(within(loop).getByText(label)).toBeInTheDocument()
   }
   expect(screen.getByRole('link', { name: /launch interactive demo/i })).toHaveAttribute('href', expect.stringContaining('/demo'))
 })
