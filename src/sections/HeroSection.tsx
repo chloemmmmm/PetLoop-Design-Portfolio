@@ -20,7 +20,7 @@ export function HeroSection() {
           </div>
         </div>
         <figure className="hero__media">
-          <img src={assetUrl(media.hero.src)} alt={media.hero.alt} />
+          <img src={assetUrl(media.hero.src)} alt={media.hero.alt} loading="eager" decoding="async" />
           <figcaption>PetLoop / Human–Pet Emotional Loop</figcaption>
         </figure>
       </div>
