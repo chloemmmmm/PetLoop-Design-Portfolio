@@ -10,10 +10,11 @@ describe('demoReducer', () => {
   it('appends a completed robot interaction to the timeline', () => {
     const selected = demoReducer(initialDemoState, { type: 'selectRobotMode', mode: 'comfort' })
     const completed = demoReducer(selected, { type: 'completeInteraction' })
+    const latestEvent = completed.timeline[completed.timeline.length - 1]
 
     expect(completed.robotPhase).toBe('complete')
     expect(completed.timeline).toHaveLength(initialDemoState.timeline.length + 1)
-    expect(completed.timeline.at(-1)).toMatchObject({
+    expect(latestEvent).toMatchObject({
       kind: 'robot',
       mode: 'comfort',
       status: 'complete',
