@@ -22,7 +22,7 @@ export function RobotView(props: Props) {
       <div className="robot-device" aria-hidden="true">
         <div className="robot-device__face"><span /><span /></div>
         <div className="robot-device__pulse" data-phase={props.phase} />
-        <p>{props.phase.toUpperCase()}</p>
+        <p>PETLOOP ROBOT</p>
       </div>
       <RobotActionPanel {...props} />
     </section>
