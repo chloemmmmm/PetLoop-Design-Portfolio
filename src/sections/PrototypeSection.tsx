@@ -17,11 +17,11 @@ export function PrototypeSection() {
         </div>
         <div className="prototype__media-grid">
           <figure className="source-figure">
-            <img src={assetUrl(media.wearable.src)} alt={media.wearable.alt} />
+            <img src={assetUrl(media.wearable.src)} alt={media.wearable.alt} loading="lazy" decoding="async" />
             <figcaption>Wearable / pattern, material and wearing prototype</figcaption>
           </figure>
           <figure className="source-figure">
-            <img src={assetUrl(media.robot.src)} alt={media.robot.alt} />
+            <img src={assetUrl(media.robot.src)} alt={media.robot.alt} loading="lazy" decoding="async" />
             <figcaption>Desktop Robot / components, assembly and interaction evolution</figcaption>
           </figure>
         </div>
