@@ -15,7 +15,7 @@ export function ProductExperienceSection() {
           <p>{productExperience.text}</p>
         </div>
         <figure className="source-figure product-experience__media">
-          <img src={assetUrl(media.ui.src)} alt={media.ui.alt} />
+          <img src={assetUrl(media.ui.src)} alt={media.ui.alt} loading="lazy" decoding="async" />
           <figcaption>Existing PetLoop Console and multi-device visual direction.</figcaption>
         </figure>
         <div className="product-experience__footer">
