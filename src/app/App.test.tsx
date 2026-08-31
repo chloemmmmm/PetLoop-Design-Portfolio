@@ -9,7 +9,7 @@ it('renders the case study route', () => {
       <AppRoutes />
     </MemoryRouter>,
   )
-  expect(screen.getByRole('heading', { name: /petloop/i })).toBeInTheDocument()
+  expect(screen.getByRole('heading', { level: 1, name: /human–pet emotional loop/i })).toBeInTheDocument()
 })
 
 it('renders the demo route', () => {
