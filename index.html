@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PetLoop · 人宠情感闭环系统 — 产品设计作品集</title>
+<style>
+:root{
+  --canvas:#F5F3EE;--canvas-2:#EDEAE2;--ink:#1B2419;--ink-soft:#3A4535;
+  --accent:#C9682E;--accent-soft:#E8905A;--primary:#3D5A3E;--primary-light:#6B8A63;
+  --muted:#7A7568;--line:rgba(27,36,25,.12);--card:#FFFFFF;
+  --gut:clamp(24px,4vw,72px);--ease:cubic-bezier(.22,.61,.36,1);--radius:4px;--radius-lg:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--canvas);color:var(--ink);font-family:"Inter","PingFang SC","Microsoft YaHei",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button,a[href]{min-height:24px}
+.wrap{padding-inline:var(--gut)}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;align-items:center;justify-content:space-between;padding:18px var(--gut);background:rgba(245,243,238,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .logo{font-weight:800;font-size:18px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+nav .logo .dot{width:10px;height:10px;border-radius:50%;background:var(--primary)}
+nav .nav-links{display:flex;gap:28px;font-size:14px;color:var(--muted);position:relative;z-index:1000}
+nav .nav-links a{cursor:pointer;pointer-events:auto;position:relative;z-index:1000;text-decoration:none;transition:color .2s}
+nav .nav-links a:hover{color:var(--ink)}
+nav .role{font-size:13px;font-weight:600;background:var(--primary);color:#fff;padding:6px 14px;border-radius:20px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;min-height:100svh;align-items:stretch;padding-top:70px}
+.hero-copy{display:flex;flex-direction:column;justify-content:center;padding:60px var(--gut);gap:28px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--primary);background:rgba(61,90,62,.08);padding:8px 16px;border-radius:20px;width:fit-content}
+.hero-tag .pulse{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-size:clamp(40px,5.2vw,72px);font-weight:800;line-height:1.05;letter-spacing:-.03em;color:var(--ink)}
+.hero h1 .accent{color:var(--primary)}
+.hero h1 .underline{position:relative;display:inline-block}
+.hero h1 .underline::after{content:"";position:absolute;left:0;bottom:4px;width:100%;height:8px;background:var(--accent-soft);opacity:.4;z-index:-1;border-radius:4px}
+.hero-sub{font-size:18px;line-height:1.7;color:var(--ink-soft);max-width:520px}
+.hero-meta{display:flex;gap:32px;flex-wrap:wrap;margin-top:8px}
+.hero-meta .item{display:flex;flex-direction:column;gap:2px}
+.hero-meta .num{font-size:28px;font-weight:800;color:var(--primary);letter-spacing:-.02em}
+.hero-meta .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.hero-cta{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:var(--radius);font-weight:600;font-size:15px;transition:all .25s var(--ease)}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:#2D452E;transform:translateY(-2px);box-shadow:0 8px 24px rgba(61,90,62,.25)}
+.btn-ghost{border:1.5px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--primary);color:var(--primary)}
+.hero-visual{position:relative;overflow:hidden;background:linear-gradient(135deg,#3D5A3E 0%,#2A4028 50%,#1B2E1A 100%);display:flex;align-items:center;justify-content:center}
+.hero-visual .bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;filter:saturate(.8)}
+.hero-visual::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(61,90,62,.7),rgba(27,46,26,.85)),radial-gradient(circle at 70% 30%,rgba(200,104,46,.15),transparent 50%)}
+.hero-card{position:relative;z-index:2;width:80%;max-width:420px;background:rgba(255,255,255,.06);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:28px;color:#fff}
+.hero-card .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.hero-card .pet-name{font-size:20px;font-weight:700}
+.hero-card .pet-status{font-size:12px;padding:4px 10px;border-radius:12px;background:rgba(232,144,90,.2);color:#F0B080}
+.hero-card .emotion-display{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.hero-card .emotion-icon{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:28px}
+.hero-card .emotion-text .main{font-size:24px;font-weight:700}
+.hero-card .emotion-text .sub{font-size:12px;color:rgba(255,255,255,.5)}
+.hero-card .metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+.hero-card .metric{background:rgba(255,255,255,.05);border-radius:8px;padding:12px;text-align:center}
+.hero-card .metric .val{font-size:18px;font-weight:700}
+.hero-card .metric .lbl{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px}
+.hero-card .timeline{border-top:1px solid rgba(255,255,255,.1);padding-top:16px}
+.hero-card .tl-item{display:flex;gap:10px;font-size:12px;margin-bottom:8px;align-items:flex-start}
+.hero-card .tl-time{color:rgba(255,255,255,.4);min-width:40px}
+.hero-card .tl-text{color:rgba(255,255,255,.8)}
+.hero-card .tl-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-soft);margin-top:5px;flex-shrink:0}
+.hero-badge{position:absolute;bottom:32px;right:32px;z-index:2;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:12px 18px;color:#fff;font-size:12px}
+.hero-badge strong{color:var(--accent-soft)}
+section{position:relative;padding-block:80px}
+.sec-head{margin-bottom:48px}
+.sec-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.sec-title{font-size:clamp(28px,3.2vw,42px);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-bottom:14px}
+.sec-desc{font-size:16px;color:var(--muted);max-width:640px;line-height:1.7}
+.stats-bar{background:var(--ink);color:#fff;padding:48px var(--gut);display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.stats-bar .stat{border-left:2px solid var(--accent);padding-left:20px}
+.stats-bar .stat-num{font-size:36px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.stats-bar .stat-num .unit{font-size:16px;font-weight:400;color:rgba(255,255,255,.5)}
+.stats-bar .stat-label{font-size:13px;color:rgba(255,255,255,.6)}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:stretch}
+.problem-text h3{font-size:22px;font-weight:700;margin-bottom:16px;color:var(--primary)}
+.problem-text p{color:var(--ink-soft);margin-bottom:16px;line-height:1.75}
+.problem-text .quote{border-left:3px solid var(--accent);padding:12px 20px;background:rgba(201,104,46,.05);border-radius:0 var(--radius) var(--radius) 0;font-style:italic;color:var(--ink-soft);margin:20px 0}
+/* 市场数据卡片 */
+.market-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0 24px}
+.market-stat{background:var(--canvas-2);border-radius:var(--radius);padding:16px 14px;text-align:center;border-left:3px solid var(--primary)}
+.market-stat:nth-child(1){border-left-color:#3D5A3E}
+.market-stat:nth-child(1) .num{color:#3D5A3E}
+.market-stat:nth-child(2){border-left-color:#C9682E}
+.market-stat:nth-child(2) .num{color:#C9682E}
+.market-stat:nth-child(3){border-left-color:#4A7C9B}
+.market-stat:nth-child(3) .num{color:#4A7C9B}
+.market-stat:nth-child(4){border-left-color:#9B6B4A}
+.market-stat:nth-child(4) .num{color:#9B6B4A}
+.market-stat .num{font-size:24px;font-weight:800;color:var(--primary);letter-spacing:-.02em;line-height:1.1;margin-bottom:4px}
+.market-stat .num .unit{font-size:13px;font-weight:500;color:var(--muted)}
+.market-stat .label{font-size:11px;color:var(--muted);line-height:1.4;font-weight:500}
+/* 准确率对比柱状图 */
+.accuracy-chart{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px;margin-bottom:24px}
+.accuracy-chart .chart-title{font-size:16px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.accuracy-chart .chart-sub{font-size:12px;color:var(--muted);margin-bottom:20px}
+.accuracy-bars{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;height:180px;padding:0 8px}
+.accuracy-bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end}
+.accuracy-bar .bar{width:100%;max-width:48px;border-radius:6px 6px 0 0;position:relative;transition:height .6s var(--ease)}
+.accuracy-bar .bar .bar-val{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;white-space:nowrap}
+.accuracy-bar .bar-label{font-size:11px;color:var(--muted);text-align:center;line-height:1.3;font-weight:500}
+.accuracy-bar.highlight .bar{background:linear-gradient(180deg,var(--accent),#A05020)}
+.accuracy-bar.highlight .bar .bar-val{color:var(--accent)}
+.accuracy-bar.normal .bar{background:linear-gradient(180deg,var(--primary-light),var(--primary))}
+.accuracy-bar.normal .bar .bar-val{color:var(--primary)}
+.competitor-table{width:100%;border-collapse:collapse;font-size:14px}
+.competitor-table th{text-align:left;padding:12px 14px;background:var(--primary);color:#fff;font-weight:600;font-size:13px}
+.competitor-table th:first-child{border-radius:var(--radius) 0 0 0}
+.competitor-table th:last-child{border-radius:0 var(--radius) 0 0}
+.competitor-table td{padding:14px;border-bottom:1px solid var(--line);vertical-align:top}
+.competitor-table tr:last-child td{border-bottom:none}
+.competitor-table .product{font-weight:600}
+.competitor-table .pain{color:var(--muted);font-size:13px;line-height:1.6}
+.competitor-table .score{font-weight:700;text-align:center}
+.competitor-table .score.low{color:var(--accent)}
+.competitor-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:24px}
+.comp-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease);display:flex;flex-direction:column}
+.comp-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(27,36,25,.08)}
+.comp-card .comp-img{height:140px;background:transparent;display:flex;align-items:center;justify-content:center;padding:16px}
+.comp-card .comp-img img{max-height:100%;max-width:100%;object-fit:contain;mix-blend-mode:multiply}
+.comp-card .comp-body{padding:18px 20px;flex:1}
+.comp-card .comp-brand{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.comp-card .comp-name{font-size:16px;font-weight:700;margin-bottom:8px}
+.comp-card .comp-pain{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.comp-card .comp-score{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--line)}
+.comp-card .comp-score .label{font-size:12px;color:var(--muted)}
+.comp-card .comp-score .val{font-size:18px;font-weight:800;color:var(--accent)}
+/* 装饰元素 */
+.deco{position:absolute;pointer-events:none;opacity:.08;z-index:0}
+.deco-paw{width:80px;height:80px}
+.deco-cat{width:120px;height:120px}
+.deco-watch{width:60px;height:60px}
+.deco-paw-trail{width:200px;height:120px}
+.sec-head{position:relative;z-index:1}
+.insight-box{margin-top:32px;background:var(--primary);color:#fff;padding:28px 32px;border-radius:var(--radius-lg);display:flex;gap:20px;align-items:flex-start}
+.insight-box .icon{font-size:28px;flex-shrink:0}
+.insight-box h4{font-size:18px;font-weight:700;margin-bottom:8px}
+.insight-box p{font-size:15px;line-height:1.7;color:rgba(255,255,255,.85)}
+.research-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:56px}
+.method-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.method-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(27,36,25,.08)}
+.method-card .method-icon{width:56px;height:56px;border-radius:12px;background:rgba(61,90,62,.08);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;overflow:hidden}
+.method-card .method-icon img{width:100%;height:100%;object-fit:cover}
+.method-card h4{font-size:17px;font-weight:700;margin-bottom:8px}
+.method-card .method-count{font-size:13px;color:var(--accent);font-weight:600;margin-bottom:10px}
+.method-card p{font-size:14px;color:var(--muted);line-height:1.65}
+.personas{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:56px}
+.persona{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;transition:transform .3s var(--ease)}
+.persona:hover{transform:translateY(-4px)}
+.persona-head{padding:24px 24px 16px;position:relative;display:flex;align-items:flex-start;gap:16px;min-height:150px;box-sizing:border-box}
+.persona-avatar{width:64px;height:64px;border-radius:50%;overflow:hidden;flex-shrink:0;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.persona-avatar img{width:100%;height:100%;object-fit:cover}
+.persona-head.p1{background:linear-gradient(135deg,rgba(61,90,62,.12),rgba(61,90,62,.04))}
+.persona-head.p2{background:linear-gradient(135deg,rgba(201,104,46,.1),rgba(201,104,46,.03))}
+.persona-head.p3{background:linear-gradient(135deg,rgba(107,138,99,.12),rgba(107,138,99,.04))}
+.persona-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--primary);margin-bottom:8px;line-height:1.4;min-height:32px;display:flex;align-items:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.persona-name{font-size:22px;font-weight:800;margin-bottom:4px}
+.persona-desc{font-size:13px;color:var(--muted);line-height:1.5;min-height:40px;display:flex;align-items:flex-start}
+.persona-body{padding:20px 24px 24px;display:flex;flex-direction:column}
+.persona-section{margin-bottom:16px}
+.persona-section:last-child{margin-bottom:0}
+.persona-section h5{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.persona-section ul{list-style:none;font-size:13px;color:var(--ink-soft);line-height:1.7}
+.persona-section li{padding-left:16px;position:relative;margin-bottom:4px}
+.persona-section li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.persona-quote{font-size:13px;font-style:italic;color:var(--ink-soft);background:var(--canvas-2);padding:12px 16px;border-radius:var(--radius);border-left:3px solid var(--accent);margin-top:12px;line-height:1.6}
+.journey{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:32px;overflow-x:auto}
+.journey-title{font-size:18px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.journey-title .badge{font-size:12px;background:var(--primary);color:#fff;padding:4px 10px;border-radius:12px;font-weight:500}
+.journey-grid{display:grid;grid-template-columns:100px repeat(6,1fr);gap:0;min-width:800px}
+.journey-grid .jh{background:var(--canvas-2);padding:12px 10px;font-size:12px;font-weight:700;text-align:center;border-bottom:2px solid var(--primary);color:var(--ink-soft)}
+.journey-grid .jl{padding:14px 10px;font-size:12px;font-weight:600;color:var(--muted);border-right:1px solid var(--line);display:flex;align-items:center}
+.journey-grid .jc{padding:14px 10px;font-size:12px;color:var(--ink-soft);border-right:1px solid var(--line);border-bottom:1px solid var(--line);line-height:1.5;text-align:center}
+.journey-grid .jc.pain{color:var(--accent);font-weight:600;background:rgba(201,104,46,.04)}
+.journey-grid .jc.opp{color:var(--primary);font-weight:600;background:rgba(61,90,62,.04)}
+/* 可视化用户旅程图 */
+.journey-visual{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:36px;overflow:hidden}
+.journey-timeline{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-bottom:24px;position:relative}
+.journey-timeline::before{content:"";position:absolute;top:24px;left:8%;right:8%;height:3px;background:var(--line);z-index:0}
+.journey-phase{text-align:center;position:relative;z-index:1;padding:0 8px}
+.journey-phase .phase-icon{width:56px;height:56px;border-radius:50%;background:var(--canvas-2);border:3px solid var(--card);display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 10px;box-shadow:0 0 0 2px var(--line);overflow:hidden}
+.journey-phase .phase-icon img{width:100%;height:100%;object-fit:cover}
+.journey-phase .phase-name{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.journey-phase .phase-time{font-size:11px;color:var(--muted)}
+.journey-emotion-chart{position:relative;height:auto;margin-bottom:28px;background:linear-gradient(180deg,rgba(201,104,46,.03),rgba(61,90,62,.03));border-radius:var(--radius);overflow:visible;padding:8px 0}
+.journey-emotion-chart svg{position:absolute;inset:0;width:100%;height:100%}
+.journey-emotion-labels{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-between;padding:8px 12px;pointer-events:none}
+.journey-emotion-labels .elabel{font-size:10px;color:var(--muted);font-weight:600}
+.journey-details{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.journey-detail-card{background:var(--canvas-2);border-radius:var(--radius);padding:14px 12px;position:relative}
+.journey-detail-card .row-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.journey-detail-card .row-content{font-size:12px;line-height:1.55;color:var(--ink-soft);margin-bottom:10px}
+.journey-detail-card .pain-row .row-content{color:var(--accent);font-weight:500}
+.journey-detail-card .opp-row .row-content{color:var(--primary);font-weight:600}
+.journey-detail-card .divider{height:1px;background:var(--line);margin:8px 0}
+.ice-table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed;min-width:500px}
+.ice-table th{text-align:left;padding:10px 12px;background:var(--canvas-2);font-weight:700;font-size:12px;color:var(--ink-soft);border-bottom:2px solid var(--primary);white-space:normal}
+.ice-table td{padding:12px;border-bottom:1px solid var(--line);white-space:normal;vertical-align:middle}
+.ice-table .req-name{font-weight:600;width:220px;min-width:220px;white-space:normal;word-break:break-word}
+.ice-table .ice-val{text-align:center;font-weight:700;font-family:monospace}
+.ice-table .p0{color:var(--accent);font-weight:700}
+.ice-table .p1{color:var(--primary);font-weight:600}
+.ice-table .p2{color:var(--muted)}
+.matrix{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:32px;height:420px;overflow:hidden}
+.matrix-axis-x{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.matrix-axis-y{position:absolute;top:50%;left:4px;transform:translateY(-50%) rotate(-90deg);font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.matrix-grid{position:absolute;inset:48px 40px 48px 56px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:0}
+.matrix-quad{border:1px dashed var(--line);padding:12px;position:relative}
+.matrix-quad .q-label{position:absolute;top:8px;right:10px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase}
+.matrix-quad.hl{background:rgba(61,90,62,.04)}
+.matrix-dot{position:absolute;width:14px;height:14px;border-radius:50%;transform:translate(-50%,-50%);cursor:pointer;transition:transform .2s}
+.matrix-dot:hover{transform:translate(-50%,-50%) scale(1.5)}
+.matrix-dot.p0{background:var(--accent);box-shadow:0 0 0 4px rgba(201,104,46,.2)}
+.matrix-dot.p1{background:var(--primary)}
+.matrix-dot.p2{background:var(--muted)}
+.matrix-dot .tooltip{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:6px 10px;border-radius:6px;font-size:11px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
+.matrix-dot:hover .tooltip{opacity:1}
+.mvp-decision{margin-top:24px;background:var(--ink);color:#fff;padding:24px 28px;border-radius:var(--radius-lg);width:100%;box-sizing:border-box;clear:both}
+.mvp-decision h4{font-size:16px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.mvp-decision h4 .tag{background:var(--accent);padding:3px 10px;border-radius:10px;font-size:11px}
+.mvp-decision p{font-size:14px;line-height:1.7;color:rgba(255,255,255,.8)}
+.product-flow{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:36px;margin-bottom:48px}
+.flow-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.flow-step{text-align:center;padding:0 16px;position:relative}
+.flow-step:not(:last-child)::after{content:"→";position:absolute;right:-8px;top:36px;font-size:20px;color:var(--primary-light);z-index:1}
+.flow-icon{width:64px;height:64px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:28px;background:var(--canvas-2);border:2px solid var(--primary);overflow:hidden}
+.flow-icon img{width:100%;height:100%;object-fit:cover}
+.flow-step h4{font-size:16px;font-weight:700;margin-bottom:6px}
+.flow-step p{font-size:13px;color:var(--muted);line-height:1.6}
+.flow-step .step-num{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;width:24px;height:24px;border-radius:50%;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feature-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.feature-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(27,36,25,.08)}
+.feature-visual{height:160px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.feature-visual.f1{background:#fff}
+.feature-visual.f2{background:#fff}
+.feature-visual.f3{background:#fff}
+.feature-visual .mock{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:16px;color:#fff;width:75%}
+.feature-visual .mock-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:11px}
+.feature-visual .mock-bar{height:6px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden}
+.feature-visual .mock-bar .fill{height:100%;background:#fff;border-radius:3px}
+.feature-body{padding:24px}
+.feature-body .f-tag{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.feature-body h4{font-size:18px;font-weight:700;margin-bottom:10px}
+.feature-body p{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:14px}
+.feature-body .decision{font-size:12px;background:var(--canvas-2);padding:10px 14px;border-radius:var(--radius);color:var(--ink-soft);line-height:1.6;border-left:3px solid var(--primary)}
+.validation-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:48px}
+.test-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px}
+.test-card h3{font-size:18px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.test-card h3 .icon{width:36px;height:36px;border-radius:8px;background:rgba(61,90,62,.1);display:flex;align-items:center;justify-content:center;font-size:18px}
+.test-metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.test-metric{text-align:center;padding:16px;background:var(--canvas-2);border-radius:var(--radius)}
+.test-metric .val{font-size:28px;font-weight:800;color:var(--primary);letter-spacing:-.02em}
+.test-metric .val .unit{font-size:14px;font-weight:400;color:var(--muted)}
+.test-metric .lbl{font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+.test-list{list-style:none}
+.test-list li{padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;display:flex;gap:10px;align-items:flex-start}
+.test-list li:last-child{border-bottom:none}
+.test-list .tag{flex-shrink:0;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase}
+.test-list .tag.fixed{background:rgba(61,90,62,.12);color:var(--primary)}
+.test-list .tag.iter{background:rgba(201,104,46,.12);color:var(--accent)}
+.test-list .text{color:var(--ink-soft);line-height:1.5}
+.iteration-timeline{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:32px}
+.iteration-timeline h3{font-size:18px;font-weight:700;margin-bottom:28px}
+.iter-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative}
+.iter-steps::before{content:"";position:absolute;top:24px;left:10%;right:10%;height:2px;background:var(--line);z-index:0}
+.iter-step{position:relative;z-index:1;text-align:center}
+.iter-step .iter-num{width:48px;height:48px;border-radius:50%;background:var(--primary);color:#fff;font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;border:4px solid var(--card)}
+.iter-step h4{font-size:15px;font-weight:700;margin-bottom:6px}
+.iter-step .iter-date{font-size:11px;color:var(--muted);margin-bottom:10px}
+.iter-step p{font-size:12px;color:var(--ink-soft);line-height:1.6;text-align:left;background:var(--canvas-2);padding:12px;border-radius:var(--radius)}
+.outcomes{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-bottom:48px}
+.outcome-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px;display:flex;gap:20px;align-items:flex-start}
+.outcome-icon{width:48px;height:48px;border-radius:12px;background:rgba(61,90,62,.1);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.outcome-card h4{font-size:16px;font-weight:700;margin-bottom:6px}
+.outcome-card p{font-size:13px;color:var(--muted);line-height:1.6}
+.outcome-card .detail{font-size:12px;color:var(--primary);font-weight:600;margin-top:8px}
+.contribution{background:var(--ink);color:#fff;border-radius:var(--radius-lg);padding:40px;margin-bottom:48px}
+.contribution h3{font-size:22px;font-weight:800;margin-bottom:24px}
+.contrib-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.contrib-item{display:flex;gap:14px;align-items:flex-start}
+.contrib-item .num{font-size:24px;font-weight:800;color:var(--accent-soft);flex-shrink:0;min-width:32px}
+.contrib-item h5{font-size:15px;font-weight:700;margin-bottom:4px}
+.contrib-item p{font-size:13px;line-height:1.65;color:rgba(255,255,255,.7)}
+.resume-section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:36px}
+.resume-section h3{font-size:20px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.resume-section .sub{font-size:14px;color:var(--muted);margin-bottom:24px}
+.resume-bullets{list-style:none}
+.resume-bullets li{padding:16px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:flex-start}
+.resume-bullets li:last-child{border-bottom:none}
+.resume-bullets .arrow{color:var(--accent);font-weight:800;flex-shrink:0;margin-top:2px}
+.resume-bullets .text{font-size:14px;line-height:1.7;color:var(--ink-soft)}
+.resume-bullets .text strong{color:var(--ink);font-weight:700}
+.resume-bullets .text .highlight{background:rgba(201,104,46,.12);padding:1px 6px;border-radius:4px;color:var(--accent);font-weight:600}
+/* 可交互状态分类模块 */
+.state-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.state-tab{padding:10px 20px;border-radius:20px;border:1.5px solid var(--line);background:var(--card);font-size:14px;font-weight:600;cursor:pointer;transition:all .25s var(--ease);display:flex;align-items:center;gap:6px}
+.state-tab:hover{border-color:var(--primary);color:var(--primary)}
+.state-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.state-tab .emoji{font-size:18px}
+.state-tab .state-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0}
+.state-panel{display:none;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px;animation:fadeIn .3s var(--ease)}
+.state-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.state-panel-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.state-icon{width:240px;height:144px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;flex-shrink:0;background:#fff}
+.state-icon img{width:100%;height:100%;object-fit:contain;display:block}
+.state-panel-header h4{font-size:20px;font-weight:800;margin-bottom:2px}
+.state-panel-header .state-acc{font-size:13px;color:var(--muted)}
+.state-panel-header .state-acc strong{color:var(--primary);font-size:16px}
+.state-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.state-section h5{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px}
+.state-section ul{list-style:none;font-size:13px;color:var(--ink-soft);line-height:1.7}
+.state-section li{padding-left:16px;position:relative;margin-bottom:6px}
+.state-section li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.robot-mapping{background:var(--canvas-2);border-radius:var(--radius);padding:16px;margin-top:16px}
+.robot-mapping h5{font-size:12px;font-weight:700;color:var(--primary);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.robot-mapping .mapping-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--line)}
+.robot-mapping .mapping-row:last-child{border-bottom:none}
+.robot-mapping .mapping-label{color:var(--muted)}
+.robot-mapping .mapping-value{font-weight:600;color:var(--ink)}
+/* 信息源可hover卡片 */
+.info-source-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.info-source-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;cursor:pointer;transition:all .3s var(--ease);position:relative;overflow:hidden}
+.info-source-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(27,36,25,.1);border-color:var(--primary)}
+.info-source-card .src-icon{width:200px;height:140px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:12px;overflow:hidden;border:1px solid var(--line)}
+.info-source-card .src-icon img{width:100%;height:100%;object-fit:cover}
+.info-source-card h4{font-size:15px;font-weight:700;margin-bottom:6px}
+.info-source-card .src-acc{font-size:12px;color:var(--primary);font-weight:700;margin-bottom:8px}
+.info-source-card p{font-size:12px;color:var(--muted);line-height:1.5}
+.info-source-card .src-detail{max-height:0;overflow:hidden;transition:max-height .3s var(--ease);font-size:12px;color:var(--ink-soft);line-height:1.6;margin-top:0}
+.info-source-card:hover .src-detail{max-height:200px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.info-source-card .src-detail strong{color:var(--accent)}
+/* 实验数据可切换模块 */
+.exp-toggle{display:flex;gap:6px;margin-bottom:16px;background:var(--canvas-2);padding:4px;border-radius:8px;width:fit-content}
+.exp-toggle-btn{padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;border:none;color:var(--muted)}
+.exp-toggle-btn.active{background:var(--card);color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.exp-detail-panel{display:none;animation:fadeIn .3s var(--ease)}
+.exp-detail-panel.active{display:block}
+.exp-stat-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
+.exp-stat-row:last-child{border-bottom:none}
+.exp-stat-label{color:var(--ink-soft)}
+.exp-stat-value{font-weight:700;font-family:monospace}
+.exp-stat-value.high{color:var(--primary)}
+.exp-stat-value.low{color:var(--accent)}
+/* 大图轮播组件 */
+.carousel{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:32px;max-width:900px;margin-left:auto;margin-right:auto;aspect-ratio:16/9}
+.carousel-track{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1);height:100%}
+.carousel-slide{min-width:100%;flex-shrink:0;position:relative;height:100%;width:100%}
+.carousel-slide .slide-img-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#fff;overflow:hidden}
+.carousel-slide .slide-img-wrap img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+.carousel-slide .slide-info{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:28px 32px 16px;display:flex;flex-direction:column;gap:6px;color:#fff}
+.carousel-slide .slide-info .cap-num{font-size:11px;font-weight:700;color:rgba(255,255,255,.8);letter-spacing:.08em;text-transform:uppercase}
+.carousel-slide .slide-info .cap-title{font-size:16px;font-weight:700;line-height:1.4;color:#fff}
+.carousel-slide .slide-info .cap-desc{font-size:12px;color:rgba(255,255,255,.8);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.95);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--ink);box-shadow:0 4px 16px rgba(0,0,0,.15);transition:all .2s;z-index:10}
+.carousel-btn:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
+.carousel-btn.prev{left:16px}
+.carousel-btn.next{right:16px}
+.carousel-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10}
+.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .25s;border:none;padding:0}
+.carousel-dot.active{background:#fff;width:24px;border-radius:4px}
+.carousel-counter{position:absolute;top:20px;left:20px;background:rgba(0,0,0,.55);color:#fff;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;z-index:10}
+/* PRD模块样式 */
+.prd-overview{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:32px}
+.prd-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px}
+.prd-card .prd-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+.prd-card h4{font-size:16px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.prd-card p{font-size:13px;color:var(--ink-soft);line-height:1.65}
+.prd-card .metric-list{list-style:none;margin-top:12px}
+.prd-card .metric-list li{font-size:13px;color:var(--ink-soft);padding:6px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+.prd-card .metric-list li:last-child{border-bottom:none}
+.prd-card .metric-list .val{font-weight:700;color:var(--primary);font-family:monospace}
+.user-stories{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:32px}
+.story-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px 24px;position:relative;border-left:3px solid var(--primary)}
+.story-card.p1{border-left-color:var(--primary-light)}
+.story-card.p2{border-left-color:var(--muted)}
+.story-card .story-id{font-size:11px;font-weight:700;color:var(--muted);font-family:monospace;margin-bottom:8px}
+.story-card .story-text{font-size:14px;line-height:1.7;color:var(--ink-soft);margin-bottom:10px}
+.story-card .story-text strong{color:var(--ink)}
+.story-card .story-meta{display:flex;gap:16px;font-size:11px;color:var(--muted)}
+.story-card .story-meta span{display:flex;align-items:center;gap:4px}
+.prd-req-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:32px}
+.prd-req-table th{text-align:left;padding:12px 14px;background:var(--ink);color:#fff;font-weight:600;font-size:12px}
+.prd-req-table th:first-child{border-radius:var(--radius) 0 0 0}
+.prd-req-table th:last-child{border-radius:0 var(--radius) 0 0}
+.prd-req-table td{padding:14px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6}
+.prd-req-table tr:last-child td{border-bottom:none}
+.prd-req-table .req-id{font-family:monospace;font-size:12px;color:var(--muted);font-weight:600}
+.prd-req-table .req-name{font-weight:700;color:var(--ink);margin-bottom:4px}
+.prd-req-table .req-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.prd-req-table .acceptance{font-size:12px;color:var(--ink-soft);line-height:1.6}
+.prd-req-table .acceptance li{margin-bottom:3px;list-style:none;padding-left:14px;position:relative}
+.prd-req-table .acceptance li::before{content:"✓";position:absolute;left:0;color:var(--primary);font-weight:700;font-size:11px}
+.prd-req-table .prio{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700}
+.prd-req-table .prio.p0{background:rgba(201,104,46,.12);color:var(--accent)}
+.prd-req-table .prio.p1{background:rgba(61,90,62,.1);color:var(--primary)}
+.prd-nonfunc{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.nf-card{background:var(--canvas-2);border-radius:var(--radius);padding:16px 18px}
+.nf-card .nf-title{font-size:12px;font-weight:700;color:var(--primary);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+.nf-card .nf-value{font-size:13px;color:var(--ink-soft);line-height:1.6}
+.prd-timeline{position:relative;padding-left:32px}
+.prd-timeline::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.prd-tl-item{position:relative;margin-bottom:24px}
+.prd-tl-item:last-child{margin-bottom:0}
+.prd-tl-item::before{content:"";position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--primary);border:3px solid var(--canvas)}
+.prd-tl-item .tl-phase{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.prd-tl-item .tl-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.prd-tl-item .tl-desc{font-size:13px;color:var(--ink-soft);line-height:1.6}
+footer{background:var(--ink);color:#fff;padding:48px var(--gut);text-align:center}
+footer .foot-title{font-size:20px;font-weight:800;margin-bottom:8px}
+footer .foot-sub{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:20px}
+footer .foot-links{display:flex;justify-content:center;gap:24px;font-size:13px}
+footer .foot-links a{color:rgba(255,255,255,.6);transition:color .2s}
+footer .foot-links a:hover{color:#fff}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}.rv{opacity:1;transform:none}}
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr}.hero-visual{min-height:400px}
+  .problem-grid,.ice-section,.validation-grid{grid-template-columns:1fr}
+  .personas,.features,.research-methods{grid-template-columns:repeat(2,1fr)}
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .flow-steps{grid-template-columns:repeat(2,1fr);gap:32px 0}
+  .flow-step:not(:last-child)::after{display:none}
+  .contrib-grid,.outcomes{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .personas,.features,.research-methods{grid-template-columns:1fr}
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .iter-steps{grid-template-columns:1fr;gap:32px}
+  .iter-steps::before{display:none}
+  
+}
+
+@keyframes pulse-glow{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* 需求分析部分覆盖全局section grid样式 */
+section#needs {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 80px var(--gut) !important;
+}
+section#needs .sec-head {
+  max-width: 1200px;
+  margin: 0 auto 48px;
+}
+section#needs .ice-table {
+  width: 600px !important;
+  min-width: 600px !important;
+  table-layout: fixed !important;
+}
+section#needs .ice-table th:first-child,
+section#needs .ice-table td:first-child {
+  width: 220px !important;
+  min-width: 220px !important;
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><span class="dot"></span>PetLoop</div>
+  <div class="nav-links">
+    <a href="#problem">问题定义</a><a href="#research">用户研究</a><a href="#needs">需求分析</a><a href="#prd">PRD</a><a href="#design">产品设计</a><a href="#validation">验证迭代</a><a href="https://chloemmmmm.github.io/PetLoop-Project/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;cursor:pointer;pointer-events:auto;position:relative;z-index:1001;text-decoration:none">🔗 Demo网站</a>
+  </div>
+  <div class="role" style="cursor:pointer" onclick="document.getElementById('resumeModal').style.display='flex'">产品负责人 · 点击查看简历</div>
+</nav>
+
+
+
+<section class="hero" style="padding-top:0;position:relative;overflow:hidden">
+  <img src="https://aka.doubaocdn.com/s/W3U7zyjNYK" alt="" class="deco deco-cat" style="right:5%;bottom:10%;opacity:.06">
+  <div class="hero-copy">
+    <div class="hero-tag rv"><span class="pulse"></span>智能硬件课程项目 · 2026.04 – 2026.06</div>
+    <h1 class="rv">从<span class="underline">远程监看</span>到<br><span class="accent">远程陪伴</span>的<br>人宠情感闭环</h1>
+    <p class="hero-sub rv"><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px"><span style="font-size:13px;padding:6px 14px;background:rgba(61,90,62,.1);border:1px solid rgba(61,90,62,.2);border-radius:6px;color:#2D4A2E;font-weight:600">可穿戴感知情绪</span><span style="font-size:13px;padding:6px 14px;background:rgba(61,90,62,.1);border:1px solid rgba(61,90,62,.2);border-radius:6px;color:#2D4A2E;font-weight:600">桌面机器人双向互动</span><span style="font-size:13px;padding:6px 14px;background:#C9682E;border-radius:6px;color:#fff;font-weight:700">人宠情感闭环</span><span style="font-size:13px;padding:6px 14px;background:rgba(61,90,62,.1);border:1px solid rgba(61,90,62,.2);border-radius:6px;color:#2D4A2E;font-weight:600">产品负责人 · 全流程主导</span></div></p>
+    <div class="hero-meta rv">
+      <div class="item"><span class="num">8+126</span><span class="label">深度访谈 + 问卷</span></div>
+      <div class="item"><span class="num">30人</span><span class="label">受控实验被试</span></div>
+      <div class="item"><span class="num">89.6%</span><span class="label">多模态识别准确率</span></div>
+      <div class="item"><span class="num">SSCI</span><span class="label">Q1期刊二审</span></div>
+    </div>
+    <div class="hero-cta rv">
+      <a href="#research" class="btn btn-primary">查看用户研究 →</a>
+      <a href="https://aka.doubaocdn.com/s/8BtOTFbMtE" download="PetLoop_PRD_V1.3_等线字体版.docx" class="btn btn-ghost" style="pointer-events:auto;position:relative;z-index:10">📄 PRD下载</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <img class="bg-img" src="https://aka.doubaocdn.com/s/6clYm76nj4" alt="PetLoop可穿戴背心产品渲染图">
+    <div class="hero-card rv">
+      <div class="card-head"><span class="pet-name">Mochi · 英短</span><span class="pet-status">● 已连接</span></div>
+      <div class="emotion-display">
+        <div class="emotion-icon"><img src="https://aka.doubaocdn.com/s/ccddyyk2ks" alt="宠物头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+        <div class="emotion-text"><div class="main">平静 / 放松</div><div class="sub">置信度：高 · 更新于 2 分钟前</div></div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="val">适中</div><div class="lbl">活动量</div></div>
+        <div class="metric"><div class="val">较低</div><div class="lbl">声音线索</div></div>
+        <div class="metric"><div class="val">82%</div><div class="lbl">设备电量</div></div>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><span class="tl-time">09:05</span><span class="tl-dot"></span><span class="tl-text">检测到休息行为</span></div>
+        <div class="tl-item"><span class="tl-time">10:42</span><span class="tl-dot"></span><span class="tl-text">平静状态线索</span></div>
+        <div class="tl-item"><span class="tl-time">刚刚</span><span class="tl-dot" style="background:#6B8A63"></span><span class="tl-text">安抚互动已完成</span></div>
+      </div>
+    </div>
+    <a href="https://chloemmmmm.github.io/PetLoop-Project/" target="_blank" class="hero-badge" style="text-decoration:none;cursor:pointer;display:block">Demo: <strong>chloemmmmm.github.io/PetLoop</strong> ↗</a>
+  </div>
+
+
+<div class="stats-bar rv" style="grid-column:1/-1;width:100%;margin:0;padding:48px var(--gut);box-sizing:border-box">
+  <div class="stat"><div class="stat-num">89.6<span class="unit">%</span></div><div class="stat-label">多模态状态识别准确率</div></div>
+  <div class="stat"><div class="stat-num">+12.7<span class="unit">pp</span></div><div class="stat-label">较最优单模态提升</div></div>
+  <div class="stat"><div class="stat-num">30<span class="unit">人</span></div><div class="stat-label">受控被试内实验</div></div>
+  <div class="stat"><div class="stat-num">p<span class="unit"><.001</span></div><div class="stat-label">多模态优势统计显著</div></div>
+</div>
+
+</section>
+
+<section id="problem" class="wrap" style="position:relative;overflow:hidden">
+  <img src="https://aka.doubaocdn.com/s/FJi4RdsUEd" alt="" class="deco deco-paw-trail" style="right:3%;top:15%;opacity:.06">
+  <div class="sec-head rv">
+    <div class="sec-num">01 / Problem</div>
+    <h2 class="sec-title">用户要的不是"看到"，是"互动"</h2>
+    <p class="sec-desc">现有设备停留在"监看"层面（满意度仅2.8-3.5/5），缺乏<strong style="color:var(--accent)">感知→回应</strong>的情感闭环。</p>
+  </div>
+  <div class="problem-grid">
+    <div class="problem-text rv">
+      <h3>市场机会</h3>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.5;background:rgba(61,90,62,.05);padding:8px 12px;border-radius:6px;border-left:3px solid var(--primary)">
+        <strong style="color:var(--primary)">研究方法：</strong>PEST宏观分析 + 波特五力竞争分析 + 桌面研究（Desk Research）+ 电商评论情感分析（N=1,247）+ 行业报告交叉验证（《2024中国宠物行业白皮书》/艾瑞咨询/易观分析）
+      </div>
+      <div class="market-stats">
+        <div class="market-stat"><div class="num">3002<span class="unit">亿</span></div><div class="label">中国城镇犬猫消费市场规模</div></div>
+        <div class="market-stat"><div class="num">40<span class="unit">%+</span></div><div class="label">智能用品市场年增速</div></div>
+        <div class="market-stat"><div class="num">73<span class="unit">%</span></div><div class="label">18-35岁年轻养宠人群占比</div></div>
+        <div class="market-stat"><div class="num">74.4<span class="unit">%</span></div><div class="label">消费者因"情绪价值"购买</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5">数据来源：《2024中国宠物行业白皮书》、艾瑞咨询、易观分析、京东消费研究院</div>
+      <div style="margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px 20px">
+        <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em">宠物智能用品市场规模增长趋势（亿元）</div>
+        <svg viewBox="0 0 450 140" style="width:100%;height:130px;display:block">
+          <defs>
+            <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#3D5A3E;stop-opacity:1" />
+              <stop offset="60%" style="stop-color:#3D5A3E;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#C9682E;stop-opacity:1" />
+            </linearGradient>
+            <linearGradient id="areaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#C9682E;stop-opacity:.15" />
+              <stop offset="100%" style="stop-color:#C9682E;stop-opacity:0" />
+            </linearGradient>
+          </defs>
+          <line x1="45" y1="20" x2="427" y2="20" stroke="rgba(0,0,0,.06)" stroke-width="1"/>
+          <line x1="45" y1="45" x2="427" y2="45" stroke="rgba(0,0,0,.06)" stroke-width="1"/>
+          <line x1="45" y1="70" x2="427" y2="70" stroke="rgba(0,0,0,.06)" stroke-width="1"/>
+          <line x1="45" y1="95" x2="427" y2="95" stroke="rgba(0,0,0,.06)" stroke-width="1"/>
+          <path d="M 56,95 L 141,80 L 225,62 L 309,40 L 394,20 L 350,95 L 56,105 Z" fill="url(#areaGrad)"/>
+          <path d="M 56,95 L 141,80 L 225,62 L 309,40 L 394,20" fill="none" stroke="url(#lineGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="50" cy="85" r="4" fill="#3D5A3E" stroke="#fff" stroke-width="2"/>
+          <circle cx="125" cy="70" r="4" fill="#3D5A3E" stroke="#fff" stroke-width="2"/>
+          <circle cx="200" cy="52" r="4" fill="#3D5A3E" stroke="#fff" stroke-width="2"/>
+          <circle cx="275" cy="30" r="4" fill="#C9682E" stroke="#fff" stroke-width="2"/>
+          <circle cx="394" cy="20" r="5" fill="#C9682E" stroke="#fff" stroke-width="2"/>
+          <text x="50" y="78" text-anchor="middle" font-size="10" font-weight="700" fill="#3D5A3E">180</text>
+          <text x="125" y="63" text-anchor="middle" font-size="10" font-weight="700" fill="#3D5A3E">270</text>
+          <text x="200" y="45" text-anchor="middle" font-size="10" font-weight="700" fill="#3D5A3E">390</text>
+          <text x="275" y="23" text-anchor="middle" font-size="10" font-weight="700" fill="#C9682E">550</text>
+          <text x="394" y="13" text-anchor="middle" font-size="11" font-weight="800" fill="#C9682E">780</text>
+          <text x="56" y="130" text-anchor="middle" font-size="9" fill="rgba(0,0,0,.4)">2022</text>
+          <text x="141" y="130" text-anchor="middle" font-size="9" fill="rgba(0,0,0,.4)">2023</text>
+          <text x="225" y="130" text-anchor="middle" font-size="9" fill="rgba(0,0,0,.4)">2024</text>
+          <text x="309" y="130" text-anchor="middle" font-size="9" fill="#C9682E">2025</text>
+          <text x="394" y="130" text-anchor="middle" font-size="9" fill="#C9682E">2026E</text>
+        </svg>
+        <div style="margin-top:8px;font-size:11px;color:var(--muted);line-height:1.5">年复合增长率约40%，2026年预计突破780亿元；情绪友好型产品增速是传统用品的2.3倍</div>
+      </div>
+      <h3 style="margin-top:24px">核心洞察</h3>
+      <p>用户的真实需求不是"知道宠物在做什么"，而是"和宠物产生真实的双向互动"。现有监控摄像头只能提供"安全感"，但无法提供"陪伴感"——用户能看到宠物，但宠物看不到用户，这种单向连接反而加剧了分离焦虑。</p>
+      <div class="quote">"我上班时会反复打开监控看它，但每次看到它趴在门口等我，我就更难受了。我能看到它，但它看不到我，这种感觉很无力。"<br><br>— 受访者P03，养猫2年，互联网运营</div>
+      <div style="margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px">
+        <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px">💡 三大核心痛点</h4>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="background:rgba(201,104,46,.12);color:var(--accent);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;flex-shrink:0">01</span><span style="font-size:13px;color:var(--ink-soft);line-height:1.5"><strong>单向连接</strong>：能看到宠物但宠物看不到主人，反而加剧分离焦虑</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="background:rgba(201,104,46,.12);color:var(--accent);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;flex-shrink:0">02</span><span style="font-size:13px;color:var(--ink-soft);line-height:1.5"><strong>无法判断</strong>：不知道宠物是在玩耍还是焦虑，缺乏情绪状态的量化理解</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="background:rgba(201,104,46,.12);color:var(--accent);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;flex-shrink:0">03</span><span style="font-size:13px;color:var(--ink-soft);line-height:1.5"><strong>互动失败</strong>：语音延迟大、宠物无反应，远程互动体验差强人意</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="competitor-cards">
+        <div class="comp-card rv">
+          <div class="comp-img"><img src="https://aka.doubaocdn.com/s/mT4UgbCDfk" alt="小米智能摄像机C500双摄版"></div>
+          <div class="comp-body">
+            <div class="comp-brand">小米 Xiaomi</div>
+            <div class="comp-name">智能摄像机 C500 双摄版</div>
+            <div class="comp-pain">只能被动观看，语音延迟大、互动单向；宠物对屏幕里的主人无反应，无法建立情感连接。</div>
+            <div class="comp-score"><span class="label">用户满意度</span><span class="val">3.2/5</span></div>
+          </div>
+        </div>
+        <div class="comp-card rv">
+          <div class="comp-img"><img src="https://aka.doubaocdn.com/s/MaDjnEJdhQ" alt="小佩智能喂食器mini"></div>
+          <div class="comp-body">
+            <div class="comp-brand">小佩 PETKIT</div>
+            <div class="comp-name">智能喂食器 mini</div>
+            <div class="comp-pain">功能单一，仅解决生理需求，无情感连接；卡粮问题频发，出粮精度受粮食品种影响大。</div>
+            <div class="comp-score"><span class="label">用户满意度</span><span class="val">3.5/5</span></div>
+          </div>
+        </div>
+        <div class="comp-card rv">
+          <div class="comp-img"><img src="https://aka.doubaocdn.com/s/pIlUy98rG2" alt="陪彼宠物定位器"></div>
+          <div class="comp-body">
+            <div class="comp-brand">陪彼 PETBIT</div>
+            <div class="comp-name">宠物GPS定位器 G20</div>
+            <div class="comp-pain">仅适用于户外防丢，室内无意义；续航差（3-5天需充电）、佩戴舒适度低，猫抗拒佩戴。</div>
+            <div class="comp-score"><span class="label">用户满意度</span><span class="val">3.0/5</span></div>
+          </div>
+        </div>
+        <div class="comp-card rv">
+          <div class="comp-img"><img src="https://aka.doubaocdn.com/s/S0etO1KFdv" alt="电动蝴蝶逗猫棒"></div>
+          <div class="comp-body">
+            <div class="comp-brand">AMEEXLION</div>
+            <div class="comp-name">自嗨旋转逗猫棒</div>
+            <div class="comp-pain">宠物新鲜感消退快（平均7天弃用），无主人参与感；模式固定单一，无法根据宠物状态调整。</div>
+            <div class="comp-score"><span class="label">用户满意度</span><span class="val">2.8/5</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px 20px">
+        <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em">4款竞品用户满意度对比（/5分）</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>小米智能摄像机</span><span style="font-weight:700">3.2</span></div>
+            <div style="height:8px;background:var(--canvas-2);border-radius:4px;overflow:hidden"><div style="width:64%;height:100%;background:linear-gradient(90deg,#9B9B9B,#6B6B6B);border-radius:4px"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>小佩智能喂食器</span><span style="font-weight:700">3.5</span></div>
+            <div style="height:8px;background:var(--canvas-2);border-radius:4px;overflow:hidden"><div style="width:70%;height:100%;background:linear-gradient(90deg,#9B9B9B,#6B6B6B);border-radius:4px"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>陪彼GPS定位器</span><span style="font-weight:700">3.0</span></div>
+            <div style="height:8px;background:var(--canvas-2);border-radius:4px;overflow:hidden"><div style="width:60%;height:100%;background:linear-gradient(90deg,#9B9B9B,#6B6B6B);border-radius:4px"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span>自动逗猫棒</span><span style="font-weight:700">2.8</span></div>
+            <div style="height:8px;background:var(--canvas-2);border-radius:4px;overflow:hidden"><div style="width:56%;height:100%;background:linear-gradient(90deg,#9B9B9B,#6B6B6B);border-radius:4px"></div></div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5">
+          <strong style="color:var(--ink-soft)">数据来源：</strong>京东/天猫/小红书公开评论抓取（N=1,247条），采用5点Likert量表编码（1=非常不满意~5=非常满意），两名编码员独立编码，Cohen's Kappa=0.82。编码流程：基于产品功能维度构建6维编码框架（功能完整性/交互体验/稳定性/性价比/情感连接/客服售后），2名编码员经4小时培训后独立编码（5点Likert量表），编码一致性Cohen's Kappa=0.82，分歧由第三名研究员仲裁解决。4款竞品平均满意度仅3.1/5，主要痛点集中在"单向互动"和"缺乏情感连接"。
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rv" style="margin-top:32px;background:linear-gradient(135deg,#1a2e1a 0%,#2d4a2d 50%,#1a2e1a 100%);border-radius:24px;padding:36px 40px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1)">
+        <!-- 背景装饰 -->
+        <div style="position:absolute;top:-60px;left:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(232,168,124,.12) 0%,transparent 70%);border-radius:50%"></div>
+        <div style="position:absolute;bottom:-60px;right:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(168,213,162,.12) 0%,transparent 70%);border-radius:50%"></div>
+        
+        <!-- 标题 -->
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;position:relative;z-index:1">
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,#E8A87C,#C9682E);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 6px 20px rgba(201,104,46,.35)">🎯</div>
+          <div>
+            <h4 style="font-size:20px;font-weight:800;color:#fff;margin:0;letter-spacing:-.3px">机会空间定位</h4>
+            <p style="font-size:13px;color:rgba(255,255,255,.55);margin:3px 0 0">基于竞品分析与用户痛点，识别市场空白</p>
+          </div>
+        </div>
+        
+        <!-- 对比卡片 -->
+        <div style="display:grid;grid-template-columns:1fr 80px 1fr;gap:0;align-items:stretch;position:relative;z-index:1">
+          <!-- 红海卡片 -->
+          <div style="background:linear-gradient(180deg,rgba(232,168,124,.1) 0%,rgba(201,104,46,.05) 100%);border-radius:18px;overflow:hidden;border:1px solid rgba(232,168,124,.25);position:relative">
+            <!-- 红海简笔画图片 -->
+            <div style="height:200px;overflow:hidden;background:#fff;position:relative">
+              <img src="https://aka.doubaocdn.com/s/h4MX7VFwpG" alt="红海市场" style="width:100%;height:100%;object-fit:cover;display:block;opacity:.95;object-position:center">
+              <div style="position:absolute;top:12px;left:12px;background:rgba(201,104,46,.9);color:#fff;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.05em">RED OCEAN</div>
+            </div>
+            <div style="padding:20px 22px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                <span style="font-size:20px">📉</span>
+                <span style="font-size:15px;font-weight:700;color:#FFB088">市场拥挤区</span>
+              </div>
+              <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:14px;letter-spacing:-.3px">监看 + 喂食</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px">
+                <span style="font-size:11px;padding:5px 12px;background:rgba(232,168,124,.18);border-radius:8px;color:#FFD4B8;font-weight:500">单向监看</span>
+                <span style="font-size:11px;padding:5px 12px;background:rgba(232,168,124,.18);border-radius:8px;color:#FFD4B8;font-weight:500">定时喂食</span>
+                <span style="font-size:11px;padding:5px 12px;background:rgba(232,168,124,.18);border-radius:8px;color:#FFD4B8;font-weight:500">定位追踪</span>
+              </div>
+              <div style="padding-top:16px;border-top:1px solid rgba(232,168,124,.2)">
+                <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">4款竞品满意度</div>
+                <div style="display:flex;align-items:baseline;gap:8px">
+                  <span style="font-size:32px;font-weight:800;color:#FFB088;letter-spacing:-1px">2.8-3.5</span>
+                  <span style="font-size:14px;color:rgba(255,255,255,.4)">/ 5.0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 中间箭头 -->
+          <div style="display:flex;align-items:center;justify-content:center;position:relative">
+            <div style="position:absolute;top:50%;left:0;right:0;height:3px;background:linear-gradient(90deg,rgba(232,168,124,.4),rgba(255,255,255,.6),rgba(168,213,162,.4));transform:translateY(-50%)"></div>
+            <div style="width:64px;height:64px;background:linear-gradient(135deg,#fff,#f0f0f0);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,.25);position:relative;z-index:2;border:3px solid rgba(255,255,255,.8)">
+              <span style="font-size:10px;font-weight:800;color:#C9682E;letter-spacing:.05em;margin-bottom:2px">PetLoop</span>
+              <span style="font-size:22px;color:#333;line-height:1">→</span>
+            </div>
+          </div>
+          
+          <!-- 蓝海卡片 -->
+          <div style="background:linear-gradient(180deg,rgba(168,213,162,.12) 0%,rgba(107,138,99,.06) 100%);border-radius:18px;overflow:hidden;border:1px solid rgba(168,213,162,.3);position:relative;box-shadow:0 0 40px rgba(168,213,162,.08)">
+            <!-- 蓝海简笔画图片 -->
+            <div style="height:200px;overflow:hidden;background:#fff;position:relative">
+              <img src="https://aka.doubaocdn.com/s/cui5QGHN5R" alt="蓝海机会" style="width:100%;height:100%;object-fit:cover;display:block;opacity:.95;object-position:top">
+              <div style="position:absolute;top:12px;left:12px;background:rgba(107,138,99,.9);color:#fff;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.05em">BLUE OCEAN</div>
+              <div style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.95);color:#6B8A63;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700">✨ 唯一</div>
+            </div>
+            <div style="padding:20px 22px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                <span style="font-size:20px">🚀</span>
+                <span style="font-size:15px;font-weight:700;color:#B8E8B4">机会空白区</span>
+              </div>
+              <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:14px;letter-spacing:-.3px">情感交互 + 状态理解</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px">
+                <span style="font-size:11px;padding:5px 12px;background:rgba(168,213,162,.2);border-radius:8px;color:#C8E6C4;font-weight:500">情绪可视化</span>
+                <span style="font-size:11px;padding:5px 12px;background:rgba(168,213,162,.2);border-radius:8px;color:#C8E6C4;font-weight:500">双向互动</span>
+                <span style="font-size:11px;padding:5px 12px;background:rgba(168,213,162,.2);border-radius:8px;color:#C8E6C4;font-weight:500">全链路闭环</span>
+              </div>
+              <div style="padding-top:16px;border-top:1px solid rgba(168,213,162,.25)">
+                <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">市场定位</div>
+                <div style="font-size:14px;font-weight:700;color:#B8E8B4;line-height:1.5">唯一打通"感知-理解-回应"全链路</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  <h3 class="rv" style="font-size:22px;font-weight:700;margin-bottom:16px">市场调研全景 <span style="font-size:13px;font-weight:400;color:var(--muted)">· 左右滑动查看2张市场分析大图</span></h3>
+  <div class="carousel rv" id="marketCarousel">
+    <div class="carousel-track">
+      <div class="carousel-slide">
+        <div class="slide-img-wrap"><img src="https://aka.doubaocdn.com/s/FUMC3yYjUq" alt="市场数据与消费趋势分析"></div>
+        
+      </div>
+      <div class="carousel-slide">
+        <div class="slide-img-wrap"><img src="https://aka.doubaocdn.com/s/UxdUndNoLe" alt="PEST增长逻辑分析"></div>
+        
+      </div>
+    </div>
+    <button class="carousel-btn prev" aria-label="上一张">‹</button>
+    <button class="carousel-btn next" aria-label="下一张">›</button>
+    <div class="carousel-dots">
+      <button class="carousel-dot active" data-index="0" aria-label="第1张"></button>
+      <button class="carousel-dot" data-index="1" aria-label="第2张"></button>
+    </div>
+  </div>
+</section>
+
+<section id="research" class="wrap" style="background:var(--canvas-2);position:relative;overflow:hidden">
+  <img src="https://aka.doubaocdn.com/s/SdxhwHn7LC" alt="" class="deco deco-paw" style="left:5%;top:20%;opacity:.05">
+  <img src="https://aka.doubaocdn.com/s/SdxhwHn7LC" alt="" class="deco deco-paw" style="right:8%;bottom:15%;opacity:.05;transform:rotate(15deg)">
+  <div class="sec-head rv">
+    <div class="sec-num">02 / Research</div>
+    <h2 class="sec-title">用户研究：从假设到证据</h2>
+    <p class="sec-desc">探索性序贯混合方法：<strong style="color:var(--primary)">8场访谈</strong> 提炼需求 → <strong style="color:var(--accent)">126份问卷</strong> 量化验证 → <strong style="color:#4A7C9B">K-means聚类</strong> 3类画像 + <strong style="color:#9B6B4A">因子分析</strong> 4维度（KMO=0.78）</p>
+  </div>
+  <div class="research-methods">
+    <div class="method-card rv"><div class="method-icon"><img src="https://aka.doubaocdn.com/s/nhVIPzmo0A" alt="深度访谈"></div><h4>深度访谈</h4><div class="method-count">8场 · 每场45-60分钟</div><p>最大差异抽样，半结构化访谈5模块提纲，双人独立编码（Kappa=0.79），第7场后达到信息饱和。提炼4项核心发现、12项关键需求。</p></div>
+    <div class="method-card rv"><div class="method-icon"><img src="https://aka.doubaocdn.com/s/VxjWmRX0ZH" alt="在线问卷"></div><h4>在线问卷</h4><div class="method-count">126份有效样本</div><p>126份有效样本（有效率88.7%），5维度28题。探索性因子分析提取4公因子（累计方差67.3%），K-means聚类k=3（肘部法则+业务可解释性，轮廓系数0.42）。</p></div>
+    <div class="method-card rv"><div class="method-icon"><img src="https://aka.doubaocdn.com/s/kgqt6bpvKJ" alt="数据分析"></div><h4>数据分析与洞察</h4><div class="method-count">多源数据交叉验证</div><p>三角验证（Triangulation）：整合访谈定性编码+问卷定量统计+1247条电商评论NLP情感分析+5款竞品功能矩阵，通过不同数据源一致性提高发现可信度。识别"情感交互"市场空白（竞品满意度仅2.8-3.5/5）。</p></div>
+  </div>
+  <h3 class="rv" style="font-size:22px;font-weight:700;margin-bottom:24px">三类核心用户画像</h3>
+  <div class="personas">
+    <div class="persona rv">
+      <div class="persona-head p1"><div class="persona-avatar"><img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/f6979cd949ba479e8b3828a9e728586f.jpeg~tplv-a9rns2rl98-image-qvalue.jpeg?lk3s=8e244e95&rcl=20260903114235013F7483DA63AB80990F&rrcfp=1860f75c&x-expires=1789011755&x-signature=bAhNGPfkJXsOjFS6gbMwCsw0NlQ%3D" alt="情感依赖型独居白领"></div><div><div class="persona-tag">核心用户 · 占比45%（N=57/126，K-means聚类）</div><div class="persona-name">情感依赖型独居白领</div><div class="persona-desc">25-32岁 · 一线城市独居 · 养猫为主 · 已用监控但不满意</div></div></div>
+      <div class="persona-body">
+        <div class="persona-section"><h5>核心需求</h5><ul><li>真实的双向互动</li><li>宠物情绪可视化</li><li>安抚功能与陪伴感</li></ul></div>
+        <div class="persona-section"><h5>付费意愿</h5><ul><li>高 · 1500-2500元可接受</li><li>愿意订阅情绪分析服务</li></ul></div>
+        <div class="persona-quote">"猫对我来说不是宠物，是家人。白天那8个小时，我总觉得亏欠它。"</div>
+      </div>
+    </div>
+    <div class="persona rv">
+      <div class="persona-head p2"><div class="persona-avatar"><img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/8270907cb9e34d3cb4c30ce57dd459de.jpeg~tplv-a9rns2rl98-image-qvalue.jpeg?lk3s=8e244e95&rcl=20260903114246C1AAA64511718A42C3CA&rrcfp=1860f75c&x-expires=1789011766&x-signature=4h5NjQMyBKO6s4D1vHzuCcUOPb4%3D" alt="健康关注型资深养宠者"></div><div><div class="persona-tag">重要用户 · 占比35%（N=44/126，K-means聚类）</div><div class="persona-name">健康关注型资深养宠者</div><div class="persona-desc">28-40岁 · 非独居 · 养宠3年+ · 宠物年龄偏大</div></div></div>
+      <div class="persona-body">
+        <div class="persona-section"><h5>核心需求</h5><ul><li>准确的行为/健康监测</li><li>异常行为预警</li><li>长期趋势追踪</li></ul></div>
+        <div class="persona-section"><h5>付费意愿</h5><ul><li>中等 · 1000-1800元</li><li>对订阅制谨慎</li></ul></div>
+        <div class="persona-quote">"宠物年龄大了，我担心它独自在家出意外，希望能实时监测状态。"</div>
+      </div>
+    </div>
+    <div class="persona rv">
+      <div class="persona-head p3"><div class="persona-avatar"><img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/6cacc0546b2842b7af38e93096aebd7f.jpeg~tplv-a9rns2rl98-image-qvalue.jpeg?lk3s=8e244e95&rcl=2026090311425900C7D575AFD75B2F97CE&rrcfp=1860f75c&x-expires=1789011779&x-signature=OQV9RVY%2FyCFoaJ1ZihReK1K08vk%3D" alt="科技尝鲜型年轻用户"></div><div><div class="persona-tag">潜力用户 · 占比20%（N=25/126，K-means聚类）</div><div class="persona-name">科技尝鲜型年轻用户</div><div class="persona-desc">22-28岁 · 学生/初入职场 · 养宠1年内 · 数码爱好者</div></div></div>
+      <div class="persona-body">
+        <div class="persona-section"><h5>核心需求</h5><ul><li>酷炫的交互方式</li><li>APP体验与社交分享</li><li>多设备联动</li></ul></div>
+        <div class="persona-section"><h5>付费意愿</h5><ul><li>中低 · 800-1500元</li><li>愿意为颜值和设计付费</li></ul></div>
+        <div class="persona-quote">"看到朋友家的宠物摄像头，想入手但觉得功能太单一，想要更酷的产品。"</div>
+      </div>
+    </div>
+  </div>
+  <h3 class="rv" style="font-size:22px;font-weight:700;margin-bottom:16px">用户研究与调研全景 <span style="font-size:13px;font-weight:400;color:var(--muted)">· 左右滑动查看6张调研大图</span></h3>
+  <div class="carousel rv" id="researchCarousel">
+    <div class="carousel-track">
+      <div class="carousel-slide">
+        <div class="slide-img-wrap"><img src="https://aka.doubaocdn.com/s/eV9STGGhFQ" alt="选题分析-运用方法"></div>
+        
+      </div>
+      <div class="carousel-slide">
+        <div class="slide-img-wrap"><img src="https://aka.doubaocdn.com/s/MGhvHxiPiW" alt="选题来源-爬虫数据分析"></div>
+        
+      </div>
+      <div class="carousel-slide">
+        <div class="slide-img-wrap"><img src="https://aka.doubaocdn.com/s/iB7EkyM1Yy" alt="核心用户画像卡片"></div>
+        
+      </div>
+      <div class="carousel-slide">
+        <div class="slide-img-wrap"><img src="https://aka.doubaocdn.com/s/q9gGXYGerr" alt="全景用户画像"></div>
+        
+      </div>
+      <div class="carousel-slide">
+        <div class="slide-img-wrap"><img src="https://aka.doubaocdn.com/s/TBWT2jlUQY" alt="数据库整理与情绪分析"></div>
+        
+      </div>
+      <div class="carousel-slide">
+        <div class="slide-img-wrap"><img src="https://aka.doubaocdn.com/s/65eglaP3yy" alt="技术调研-Arduino组件选用"></div>
+        
+      </div>
+    </div>
+    <button class="carousel-btn prev" aria-label="上一张">‹</button>
+    <button class="carousel-btn next" aria-label="下一张">›</button>
+    <div class="carousel-dots">
+      <button class="carousel-dot active" data-index="0" aria-label="第1张"></button>
+      <button class="carousel-dot" data-index="1" aria-label="第2张"></button>
+      <button class="carousel-dot" data-index="2" aria-label="第3张"></button>
+      <button class="carousel-dot" data-index="3" aria-label="第4张"></button>
+      <button class="carousel-dot" data-index="4" aria-label="第5张"></button>
+      <button class="carousel-dot" data-index="5" aria-label="第6张"></button>
+    </div>
+  </div>
+
+  <h3 class="rv" style="font-size:22px;font-weight:700;margin-bottom:24px">核心用户旅程地图（情感依赖型独居白领）</h3>
+  <div class="journey rv">
+    <div class="journey-title">一天中的完整旅程 <span class="badge">6个阶段 · 12个触点 · 情绪U型曲线</span></div>
+    <div class="journey-visual">
+      <!-- 顶部时间线 -->
+      <div class="journey-timeline">
+        <div class="journey-phase"><div class="phase-icon"><img src="https://aka.doubaocdn.com/s/NnaVkWoLJD" alt="离家前"></div><div class="phase-name">离家前</div><div class="phase-time">7:00-9:00</div></div>
+        <div class="journey-phase"><div class="phase-icon"><img src="https://aka.doubaocdn.com/s/A3MeIbig4w" alt="上午工作"></div><div class="phase-name">上午工作</div><div class="phase-time">9:00-12:00</div></div>
+        <div class="journey-phase"><div class="phase-icon"><img src="https://aka.doubaocdn.com/s/6EVg7MYBAD" alt="午休"></div><div class="phase-name">午休</div><div class="phase-time">12:00-14:00</div></div>
+        <div class="journey-phase"><div class="phase-icon"><img src="https://aka.doubaocdn.com/s/3dOZbNoqu6" alt="下午工作"></div><div class="phase-name">下午工作</div><div class="phase-time">14:00-18:00</div></div>
+        <div class="journey-phase"><div class="phase-icon"><img src="https://aka.doubaocdn.com/s/TU13CfrRmo" alt="下班路上"></div><div class="phase-name">下班路上</div><div class="phase-time">18:00-19:00</div></div>
+        <div class="journey-phase"><div class="phase-icon"><img src="https://aka.doubaocdn.com/s/u2OJRezIl4" alt="回家后"></div><div class="phase-name">回家后</div><div class="phase-time">19:00-23:00</div></div>
+      </div>
+      <!-- 情绪曲线 -->
+      <div class="journey-emotion-chart">
+        <div style="width:100%;border-radius:12px;overflow:visible;border:2px solid var(--line);position:relative;z-index:20;margin:0;box-shadow:0 4px 16px rgba(0,0,0,.08);background:#fff">
+        <img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/2a43a625cb004435ad831a5d5f19430d.png~tplv-a9rns2rl98-image-qvalue.png?lk3s=8e244e95&rcl=20260903161015B9592B357585D9A21175&rrcfp=1860f75c&x-expires=1789027815&x-signature=FzCTfpjd%2Fak%2FaUiPPKwaYVUHJhM%3D" alt="用户旅程故事板" style="width:100%;height:auto;display:block;object-fit:contain;border-radius:10px">
+      </div>
+      </div>
+      <!-- 底部详细信息卡片 -->
+      <div class="journey-details">
+        <div class="journey-detail-card">
+          <div class="row-label">👤 用户行为</div>
+          <div class="row-content">喂食、换水，和宠物告别</div>
+          <div class="divider"></div>
+          <div class="row-label pain-row">⚠️ 核心痛点</div>
+          <div class="row-content pain-row">知道宠物会孤单，但无能为力</div>
+          <div class="divider"></div>
+          <div class="row-label opp-row">✨ PetLoop机会</div>
+          <div class="row-content opp-row">设置今日陪伴计划</div>
+        </div>
+        <div class="journey-detail-card">
+          <div class="row-label">👤 用户行为</div>
+          <div class="row-content">工作间隙打开监控查看</div>
+          <div class="divider"></div>
+          <div class="row-label">⚠️ 核心痛点</div>
+          <div class="row-content pain-row">只能看到宠物在睡觉，无法互动</div>
+          <div class="divider"></div>
+          <div class="row-label">✨ PetLoop机会</div>
+          <div class="row-content opp-row">情绪实时推送+轻量陪伴</div>
+        </div>
+        <div class="journey-detail-card">
+          <div class="row-label">👤 用户行为</div>
+          <div class="row-content">边吃饭边看监控，尝试语音对讲</div>
+          <div class="divider"></div>
+          <div class="row-label">⚠️ 核心痛点</div>
+          <div class="row-content pain-row">语音延迟大，宠物没反应，互动失败</div>
+          <div class="divider"></div>
+          <div class="row-label">✨ PetLoop机会</div>
+          <div class="row-content opp-row">一键陪伴模式，低延迟互动</div>
+        </div>
+        <div class="journey-detail-card">
+          <div class="row-label">👤 用户行为</div>
+          <div class="row-content">收到移动侦测提醒，紧张查看</div>
+          <div class="divider"></div>
+          <div class="row-label">⚠️ 核心痛点</div>
+          <div class="row-content pain-row">不知道宠物是在玩还是焦虑，无法判断</div>
+          <div class="divider"></div>
+          <div class="row-label">✨ PetLoop机会</div>
+          <div class="row-content opp-row">AI情绪判断+事件时间线</div>
+        </div>
+        <div class="journey-detail-card">
+          <div class="row-label">👤 用户行为</div>
+          <div class="row-content">想着回家要陪宠物玩</div>
+          <div class="divider"></div>
+          <div class="row-label">⚠️ 核心痛点</div>
+          <div class="row-content pain-row">想提前让宠物知道"我快回来了"</div>
+          <div class="divider"></div>
+          <div class="row-label">✨ PetLoop机会</div>
+          <div class="row-content opp-row">回家预告功能</div>
+        </div>
+        <div class="journey-detail-card">
+          <div class="row-label">👤 用户行为</div>
+          <div class="row-content">宠物扑过来，互动、喂食、玩耍</div>
+          <div class="divider"></div>
+          <div class="row-label">⚠️ 核心痛点</div>
+          <div class="row-content pain-row">自己很累但有愧疚感，想补偿宠物</div>
+          <div class="divider"></div>
+          <div class="row-label">✨ PetLoop机会</div>
+          <div class="row-content opp-row">今日陪伴报告+建议</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="needs" class="wrap">
+  <div class="sec-head rv">
+    <div class="sec-num">03 / Needs</div>
+    <h2 class="sec-title">需求分析：从12项需求到MVP范围</h2>
+    <p class="sec-desc">12项核心需求经ICE评分排序（Impact×Confidence×Ease），四象限矩阵定义MVP范围：3项P0核心功能优先验证"情感闭环"价值。</p>
+  </div>
+  
+  <!-- ICE表格 + 四象限矩阵 左右并排 -->
+  <div style="display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start;margin-bottom:32px">
+    <!-- 左边：ICE评分表格 -->
+    <div class="rv">
+      <table class="ice-table" style="width:100%;table-layout:auto;font-size:14px">
+        <thead><tr><th style="min-width:180px">需求</th><th style="text-align:center;width:40px">I</th><th style="text-align:center;width:40px">C</th><th style="text-align:center;width:40px">E</th><th style="text-align:center;width:50px">ICE</th><th style="width:60px">优先级</th></tr></thead>
+        <tbody>
+          <tr><td class="req-name">宠物情绪状态实时可视化</td><td class="ice-val">9</td><td class="ice-val">8</td><td class="ice-val">5</td><td class="ice-val">360</td><td class="p0">P0</td></tr>
+          <tr><td class="req-name">低延迟远程双向互动</td><td class="ice-val">10</td><td class="ice-val">9</td><td class="ice-val">4</td><td class="ice-val">360</td><td class="p0">P0</td></tr>
+          <tr><td class="req-name">事件时间线与可追溯证据</td><td class="ice-val">7</td><td class="ice-val">8</td><td class="ice-val">7</td><td class="ice-val">392</td><td class="p0">P0</td></tr>
+          <tr><td class="req-name">异常行为/情绪预警</td><td class="ice-val">8</td><td class="ice-val">7</td><td class="ice-val">5</td><td class="ice-val">280</td><td class="p1">P1</td></tr>
+          <tr><td class="req-name">四种互动模式全量</td><td class="ice-val">8</td><td class="ice-val">8</td><td class="ice-val">4</td><td class="ice-val">256</td><td class="p1">P1</td></tr>
+          <tr><td class="req-name">可穿戴设备舒适度优化</td><td class="ice-val">7</td><td class="ice-val">9</td><td class="ice-val">4</td><td class="ice-val">252</td><td class="p1">P1</td></tr>
+          <tr><td class="req-name">每日陪伴报告与建议</td><td class="ice-val">6</td><td class="ice-val">7</td><td class="ice-val">6</td><td class="ice-val">252</td><td class="p1">P1</td></tr>
+          <tr><td class="req-name">回家预告/离家安抚模式</td><td class="ice-val">6</td><td class="ice-val">6</td><td class="ice-val">6</td><td class="ice-val">216</td><td class="p2">P2</td></tr>
+          <tr><td class="req-name">多宠物管理</td><td class="ice-val">7</td><td class="ice-val">7</td><td class="ice-val">5</td><td class="ice-val">245</td><td class="p1">P1</td></tr>
+          <tr><td class="req-name">社交分享功能</td><td class="ice-val">4</td><td class="ice-val">5</td><td class="ice-val">7</td><td class="ice-val">140</td><td class="p2">P2</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:11px;color:var(--muted);margin-top:12px;line-height:1.5">
+        <strong style="color:var(--ink-soft)">评估方法：</strong>采用ICE评分模型（Impact影响度×Confidence置信度×Ease实现难度，每项1-10分），基于8场用户访谈频次统计与126份问卷MaxDiff优先级排序结果，每项需求由2名研究员独立打分后取均值，分歧>2分时讨论后重新打分。
+      </div>
+    </div>
+    
+    <!-- 右边：四象限矩阵 -->
+    <div class="rv">
+      <div style="background:#fff;border-radius:12px;padding:20px;border:1px solid rgba(27,36,25,.1)">
+  <!-- 四象限矩阵 -->
+  <div class="matrix" style="height:380px;padding:16px;position:relative">
+    <div class="matrix-axis-x">实现难度 →</div>
+    <div class="matrix-axis-y">用户价值 →</div>
+    <div class="matrix-grid">
+      <div class="matrix-quad hl">
+        <span class="q-label">高价值 × 低难度</span>
+      </div>
+      <div class="matrix-quad">
+        <span class="q-label">高价值 × 高难度</span>
+      </div>
+      <div class="matrix-quad">
+        <span class="q-label">低价值 × 低难度</span>
+      </div>
+      <div class="matrix-quad">
+        <span class="q-label">低价值 × 高难度</span>
+      </div>
+    </div>
+    <!-- P0需求点 - 更分散 -->
+    <div class="matrix-dot p0" style="left:18%;top:15%"><span class="tooltip">情绪可视化 (ICE=360)</span></div>
+    <div class="matrix-dot p0" style="left:35%;top:20%"><span class="tooltip">双向互动 (ICE=360)</span></div>
+    <div class="matrix-dot p0" style="left:28%;top:38%"><span class="tooltip">事件时间线 (ICE=392)</span></div>
+    <!-- P1需求点 - 更分散 -->
+    <div class="matrix-dot p1" style="left:55%;top:22%"><span class="tooltip">异常预警 (ICE=280)</span></div>
+    <div class="matrix-dot p1" style="left:70%;top:32%"><span class="tooltip">四种互动模式 (ICE=256)</span></div>
+    <div class="matrix-dot p1" style="left:48%;top:48%"><span class="tooltip">舒适度优化 (ICE=252)</span></div>
+    <div class="matrix-dot p1" style="left:62%;top:58%"><span class="tooltip">每日报告 (ICE=252)</span></div>
+    <div class="matrix-dot p1" style="left:75%;top:42%"><span class="tooltip">多宠物管理 (ICE=245)</span></div>
+    <!-- P2需求点 - 更分散 -->
+    <div class="matrix-dot p2" style="left:40%;top:68%"><span class="tooltip">回家预告 (ICE=216)</span></div>
+    <div class="matrix-dot p2" style="left:80%;top:72%"><span class="tooltip">社交分享 (ICE=140)</span></div>
+  </div>
+  
+  <!-- 图例说明 -->
+  <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(27,36,25,.1)">
+    <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">优先级图例</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="width:12px;height:12px;border-radius:50%;background:#C9682E;box-shadow:0 0 0 3px rgba(201,104,46,.2)"></span>
+        <span style="font-size:12px;color:var(--ink-soft)"><strong>P0</strong> · MVP核心 (3项)</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="width:12px;height:12px;border-radius:50%;background:#3D5A3E"></span>
+        <span style="font-size:12px;color:var(--ink-soft)"><strong>P1</strong> · V2迭代 (5项)</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="width:12px;height:12px;border-radius:50%;background:#7A7568"></span>
+        <span style="font-size:12px;color:var(--ink-soft)"><strong>P2</strong> · 远期规划 (2项)</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 统计信息 -->
+  <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div style="background:rgba(201,104,46,.08);border-radius:8px;padding:10px 12px">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:2px">MVP核心需求</div>
+      <div style="font-size:18px;font-weight:800;color:#C9682E">3项 <span style="font-size:11px;font-weight:400;color:var(--muted)">P0</span></div>
+    </div>
+    <div style="background:rgba(61,90,62,.08);border-radius:8px;padding:10px 12px">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:2px">平均ICE得分</div>
+      <div style="font-size:18px;font-weight:800;color:#3D5A3E">275 <span style="font-size:11px;font-weight:400;color:var(--muted)">/1000</span></div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+  
+  <!-- MVP产品决策 - 独占一行 -->
+  <div class="mvp-decision rv" style="background:linear-gradient(135deg,#1a2e1a 0%,#2d4a2d 50%,#1a2e1a 100%);padding:32px 36px;border-radius:20px;position:relative;overflow:hidden">
+    <!-- 背景装饰 -->
+    <div style="position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(201,104,46,.15) 0%,transparent 70%);border-radius:50%"></div>
+    <h4 style="font-size:18px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:10px;color:#fff">
+      <span style="width:36px;height:36px;background:#C9682E;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">🎯</span>
+      产品决策 <span class="tag" style="background:#C9682E;padding:4px 12px;border-radius:12px;font-size:12px;color:#fff">MVP范围与版本规划</span>
+    </h4>
+    <p style="font-size:13px;color:rgba(255,255,255,.7);margin-bottom:24px;line-height:1.6">基于ICE评分与用户价值，分3阶段渐进式交付，每阶段设置Go/No-Go准入标准</p>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;position:relative">
+      <!-- 时间线连接线 -->
+      <div style="position:absolute;top:24px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,#C9682E,#6B8A63,#7A7568);z-index:0"></div>
+      
+      <!-- P0 -->
+      <div style="position:relative;z-index:1">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,#C9682E,#E8905A);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;border:3px solid #1a2e1a">01</div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#fff">P0 · MVP</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.5)">第1-4周 · 核心闭环</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:18px;border:1px solid rgba(201,104,46,.3);border-top:3px solid #C9682E">
+          <div style="font-size:12px;color:#FFD4B8;line-height:1.8;margin-bottom:12px;font-weight:600">情绪可视化 · 双向互动 · 事件时间线</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.7);padding-top:10px;border-top:1px solid rgba(255,255,255,.1)">目标：SUS ≥ 70，验证情感闭环核心假设</div>
+        </div>
+      </div>
+      
+      <!-- P1 -->
+      <div style="position:relative;z-index:1">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,#6B8A63,#8AAA82);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;border:3px solid #1a2e1a">02</div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#fff">P1 · V2</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.5)">第5-6周 · 体验增强</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,.15);border-top:3px solid #8AAA82">
+          <div style="font-size:12px;color:#C8E6C4;line-height:1.8;margin-bottom:12px;font-weight:600">多宠物管理 · 每日摘要 · 系统推荐 · 异常预警</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.7);padding-top:10px;border-top:1px solid rgba(255,255,255,.1)">目标：SUS ≥ 75，提升日常使用粘性</div>
+        </div>
+      </div>
+      
+      <!-- P2 -->
+      <div style="position:relative;z-index:1">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,#7A7568,#9A9588);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;border:3px solid #1a2e1a">03</div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#fff">P2 · 远期</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.5)">第7-8周+ · 生态构建</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,.1);border-top:3px solid #9A9588">
+          <div style="font-size:12px;color:#D8D5CC;line-height:1.8;margin-bottom:12px;font-weight:600">社区分享 · 健康报告 · 第三方集成 · 订阅服务</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.7);padding-top:10px;border-top:1px solid rgba(255,255,255,.1)">目标：构建人宠互动生态闭环</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</section>
+
+<section id="prd" class="wrap">
+  <div class="sec-head rv">
+    <div class="sec-num">04 / PRD</div>
+    <h2 class="sec-title">产品需求文档（PRD）</h2>
+    <p class="sec-desc">MVP版本产品规格：4项核心功能需求、可量化验收标准、8周3阶段上线计划。</p>
+  </div>
+  <div class="prd-overview rv">
+    <div class="prd-card">
+      <div class="prd-label">产品目标</div>
+      <h4>让独居养宠的人上班时也能跟宠物有真实的情感连接，而不只是看着</h4>
+      <p>核心是把"单向监看"变成"双向陪伴"——背心采数据，AI翻译情绪，机器人替你做出反应。</p>
+    </div>
+    <div class="prd-card">
+      <div class="prd-label">目标用户</div>
+      <h4>25-32岁一线城市独居白领，养猫为主</h4>
+      <p>已使用宠物监控设备但不满意，日均陪伴时间<2小时，愿意为情感互动功能付费1500-2500元。</p>
+    </div>
+    <div class="prd-card">
+      <div class="prd-label">成功指标</div>
+      <ul class="metric-list">
+        <li><span>情绪识别准确率</span><span class="val">≥85%</span><span style="font-size:11px;color:var(--muted);display:block;margin-top:2px">基线：单模态最优76.9%，实际89.6%</span></li>
+        <li><span>互动指令延迟</span><span class="val">&lt;500ms</span></li>
+        <li><span>7日用户留存</span><span class="val">≥40%</span></li>
+        <li><span>SUS可用性评分</span><span class="val">≥75</span><span style="font-size:11px;color:var(--muted);display:block;margin-top:2px">基线：V1原型62分，实际78分</span></li>
+      </ul>
+    </div>
+  </div>
+  <h3 class="rv" style="font-size:18px;font-weight:700;margin-bottom:16px">核心用户故事</h3>
+  <div class="rv" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px">
+    <div style="border-radius:var(--radius);overflow:hidden;height:140px"><img src="https://aka.doubaocdn.com/s/rNOfL2k3T3" alt="独居养猫用户" style="width:100%;height:100%;object-fit:cover"></div>
+    <div style="border-radius:var(--radius);overflow:hidden;height:140px"><img src="https://aka.doubaocdn.com/s/DpzgGDeQRb" alt="担心猫焦虑的用户" style="width:100%;height:100%;object-fit:cover"></div>
+    <div style="border-radius:var(--radius);overflow:hidden;height:140px"><img src="https://aka.doubaocdn.com/s/DER4vf4yOR" alt="资深养宠者" style="width:100%;height:100%;object-fit:cover"></div>
+  </div>
+  <div class="user-stories rv">
+    <div class="story-card">
+      <div class="story-id">US-001 · P0</div>
+      <div class="story-text">作为<strong>独居养猫用户</strong>，我想<strong>实时看到猫的情绪状态</strong>，这样我能在上班时知道它是否安好，减少分离焦虑。</div>
+      <div class="story-meta"><span>优先级：P0</span><span>关联需求：FR-001</span></div>
+    </div>
+    <div class="story-card">
+      <div class="story-id">US-002 · P0</div>
+      <div class="story-text">作为<strong>担心猫焦虑的用户</strong>，我想<strong>远程启动安抚互动</strong>，这样我能在猫出现焦虑信号时及时回应，而不是只能看着。</div>
+      <div class="story-meta"><span>优先级：P0</span><span>关联需求：FR-002</span></div>
+    </div>
+    <div class="story-card p1">
+      <div class="story-id">US-003 · P0</div>
+      <div class="story-text">作为<strong>资深养宠者</strong>，我想<strong>查看全天事件时间线</strong>，这样我能回看猫一天都干了啥，有没有异常，而不是只知道"现在"怎么样。</div>
+      <div class="story-meta"><span>优先级：P0</span><span>关联需求：FR-003</span></div>
+    </div>
+    <div class="story-card p1">
+      <div class="story-id">US-004 · P1</div>
+      <div class="story-text">作为<strong>多猫家庭用户</strong>，我想<strong>切换查看不同宠物的状态</strong>，这样我能同时照顾多只猫，而不需要多个设备。</div>
+      <div class="story-meta"><span>优先级：P1</span><span>关联需求：FR-004</span></div>
+    </div>
+  </div>
+  <h3 class="rv" style="font-size:18px;font-weight:700;margin-bottom:16px">MVP功能需求与验收标准</h3>
+  <div class="rv" style="overflow-x:auto;margin-bottom:32px">
+    <table class="prd-req-table" style="width:100%;min-width:0">
+      <thead><tr><th style="width:90px">编号</th><th style="width:240px">功能名称与描述</th><th>用户价值 / 使用场景</th><th>验收标准（Acceptance Criteria）</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="req-id">FR-001</td>
+          <td><div class="req-name">情绪状态实时可视化</div><div class="req-desc">5种基础情绪（平静/兴奋/焦虑/警觉/孤独）+活动量/声音强度2个辅助维度，用颜色和图标直观呈现</div></td>
+          <td>
+        <ul style="margin:0;padding-left:16px;font-size:12px;line-height:1.6">
+          <li><strong>核心痛点：</strong>分离焦虑，上班时担心宠物状态</li>
+          <li><strong>使用场景：</strong>工作间隙/通勤时快速查看</li>
+          <li><strong>用户价值：</strong>猫趴着不动是平静还是抑郁？尾巴晃是开心还是烦躁？用户要的不是原始数据，是"翻译"后的结论</li>
+        </ul>
+      </td><td><ul class="acceptance"><li>情绪状态每30秒更新一次，端到端延迟≤2s</li><li>显示置信度百分比，低置信度（&lt;60%）时标注"待确认"而非强行判断</li><li>5种情绪用不同颜色+图标区分，状态切换时有0.3s过渡动画</li><li>点击情绪卡片可展开查看信号来源、AI判断依据和历史趋势</li><li>异常情绪（焦虑持续&gt;15min）自动高亮并推送通知</li></ul></td>
+        </tr>
+        <tr>
+          <td class="req-id">FR-002</td>
+          <td><div class="req-name">远程双向互动</div><div class="req-desc">4种互动模式（陪伴/安抚/呼叫/玩耍），MVP实现陪伴+安抚两种核心模式</div></td>
+          <td>
+        <ul style="margin:0;padding-left:16px;font-size:12px;line-height:1.6">
+          <li><strong>核心痛点：</strong>监控单向，宠物看不到主人</li>
+          <li><strong>使用场景：</strong>宠物焦虑时远程安抚/互动</li>
+          <li><strong>用户价值：</strong>现有产品最大的问题是"单向"——用户能看宠物，但宠物看不到用户。用户说"我看着它焦虑，我比它还焦虑"</li>
+        </ul>
+      </td><td><ul class="acceptance"><li>系统根据当前情绪推荐互动模式（焦虑→安抚，平静→陪伴），用户一键确认，也可手动选</li><li>指令延迟P95≤500ms，支持中断重试（最多3次）；执行中显示实时状态</li><li>安抚模式时长可配置（默认3min，范围1-10min）；互动记录自动写入事件时间线</li><li>机器人动作缓慢可预测（&lt;15cm/s），避免宠物敏感的高频音（&gt;8kHz），音量≤60dB</li></ul></td>
+        </tr>
+        <tr>
+          <td class="req-id">FR-003</td>
+          <td><div class="req-name">事件时间线</div><div class="req-desc">按时间顺序展示全天事件，支持按类型筛选，每个事件可追溯证据链</div></td>
+          <td>
+            <ul style="margin:0;padding-left:16px;font-size:12px;line-height:1.6">
+              <li><strong>核心痛点：</strong>事后无法回顾宠物全天状态，异常事件无记录</li>
+              <li><strong>使用场景：</strong>下班回顾/异常追溯/长期趋势观察</li>
+              <li><strong>用户价值：</strong>想知道"我上班时猫都干了啥"；更重要的是用户不信AI的判断——你说猫焦虑了，凭什么？证据链就是给用户看"凭什么"的</li>
+            </ul>
+          </td>
+          <td><ul class="acceptance"><li>事件类型包括：行为检测、情绪变化、互动执行、异常预警、系统状态5类</li><li>异常事件（焦虑持续&gt;15min、设备离线、低电量）高亮标注并推送通知</li><li>点击事件可展开查看触发信号、AI判断依据、系统动作和宠物响应完整链路</li><li>支持按事件类型筛选，默认显示全部，时间轴支持按天切换</li><li>每日生成陪伴摘要，包含情绪分布、互动次数、异常事件统计</li></ul></td>
+        </tr>
+        <tr>
+          <td class="req-id">FR-004</td>
+          <td><div class="req-name">多宠物管理</div><div class="req-desc">支持添加最多3只宠物，独立配置设备绑定，切换查看各自状态</div></td>
+          <td>
+            <ul style="margin:0;padding-left:16px;font-size:12px;line-height:1.6">
+              <li><strong>核心痛点：</strong>多宠家庭无法同时关注每只宠物的独立状态</li>
+              <li><strong>使用场景：</strong>多宠家庭/宠物店/宠物寄养场景</li>
+              <li><strong>用户价值：</strong>每只宠物独立监测，异常精准定位到个体</li>
+            </ul>
+          </td>
+          <td><ul class="acceptance"><li>最多3只宠物，独立配置设备绑定与基础信息</li><li>首页快速切换，状态/事件/互动记录独立展示</li><li>多宠物同时异常按优先级排序推送</li></ul></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <h3 class="rv" style="font-size:18px;font-weight:700;margin-bottom:16px">非功能需求</h3>
+  <div class="prd-nonfunc rv">
+    <div class="nf-card"><div class="nf-title">性能</div><div class="nf-value">情绪判断响应≤2s<br>互动指令延迟≤500ms<br>页面首屏加载≤2s</div></div>
+    <div class="nf-card"><div class="nf-title">兼容性</div><div class="nf-value">iOS 14+ / Android 10+<br>Chrome / Safari 最新2个版本<br>响应式适配1440/768/375px</div></div>
+    <div class="nf-card"><div class="nf-title">硬件</div><div class="nf-value">可穿戴设备重量≤80g（狗用）/≤60g（猫用，猫对重量敏感得多）（狗用）/≤60g（猫用，猫对重量敏感得多）<br>续航≥7天（日常使用）<br>IP65防水防尘</div></div>
+    <div class="nf-card"><div class="nf-title">安全与隐私</div><div class="nf-value">数据传输TLS 1.3加密<br>用户数据支持本地存储选项<br>符合GDPR/个人信息保护法</div></div>
+  </div>
+  <h3 class="rv" style="font-size:18px;font-weight:700;margin-bottom:16px">上线计划与里程碑</h3>
+  <div class="rv" style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div style="font-size:13px;font-weight:700;color:var(--muted)">整体进度</div>
+      <div style="font-size:13px;font-weight:700;color:var(--primary)">3/3 阶段已完成 · 100%</div>
+    </div>
+    <div style="height:8px;background:var(--canvas-2);border-radius:4px;overflow:hidden;margin-bottom:24px">
+      <div style="width:100%;height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:4px;transition:width 1s ease"></div>
+    </div>
+    <div class="prd-timeline">
+      <div class="prd-tl-item" style="transition:transform .3s ease,box-shadow .3s ease;cursor:pointer;padding:16px;border-radius:var(--radius)" onmouseover="this.style.transform='translateX(8px)';this.style.background='rgba(61,90,62,.05)'" onmouseout="this.style.transform='translateX(0)';this.style.background='transparent'">
+        <div class="tl-phase">Phase 1 · 第1-4周</div>
+        <div class="tl-title">MVP核心功能开发</div>
+        <div class="tl-desc">完成FR-001/002/003三个P0功能开发，可穿戴设备硬件原型调试，5人可用性测试（目标SUS≥70），修复关键可用性问题。</div>
+      </div>
+      <div class="prd-tl-item" style="transition:transform .3s ease,box-shadow .3s ease;cursor:pointer;padding:16px;border-radius:var(--radius)" onmouseover="this.style.transform='translateX(8px)';this.style.background='rgba(61,90,62,.05)'" onmouseout="this.style.transform='translateX(0)';this.style.background='transparent'">
+        <div class="tl-phase">Phase 2 · 第5-6周</div>
+        <div class="tl-title">体验优化与宠物验证</div>
+        <div class="tl-desc">增加可追溯证据链、系统推荐功能、事件分级展示；完成5只宠物行为测试（目标设备接受度≥75%）；3轮迭代优化（目标SUS≥75）。</div>
+      </div>
+      <div class="prd-tl-item" style="transition:transform .3s ease,box-shadow .3s ease;cursor:pointer;padding:16px;border-radius:var(--radius)" onmouseover="this.style.transform='translateX(8px)';this.style.background='rgba(61,90,62,.05)'" onmouseout="this.style.transform='translateX(0)';this.style.background='transparent'">
+        <div class="tl-phase">Phase 3 · 第7-8周</div>
+        <div class="tl-title">最终交付与Demo上线</div>
+        <div class="tl-desc">完成FR-004多宠物管理（P1），优化信息架构和猫用版本设计；Web Demo上线GitHub Pages；论文撰写投稿；项目复盘与文档归档。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="design" class="wrap" style="background:var(--canvas-2);position:relative;overflow:hidden">
+  <img src="https://aka.doubaocdn.com/s/YD08CSwXLU" alt="" class="deco deco-watch" style="right:5%;top:12%;opacity:.06">
+  <div class="sec-head rv">
+    <div class="sec-num">05 / Design</div>
+    <h2 class="sec-title">产品设计：感知-理解-决策-回应闭环</h2>
+    <p class="sec-desc">核心交互闭环：可穿戴感知 → AI情绪理解 → 系统推荐互动 → 桌面机器人执行回应，每个环节有明确的产品决策依据。</p>
+  </div>
+  <div class="product-flow rv" style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:36px;padding:0">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <h4 style="font-size:15px;font-weight:700;margin:0">产品设计框架：从跨物种解读鸿沟到具身反馈闭环</h4>
+        <p style="font-size:11px;color:var(--muted);margin:4px 0 0">四阶段设计逻辑：问题定义 → 多模态感知 → 具身机器人反馈 → 评估与用户理解</p>
+      </div>
+      <span style="font-size:11px;padding:4px 10px;background:rgba(61,90,62,.1);color:var(--primary);border-radius:4px;font-weight:600">核心设计框架</span>
+    </div>
+    <img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/1e581fb9fa40497fad6db8bb6aa37389.png~tplv-a9rns2rl98-image-qvalue.png?lk3s=8e244e95&rcl=2026090315073918593B20E5DA8A82B245&rrcfp=1860f75c&x-expires=1789024060&x-signature=bslJCDsyR4tRZIFuQwNWUbePHBA%3D" alt="产品设计四阶段框架图" style="width:100%;max-width:100%;height:380px;display:block;object-fit:contain;background:#fff;margin:0 auto;border-radius:0">
+    <div style="padding:14px 20px;background:rgba(61,90,62,.03);display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:4px">① 问题定义</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">跨物种解读鸿沟：宠物状态微妙、上下文依赖，主人依赖部分线索导致理解不确定</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px">② 多模态感知</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">四个互补信息通道：行为视觉（姿态动作）、IMU运动数据（活动强度节奏）、音频声音（叫声声学特征）、上下文（时间主人在场）</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:#6B8A63;margin-bottom:4px">③ 具身反馈</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">从感知数据到表达动作：表情显示、身体动作（摇摆）、姿态变化（抬起）、后退/降低，机器人作为具身反馈媒介而非玩具</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:#9A7D5A;margin-bottom:4px">④ 评估验证</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">比较4种单模态 vs 多模态感知，图形显示 vs 具身机器人反馈：多模态提升准确率和稳定性，具身反馈提升用户理解</div>
+      </div>
+    </div>
+  </div>
+  <h3 class="rv" style="font-size:22px;font-weight:700;margin-bottom:16px">多模态感知：4种信息源互补性分析 <span style="font-size:13px;font-weight:400;color:var(--muted)">· hover查看每种信息源的优势与局限</span></h3>
+  <div class="rv" style="margin-bottom:32px">
+    <div class="info-source-grid">
+      <div class="info-source-card">
+        <div class="src-icon"><img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/50ec6c1e1fa045c9a1b7c188e8b03a2f.webp~tplv-a9rns2rl98-image-qvalue.webp?lk3s=8e244e95&rcl=202609031524146AF04494262E94B70744&rrcfp=1860f75c&x-expires=1789025054&x-signature=IvyEVCwD4V%2FlB6Oaf%2BytgKtLR8I%3D" alt="行为视频"></div>
+        <h4>行为视频</h4>
+        <div class="src-acc">单模态准确率 73.1%</div>
+        <p>最直观的可见行为线索，人类最易理解</p>
+        <div class="src-detail">
+          <strong>优势：</strong>姿势变化、头部朝向、运动方向、接近/回避行为一目了然<br>
+          <strong>局限：</strong>依赖摄像头视野、遮挡、录制质量；只能捕捉可见行为，无法捕捉生理/声音信号<br>
+          <strong>最佳场景：</strong>明显的行为表达（兴奋跳跃、焦虑踱步）
+        </div>
+      </div>
+      <div class="info-source-card">
+        <div class="src-icon"><img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/89fafa222d354fe1aea67742f51b2ed9.png~tplv-a9rns2rl98-image-qvalue.png?lk3s=8e244e95&rcl=20260903152436643442271BCD7BA0F1DB&rrcfp=1860f75c&x-expires=1789025077&x-signature=RFx1T9DxwY5JmF566sGjb5MAcR4%3D" alt="IMU运动数据"></div>
+        <h4>IMU运动数据</h4>
+        <div class="src-acc">单模态准确率 76.9% · 单模态最优</div>
+        <p>可穿戴设备采集，连续追踪活动强度与姿势</p>
+        <div class="src-detail">
+          <strong>优势：</strong>连续采集、不受视野限制、可量化活动强度/运动节奏/姿势变化<br>
+          <strong>局限：</strong>主要反映身体活动和姿势，对模糊/重叠状态区分困难；无法捕捉声音和可见行为<br>
+          <strong>最佳场景：</strong>活动量相关状态（兴奋高活动、平静低活动）
+        </div>
+      </div>
+      <div class="info-source-card">
+        <div class="src-icon"><img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/0437c03c90c840a59bbeae946b3ce19a.webp~tplv-a9rns2rl98-image-qvalue.webp?lk3s=8e244e95&rcl=2026090315245466BC2C5405B6650EAC8B&rrcfp=1860f75c&x-expires=1789025094&x-signature=LlKDPcOcWXe2SOHW%2FYTPvNYn%2BAM%3D" alt="音频声音线索"></div>
+        <h4>音频声音线索</h4>
+        <div class="src-acc">单模态准确率 71.6%</div>
+        <p>吠叫/呜咽/喘息等声音特征，MFCC特征提取</p>
+        <div class="src-detail">
+          <strong>优势：</strong>捕捉吠叫/呜咽/喘息等声音信号，对兴奋(81.1%)识别效果好；可传达唤醒度和情绪<br>
+          <strong>局限：</strong>对录音质量、环境噪音、个体差异高度敏感；孤独状态识别最差(66.7%)<br>
+          <strong>最佳场景：</strong>有明显发声的状态（兴奋吠叫、焦虑呜咽）
+        </div>
+      </div>
+      <div class="info-source-card">
+        <div class="src-icon"><img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/298f4ee4af5a41b39dc727b1e2c0d4be.jpeg~tplv-a9rns2rl98-image-qvalue.jpeg?lk3s=8e244e95&rcl=20260903152507F0C8513DE74D3911E5BD&rrcfp=1860f75c&x-expires=1789025107&x-signature=drGR%2BAdTzhnyvxfx%2BM32sJjtBHs%3D" alt="上下文信息"></div>
+        <h4>上下文信息</h4>
+        <div class="src-acc">单模态准确率 68.9% · 单模态最低</div>
+        <p>时间/主人在场/互动频率/环境变化等情境变量</p>
+        <div class="src-detail">
+          <strong>优势：</strong>约束解释范围，帮助定位状态触发原因（如主人离开→孤独、雷声→焦虑）<br>
+          <strong>局限：</strong>仅提供间接证据，不直接捕捉狗的行为/运动/声音；单独使用准确率最低<br>
+          <strong>最佳场景：</strong>结合其他模态，消除歧义（如低活动+主人不在→孤独 vs 低活动+深夜→平静）
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--primary);color:#fff;padding:16px 24px;border-radius:var(--radius);font-size:13px;line-height:1.7">
+      <strong>💡 核心设计决策：</strong>4种信息源各有盲区，单独使用准确率68.9%-76.9%；多模态融合后准确率提升至<strong style="color:var(--accent-soft)">89.6%</strong>，尤其在Anxious/Lonely等难判类别上提升最显著。这就是PetLoop采用多模态感知架构的核心依据。
+    </div>
+  </div>
+
+  <div class="rv" style="margin-bottom:48px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <h4 style="font-size:16px;font-weight:700">系统架构图 · 人宠情感闭环全链路</h4>
+        <span style="font-size:12px;color:var(--muted)">主人端 ↔ 桌面机器人 ↔ 宠物端 ↔ AI情绪判定</span>
+      </div>
+      <img src="https://aka.doubaocdn.com/s/6jOL2VxMJF" alt="PetLoop系统架构图" style="width:85%;max-width:1000px;margin:0 auto;display:block;border-radius:var(--radius);border:1px solid var(--line)">
+    </div>
+  </div>
+  <h3 class="rv" style="font-size:22px;font-weight:700;margin-bottom:16px">宠物状态分类与机器人反馈映射 <span style="font-size:13px;font-weight:400;color:var(--muted)">· 点击切换查看5种状态</span></h3>
+  <div class="rv" style="margin-bottom:48px">
+    <div class="state-tabs" id="stateTabs">
+      <button class="state-tab active" data-state="calm"><span class="state-dot" style="background:#4A7C9B"></span> Calm 平静</button>
+      <button class="state-tab" data-state="excited"><span class="state-dot" style="background:#C9682E"></span> Excited 兴奋</button>
+      <button class="state-tab" data-state="anxious"><span class="state-dot" style="background:#9B4A4A"></span> Anxious 焦虑</button>
+      <button class="state-tab" data-state="alert"><span class="state-dot" style="background:#6B4A9B"></span> Alert 警觉</button>
+      <button class="state-tab" data-state="lonely"><span class="state-dot" style="background:#9B6B4A"></span> Lonely 孤独</button>
+    </div>
+    <div class="state-panel active" id="panel-calm">
+      <div class="state-panel-header">
+        <div class="state-icon" style="background:rgba(107,138,99,.15)"><img src="https://aka.doubaocdn.com/s/CptmYRgX8E" alt="Calm 平静"></div>
+        <div>
+          <h4>Calm 平静</h4>
+          <div class="state-acc">多模态识别准确率 <strong>92.3%</strong> · 最易识别状态</div>
+        </div>
+      </div>
+      <div class="state-grid">
+        <div class="state-section">
+          <h5>行为特征</h5>
+          <ul><li>低活动量，稳定姿势</li><li>无发声，放松姿态</li></ul>
+        </div>
+        <div class="state-section">
+          <h5>多模态信号组合</h5>
+          <ul><li>IMU低加速度 · 无吠叫</li><li>躺卧/坐姿 · 主人在场</li></ul>
+        </div>
+      </div>
+      <div class="robot-mapping">
+        <h5>🤖 机器人反馈映射</h5>
+        <div class="mapping-row"><span class="mapping-label">运动强度</span><span class="mapping-value">低 · 缓慢呼吸式起伏</span></div>
+        <div class="mapping-row"><span class="mapping-label">姿势</span><span class="mapping-value">放松低位，头部微低</span></div>
+        <div class="mapping-row"><span class="mapping-label">交互时长</span><span class="mapping-value">长 · 持续陪伴模式</span></div>
+        <div class="mapping-row"><span class="mapping-label">灯光/声音</span><span class="mapping-value">暖光常亮，无声音</span></div>
+      </div>
+    </div>
+    <div class="state-panel" id="panel-excited">
+      <div class="state-panel-header">
+        <div class="state-icon" style="background:rgba(232,144,90,.15)"><img src="https://aka.doubaocdn.com/s/jZBC2SrpdR" alt="Excited 兴奋"></div>
+        <div>
+          <h4>Excited 兴奋</h4>
+          <div class="state-acc">多模态识别准确率 <strong>90.5%</strong> · 音频单模态表现最佳(81.1%)</div>
+        </div>
+      </div>
+      <div class="state-grid">
+        <div class="state-section">
+          <h5>行为特征</h5>
+          <ul><li>高活动量，快速移动</li><li>主动接近，吠叫/喘息</li></ul>
+        </div>
+        <div class="state-section">
+          <h5>多模态信号组合</h5>
+          <ul><li>IMU高加速度 · 高频吠叫</li><li>跳跃/摇尾 · 主人回家</li></ul>
+        </div>
+      </div>
+      <div class="robot-mapping">
+        <h5>🤖 机器人反馈映射</h5>
+        <div class="mapping-row"><span class="mapping-label">运动强度</span><span class="mapping-value">高 · 快速摆动/旋转</span></div>
+        <div class="mapping-row"><span class="mapping-label">姿势</span><span class="mapping-value">高位抬头，前倾</span></div>
+        <div class="mapping-row"><span class="mapping-label">交互时长</span><span class="mapping-value">中 · 玩耍模式</span></div>
+        <div class="mapping-row"><span class="mapping-label">灯光/声音</span><span class="mapping-value">彩色闪烁，欢快音效</span></div>
+      </div>
+    </div>
+    <div class="state-panel" id="panel-anxious">
+      <div class="state-panel-header">
+        <div class="state-icon" style="background:rgba(201,104,46,.15)"><img src="https://aka.doubaocdn.com/s/peUUM3nYSt" alt="Anxious 焦虑"></div>
+        <div>
+          <h4>Anxious 焦虑</h4>
+          <div class="state-acc">多模态识别准确率 <strong>91.1%</strong> · 单模态最难识别(IMU仅72.2%)</div>
+        </div>
+      </div>
+      <div class="state-grid">
+        <div class="state-section">
+          <h5>行为特征</h5>
+          <ul><li>重复踱步/舔舐</li><li>紧张回避，呜咽/躲藏</li></ul>
+        </div>
+        <div class="state-section">
+          <h5>多模态信号组合</h5>
+          <ul><li>重复运动模式 · 低频呜咽</li><li>踱步/躲藏 · 主人离开</li></ul>
+        </div>
+      </div>
+      <div class="robot-mapping">
+        <h5>🤖 机器人反馈映射</h5>
+        <div class="mapping-row"><span class="mapping-label">运动强度</span><span class="mapping-value">低 · 缓慢靠近，不突然移动</span></div>
+        <div class="mapping-row"><span class="mapping-label">姿势</span><span class="mapping-value">低位，侧身（非正面威胁）</span></div>
+        <div class="mapping-row"><span class="mapping-label">交互时长</span><span class="mapping-value">长 · 安抚模式，持续存在</span></div>
+        <div class="mapping-row"><span class="mapping-label">灯光/声音</span><span class="mapping-value">蓝光缓慢呼吸，白噪音/心跳声</span></div>
+      </div>
+    </div>
+    <div class="state-panel" id="panel-alert">
+      <div class="state-panel-header">
+        <div class="state-icon" style="background:rgba(107,138,99,.2)"><img src="https://aka.doubaocdn.com/s/rHe2fJQFMk" alt="Alert 警觉"></div>
+        <div>
+          <h4>Alert 警觉</h4>
+          <div class="state-acc">多模态识别准确率 <strong>88.7%</strong> · 单模态波动较大</div>
+        </div>
+      </div>
+      <div class="state-grid">
+        <div class="state-section">
+          <h5>行为特征</h5>
+          <ul><li>短暂静止，注意力集中</li><li>耳朵/头部转向，可能低吠</li></ul>
+        </div>
+        <div class="state-section">
+          <h5>多模态信号组合</h5>
+          <ul><li>突然静止 · 可能低吠</li><li>耳朵竖起/凝视 · 异常声音</li></ul>
+        </div>
+      </div>
+      <div class="robot-mapping">
+        <h5>🤖 机器人反馈映射</h5>
+        <div class="mapping-row"><span class="mapping-label">运动强度</span><span class="mapping-value">极低 · 静止，仅头部微动</span></div>
+        <div class="mapping-row"><span class="mapping-label">姿势</span><span class="mapping-value">直立，头部转向刺激源</span></div>
+        <div class="mapping-row"><span class="mapping-label">交互时长</span><span class="mapping-value">短 · 观察模式，不干扰</span></div>
+        <div class="mapping-row"><span class="mapping-label">灯光/声音</span><span class="mapping-value">指示灯微亮，静音</span></div>
+      </div>
+    </div>
+    <div class="state-panel" id="panel-lonely">
+      <div class="state-panel-header">
+        <div class="state-icon" style="background:rgba(122,117,104,.15)"><img src="https://aka.doubaocdn.com/s/DjYVESUHaZ" alt="Lonely 孤独"></div>
+        <div>
+          <h4>Lonely 孤独</h4>
+          <div class="state-acc">多模态识别准确率 <strong>87.8%</strong> · 音频单模态最差(66.7%)</div>
+        </div>
+      </div>
+      <div class="state-grid">
+        <div class="state-section">
+          <h5>行为特征</h5>
+          <ul><li>低互动，门口等待</li><li>间歇性哀嚎，分离行为</li></ul>
+        </div>
+        <div class="state-section">
+          <h5>多模态信号组合</h5>
+          <ul><li>低活动+徘徊 · 间歇性哀嚎</li><li>门口等待 · 主人长时间不在</li></ul>
+        </div>
+      </div>
+      <div class="robot-mapping">
+        <h5>🤖 机器人反馈映射</h5>
+        <div class="mapping-row"><span class="mapping-label">运动强度</span><span class="mapping-value">中 · 主动接近宠物，缓慢跟随</span></div>
+        <div class="mapping-row"><span class="mapping-label">姿势</span><span class="mapping-value">亲近位，靠近宠物身旁</span></div>
+        <div class="mapping-row"><span class="mapping-label">交互时长</span><span class="mapping-value">长 · 陪伴模式，模拟主人存在</span></div>
+        <div class="mapping-row"><span class="mapping-label">灯光/声音</span><span class="mapping-value">暖光渐变，主人声音录音/轻柔音乐</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="rv" style="font-size:22px;font-weight:700;margin-bottom:24px">三个P0核心功能</h3>
+  <div class="features">
+    <div class="feature-card rv">
+      <div class="feature-visual f1" style="padding:0">
+        <img src="https://aka.doubaocdn.com/s/tlj7UUSO3G" alt="宠物情绪实时可视化" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div class="feature-body">
+        <div class="f-tag">P0 · 核心功能</div>
+        <h4>宠物情绪实时可视化</h4>
+        <p>5种基础情绪（Calm平静/Excited兴奋/Anxious焦虑/Alert警觉/Lonely孤独）+ 活动量/声音强度两个辅助维度，用颜色和图标直观呈现。</p>
+        <div class="decision"><strong>关键决策：</strong>不直接显示"AI判断结果"，而是展示"信号→推断→证据"的可追溯链路，降低用户对AI准确性的不信任。低置信度时不强行判断。</div>
+      </div>
+    </div>
+    <div class="feature-card rv">
+      <div class="feature-visual f2" style="padding:0">
+        <img src="https://aka.doubaocdn.com/s/NVhobRbTv8" alt="低延迟远程双向互动" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div class="feature-body">
+        <div class="f-tag">P0 · 核心功能</div>
+        <h4>低延迟远程双向互动</h4>
+        <p>四种互动模式对应不同情绪场景：陪伴（平静时）、安抚（焦虑时）、呼叫（想连接时）、玩耍（兴奋时）。MVP实现陪伴+安抚。</p>
+        <div class="decision"><strong>关键决策：</strong>采用"系统推荐+用户确认"模式，而非全自动执行。既降低用户的操作成本，又保留用户的掌控感和参与感，避免"黑盒自动化"的不信任。</div>
+      </div>
+    </div>
+    <div class="feature-card rv">
+      <div class="feature-visual f3" style="padding:0">
+        <img src="https://aka.doubaocdn.com/s/R1ZRJLgaJx" alt="事件时间线与可追溯证据" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div class="feature-body">
+        <div class="f-tag">P0 · 核心功能</div>
+        <h4>事件时间线与可追溯证据</h4>
+        <p>按时间顺序展示全天事件：行为检测、情绪变化、互动执行、异常预警。每个事件可展开查看触发信号、AI判断依据和系统动作。</p>
+        <div class="decision"><strong>关键决策：</strong>异常事件高亮标注，支持按事件类型筛选。解决用户"不在家时不知道发生了什么"的核心痛点，让每个系统行为都有迹可循。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 硬件设计与实现 -->
+  <h3 class="rv" style="font-size:22px;font-weight:700;margin-bottom:8px;margin-top:56px">硬件设计与实现</h3>
+  <p class="rv" style="font-size:14px;color:var(--muted);margin-bottom:28px">硬件原型：可穿戴背心（6种材质测试+传感器布局）+ 桌面机器人（4种互动模式动作执行），经5只宠物真实行为测试验证。</p>
+
+  <!-- 方案迭代 -->
+  <div class="rv" style="margin-bottom:40px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden">
+        <img src="https://aka.doubaocdn.com/s/yOH6YhO1wR" alt="数据采集四阶段实拍" style="width:100%;display:block">
+      </div>
+</section>
+
+<section id="validation" class="wrap">
+  <div class="sec-head rv">
+    <div class="sec-num">06 / Validation</div>
+    <h2 class="sec-title">验证与迭代：数据驱动的产品优化</h2>
+    <p class="sec-desc"><strong style="color:var(--primary)">30人实验</strong> + <strong style="color:var(--accent)">5人可用性</strong> + <strong style="color:#4A7C9B">5只宠物测试</strong> → 3轮迭代，SUS 62→78（+25.8%）</p>
+  </div>
+  <div class="validation-grid">
+    <div class="test-card rv">
+      <h3><span class="icon">🧪</span>受控实验 · 30人被试内设计</h3>
+      <div class="test-metrics">
+        <div class="test-metric"><div class="val">89.6<span class="unit">%</span></div><div class="lbl">多模态识别准确率</div></div>
+        <div class="test-metric"><div class="val">76.9<span class="unit">%</span></div><div class="lbl">最优单模态(IMU)</div></div>
+        <div class="test-metric"><div class="val">0.083</div><div class="lbl">多模态判断方差</div></div>
+        <div class="test-metric"><div class="val">p<.001</div><div class="lbl">统计显著性</div></div>
+      </div>
+      <div class="accuracy-chart">
+        <div class="chart-title">📊 5种信息条件识别准确率对比</div>
+        <div class="chart-sub">30人被试内实验 · 拉丁方平衡顺序 · 多模态融合显著优于单模态（F(4,116)=32.47, p<.001, η²=.53）</div>
+        <div class="accuracy-bars">
+          <div class="accuracy-bar highlight">
+            <div class="bar" style="height:100%"><span class="bar-val">89.6%</span></div>
+            <div class="bar-label">多模态融合</div>
+          </div>
+          <div class="accuracy-bar normal">
+            <div class="bar" style="height:85.8%"><span class="bar-val">76.9%</span></div>
+            <div class="bar-label">IMU运动</div>
+          </div>
+          <div class="accuracy-bar normal">
+            <div class="bar" style="height:81.6%"><span class="bar-val">73.1%</span></div>
+            <div class="bar-label">行为视频</div>
+          </div>
+          <div class="accuracy-bar normal">
+            <div class="bar" style="height:79.9%"><span class="bar-val">71.6%</span></div>
+            <div class="bar-label">音频声音</div>
+          </div>
+          <div class="accuracy-bar normal">
+            <div class="bar" style="height:76.9%"><span class="bar-val">68.9%</span></div>
+            <div class="bar-label">上下文</div>
+          </div>
+        </div>
+      </div>
+      <ul class="test-list">
+        <li><span class="tag fixed">H1验证</span><span class="text">多模态条件识别准确率显著高于全部4种单模态条件（F(4,116)=32.47, p<.001, η²=.53）</span></li>
+        <li><span class="tag fixed">H2验证</span><span class="text">多模态条件判断波动最低（方差0.083），尤其在Anxious/Lonely等难判类别上优势显著</span></li>
+        <li><span class="tag fixed">H3验证</span><span class="text">具身机器人反馈的用户理解度显著高于图形界面反馈（p<.05）</span></li>
+        <li><span class="tag iter">实验设计</span><span class="text">被试内设计，5条件×5状态×3重复=75试次/人，拉丁方平衡顺序，3分钟休息间隔</span></li>
+      </ul>
+    </div>
+    <div class="test-card rv">
+      <h3><span class="icon">🐾</span>宠物行为测试（5只 · 3狗2猫）</h3>
+      <div class="test-metrics">
+        <div class="test-metric"><div class="val">80<span class="unit">%</span></div><div class="lbl">设备接受度</div></div>
+        <div class="test-metric"><div class="val">72<span class="unit">%</span></div><div class="lbl">互动响应率</div></div>
+        <div class="test-metric"><div class="val">12<span class="unit">min</span></div><div class="lbl">平均适应时间</div></div>
+        <div class="test-metric"><div class="val">2x</span></div><div class="lbl">猫vs狗适应时间</div></div>
+      </div>
+      <ul class="test-list">
+        <li><span class="tag fixed">已验证</span><span class="text">狗的穿戴适应时间平均7.7分钟，猫平均17.5分钟，验证了"猫对设备舒适度更敏感"的用户研究发现</span></li>
+        <li><span class="tag fixed">已解决</span><span class="text">机器人声音频率经过测试调整，避免使用宠物敏感的高频音，动作速度缓慢可预测</span></li>
+        <li><span class="tag iter">产品决策</span><span class="text">基于猫适应时间长的发现，决策猫用版本进一步轻量化（目标≤60g），并增加"渐进式佩戴引导"功能</span></li>
+        <li><span class="tag iter">迭代中</span><span class="text">长毛猫的传感器接触稳定性优化，避免毛发影响数据采集</span></li>
+      </ul>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--line)">
+        <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">狗 vs 猫 穿戴适应时间对比</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600">🐕 狗（3只）</span><span style="font-weight:700;color:var(--primary)">7.7 分钟</span></div>
+            <div style="height:14px;background:var(--canvas-2);border-radius:4px;overflow:hidden"><div style="width:44%;height:100%;background:linear-gradient(90deg,var(--primary),#4A6B45);border-radius:4px"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600">🐈 猫（2只）</span><span style="font-weight:700;color:var(--accent)">17.5 分钟</span></div>
+            <div style="height:14px;background:var(--canvas-2);border-radius:4px;overflow:hidden"><div style="width:100%;height:100%;background:linear-gradient(90deg,var(--accent),#A05020);border-radius:4px"></div></div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5">猫的适应时间是狗的2.3倍，验证了"猫对设备舒适度更敏感"的用户研究发现，驱动了猫用版本轻量化决策</div>
+      </div>
+    </div>
+  </div>
+  <div class="rv" style="margin-top:32px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(201,104,46,.1);display:flex;align-items:center;justify-content:center;font-size:20px">🧪</div>
+        <div>
+          <h3 style="font-size:18px;font-weight:700">机器人反馈映射先导实验 · 8人</h3>
+          <p style="font-size:12px;color:var(--muted)">正式实验前的预验证，确保5种状态的机器人运动表达可被用户识别</p>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+        <div style="text-align:center;padding:14px;background:var(--canvas-2);border-radius:var(--radius)">
+          <div style="font-size:24px;font-weight:800;color:var(--primary)">8人</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">养狗经验参与者</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:var(--canvas-2);border-radius:var(--radius)">
+          <div style="font-size:24px;font-weight:800;color:var(--primary)">15个</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">机器人运动片段（每状态3个）</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:var(--canvas-2);border-radius:var(--radius)">
+          <div style="font-size:24px;font-weight:800;color:var(--primary)">7点</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Likert清晰度+情绪匹配评分</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:var(--canvas-2);border-radius:var(--radius)">
+          <div style="font-size:24px;font-weight:800;color:var(--accent)">Excited</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">识别率最高的状态</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--ink-soft);line-height:1.7;background:var(--canvas-2);padding:14px 18px;border-radius:var(--radius);border-left:3px solid var(--primary)">
+        <strong>先导实验结论：</strong>5种状态的机器人运动表达整体可识别，Excited识别率和清晰度最高；Lonely和Anxious通过运动单独表达较难，因此在正式产品中结合了灯光和声音辅助表达。先导实验参与者不进入正式实验，避免学习效应。
+      </div>
+    </div>
+  </div>
+
+  <div class="iteration-timeline rv">
+    <h3>三轮产品迭代记录</h3>
+    <div class="iter-steps">
+      <div class="iter-step" style="transition:transform .3s ease,box-shadow .3s ease;cursor:pointer" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 12px 32px rgba(0,0,0,.1)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'"><div class="iter-num">V1</div><h4>概念验证版</h4><div class="iter-date">第1-4周</div><p style="line-height:1.7;margin:0;text-align:left">完成核心功能原型：情绪可视化、基础互动、事件时间线。可用性测试SUS评分62分，发现8项关键问题。</p></div>
+      <div class="iter-step" style="transition:transform .3s ease,box-shadow .3s ease;cursor:pointer" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 12px 32px rgba(0,0,0,.1)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'"><div class="iter-num">V2</div><h4>体验优化版</h4><div class="iter-date">第5-6周</div><p style="line-height:1.7;margin:0;text-align:left">增加可追溯证据链、系统推荐功能、事件分级展示。SUS评分提升至74分，解决6项关键问题。</p></div>
+      <div class="iter-step" style="transition:transform .3s ease,box-shadow .3s ease;cursor:pointer" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 12px 32px rgba(0,0,0,.1)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'"><div class="iter-num">V3</div><h4>最终交付版</h4><div class="iter-date">第7-8周</div><p style="line-height:1.7;margin:0;text-align:left">优化信息架构、增加今日摘要、完善猫用版本设计。SUS评分78分，任务完成率85%，达到交付标准。</p></div>
+    </div>
+    <div style="margin-top:24px;background:var(--canvas-2);border-radius:var(--radius);padding:16px 20px">
+      <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em">SUS可用性评分迭代趋势</div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-around;gap:20px;height:100px;position:relative">
+        <div style="position:absolute;left:0;right:0;top:25%;height:1px;background:rgba(0,0,0,.06)"></div>
+        <div style="position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.06)"></div>
+        <div style="position:absolute;left:0;right:0;top:75%;height:1px;background:rgba(0,0,0,.06)"></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1">
+          <div style="font-size:14px;font-weight:800;color:var(--muted)">62</div>
+          <div style="width:40px;height:55%;background:linear-gradient(180deg,#9B9B9B,#6B6B6B);border-radius:6px 6px 0 0"></div>
+          <span style="font-size:11px;color:var(--muted);font-weight:600">V1</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1">
+          <div style="font-size:14px;font-weight:800;color:var(--primary)">74</div>
+          <div style="width:40px;height:75%;background:linear-gradient(180deg,#6B8A63,#3D5A3E);border-radius:6px 6px 0 0"></div>
+          <span style="font-size:11px;color:var(--primary);font-weight:600">V2</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1">
+          <div style="font-size:14px;font-weight:800;color:var(--accent)">78</div>
+          <div style="width:40px;height:82%;background:linear-gradient(180deg,#C9682E,#A05020);border-radius:6px 6px 0 0"></div>
+          <span style="font-size:11px;color:var(--accent);font-weight:600">V3</span>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5">3轮迭代SUS评分从62提升至78（+25.8%），任务完成率达85%，关键可用性问题从8项降至2项</div>
+    </div>
+  </div>
+    <p class="sec-desc"><strong style="color:var(--primary)">Web Demo</strong> + <strong style="color:var(--accent)">硬件原型</strong> + <strong style="color:#4A7C9B">PRD文档</strong> + <strong style="color:#9B6B4A">SSCI Q1论文</strong>（Minor Revision）</p>
+  </div>
+  <div class="outcomes">
+    <div class="outcome-card rv"><div class="outcome-icon">📄</div><div><h4>学术论文 · 人因领域SSCI Q1在投</h4><p>Behaviour & Information Technology（人因领域SSCI Q1）在投，30人受控实验验证多模态+具身反馈框架，3项假设全部统计显著</p><div class="detail">→ 外审Minor Revision，第一作者</div></div></div>
+    <div class="outcome-card rv"><div class="outcome-icon">📋</div><div><h4>产品需求文档（PRD）</h4><p>12项核心需求的ICE优先级排序、MVP范围定义、功能规格、交互流程、验收标准</p><div class="detail">→ 研发可执行的产品规格</div></div></div>
+    <div class="outcome-card rv"><div class="outcome-icon">🖥️</div><div><h4>可交互Web Demo</h4><p>完整演示"感知-理解-决策-回应"闭环，含状态总览、互动控制台、事件时间线三大模块</p><div class="detail">→ chloemmmmm.github.io/PetLoop-Project</div></div></div>
+    <div class="outcome-card rv"><div class="outcome-icon">🔧</div><div><h4>硬件功能原型</h4><p>可穿戴背心（6种材质测试+传感器布局）、桌面机器人（四种互动模式动作执行）</p><div class="detail">→ 经过5只宠物真实行为测试验证</div></div></div>
+  </div>
+  <div class="rv" style="margin-bottom:48px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden">
+      <div style="padding:20px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <h4 style="font-size:16px;font-weight:700">可交互Web Demo · 在线体验</h4>
+          <p style="font-size:12px;color:var(--muted);margin-top:2px">完整演示"感知-理解-决策-回应"闭环</p>
+        </div>
+        <a href="https://chloemmmmm.github.io/PetLoop-Project/" target="_blank" class="btn btn-primary" style="padding:10px 20px;font-size:13px">访问Demo →</a>
+      </div>
+      <img src="https://aka.doubaocdn.com/s/4Gxxikmtat" alt="PetLoop Demo网页首页" style="width:100%;display:block;object-fit:cover;max-height:400px">
+    </div>
+  </div>
+  <div class="contribution rv">
+    <h3>我的个人贡献</h3>
+    <div class="contrib-grid">
+      <div class="contrib-item"><div class="num">01</div><div><h5>用户研究主导</h5><p>8场访谈+126份问卷，提炼3类画像与旅程地图</p></div></div>
+      <div class="contrib-item"><div class="num">02</div><div><h5>产品需求定义</h5><p>12项需求ICE排序，定义MVP范围，撰写完整PRD</p></div></div>
+      <div class="contrib-item"><div class="num">03</div><div><h5>产品决策与取舍</h5><p>可追溯证据链 · 系统推荐+用户确认 · 猫版轻量化</p></div></div>
+      <div class="contrib-item"><div class="num">04</div><div><h5>跨团队协作与验证</h5><p>协调4角色团队，5人可用性+5只宠物测试，驱动3轮迭代</p></div></div>
+    </div>
+  </div>
+  <div class="resume-section rv">
+    <h3>📝 简历项目描述</h3>
+    <p class="sub">PetLoop 人宠情感闭环系统 | 产品负责人 | 本科生智能硬件课程助教 | 2026.04 – 2026.06</p>
+    <ul class="resume-bullets">
+      <li><span class="arrow">▸</span><span class="text">主导从0到1的产品设计全流程，通过<strong>8场深度访谈+126份问卷+5款竞品分析</strong>，验证"远程情感陪伴"为都市养宠人群的强需求（<span class="highlight">75%用户存在分离焦虑</span>），提炼3类核心用户画像和完整用户旅程地图</span></li>
+      <li><span class="arrow">▸</span><span class="text">设计"感知-理解-决策-回应"完整交互闭环，核心创新<span class="highlight">"可追溯情绪证据链"</span>解决用户对AI判断的不信任问题；定义5种宠物状态（Calm/Excited/Anxious/Alert/Lonely）和4种信息源的多模态融合框架</span></li>
+      <li><span class="arrow">▸</span><span class="text">设计并执行<strong>30人受控被试内实验</strong>，验证多模态信息条件的识别准确率达<span class="highlight">89.6%</span>，较最优单模态提升12.7个百分点（p<.001, η²=.53）；具身机器人反馈的用户理解度显著高于图形界面</span></li>
+      <li><span class="arrow">▸</span><span class="text">协调设计/硬件/算法/前端<strong>4角色跨学科团队</strong>，推动3轮产品迭代；产出可交互Web Demo、硬件功能原型和完整产品文档；研究成果转化为论文投稿<span class="highlight">Behaviour &amp; Information Technology（SSCI Q1）</span>，获Minor Revision</span></li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-title">PetLoop · 人宠情感闭环系统</div>
+  <div class="foot-sub">产品设计作品集 · 从用户研究到产品交付的完整闭环</div>
+  <div class="foot-links">
+    <a href="#problem">问题定义</a><a href="#research">用户研究</a><a href="#needs">需求分析</a>
+    <a href="#design">产品设计</a><a href="#validation">验证迭代</a><a href="https://chloemmmmm.github.io/PetLoop-Project/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;cursor:pointer;pointer-events:auto;position:relative;z-index:1001;text-decoration:none">🔗 Demo网站</a>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// 5种状态tab切换
+document.querySelectorAll('#stateTabs .state-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    const state=tab.dataset.state;
+    document.querySelectorAll('#stateTabs .state-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.state-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-'+state).classList.add('active');
+  });
+});
+
+// 实验数据切换
+document.querySelectorAll('.exp-toggle-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const target=btn.dataset.target;
+    document.querySelectorAll('.exp-toggle-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.exp-detail-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('exp-'+target).classList.add('active');
+  });
+});
+
+// 大图轮播组件
+function initCarousel(carouselId){
+  const carousel=document.getElementById(carouselId);
+  if(!carousel) return;
+  const track=carousel.querySelector('.carousel-track');
+  const slides=carousel.querySelectorAll('.carousel-slide');
+  const prevBtn=carousel.querySelector('.carousel-btn.prev');
+  const nextBtn=carousel.querySelector('.carousel-btn.next');
+  const dots=carousel.querySelectorAll('.carousel-dot');
+  const counter=carousel.querySelector('.carousel-counter');
+  const total=slides.length;
+  let current=0;
+
+  function goTo(index){
+    current=(index+total)%total;
+    track.style.transform=`translateX(-${current*100}%)`;
+    dots.forEach((d,i)=>d.classList.toggle('active',i===current));
+    if(counter) counter.textContent=`${current+1} / ${total}`;
+  }
+
+  prevBtn.addEventListener('click',()=>goTo(current-1));
+  nextBtn.addEventListener('click',()=>goTo(current+1));
+  dots.forEach(dot=>dot.addEventListener('click',()=>goTo(parseInt(dot.dataset.index))));
+
+  // 触摸滑动支持
+  let startX=0;
+  track.addEventListener('touchstart',e=>{startX=e.touches[0].clientX},{passive:true});
+  track.addEventListener('touchend',e=>{
+    const diff=startX-e.changedTouches[0].clientX;
+    if(Math.abs(diff)>50){diff>0?goTo(current+1):goTo(current-1);}
+  },{passive:true});
+}
+initCarousel('researchCarousel');
+initCarousel('marketCarousel');
+</script>
+
+<!-- 简历模态框 -->
+<div id="resumeModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff;border-radius:16px;max-width:720px;width:100%;max-height:85vh;overflow-y:auto;position:relative">
+    <button onclick="document.getElementById('resumeModal').style.display='none'" style="position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;border:none;background:#f5f5f5;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center">×</button>
+    <div style="padding:32px">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #eee">
+        <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#3D5A3E,#6B8A63);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:800">徐</div>
+        <div>
+          <h2 style="font-size:22px;font-weight:800;margin:0">徐伊宁</h2>
+          <p style="font-size:13px;color:#666;margin:4px 0 0">Product Manager · Industrial Designer</p>
+        </div>
+      </div>
+      <div style="margin-bottom:20px">
+        <h3 style="font-size:14px;font-weight:700;color:#3D5A3E;margin:0 0 8px;text-transform:uppercase;letter-spacing:.05em">个人简介</h3>
+        <p style="font-size:13px;line-height:1.7;color:#444;margin:0">北京理工大学工业设计硕士在读，兼具策略产品经理与工业设计实习经验，研一担任本科生《智能硬件》课程助教。擅长用户研究、需求分析与数据驱动决策，熟练运用Codex/Claude Code/Midjourney等AI工具提效。多篇CHI/HCII顶会论文在投/录用，获HCII Best Paper及多项国际设计奖，海外双学位。</p>
+      </div>
+      <div style="margin-bottom:20px">
+        <h3 style="font-size:14px;font-weight:700;color:#3D5A3E;margin:0 0 10px;text-transform:uppercase;letter-spacing:.05em">教育背景</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><strong style="font-size:13px">北京理工大学</strong><span style="font-size:12px;color:#666"> · 设计与艺术学院 · 工业设计 · 硕士</span></div><span style="font-size:12px;color:#999">2025.09 - 至今</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><strong style="font-size:13px">北京化工大学</strong><span style="font-size:12px;color:#666"> · 国际教育学院 · 工业设计 · 本科 · GPA 3.48/4.0</span></div><span style="font-size:12px;color:#999">2020.09 - 2024.06</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><strong style="font-size:13px">热那亚大学（意大利）</strong><span style="font-size:12px;color:#666"> · 设计学院 · 产品与交互设计 · 本科双学位</span></div><span style="font-size:12px;color:#999">2020.09 - 2024.06</span></div>
+        </div>
+      </div>
+      <div style="margin-bottom:20px">
+        <h3 style="font-size:14px;font-weight:700;color:#3D5A3E;margin:0 0 10px;text-transform:uppercase;letter-spacing:.05em">实习经历</h3>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div><div style="display:flex;justify-content:space-between"><strong style="font-size:13px">北京垣环教育科技 · 策略产品经理实习</strong><span style="font-size:12px;color:#999">2026.04-2026.08</span></div><p style="font-size:12px;line-height:1.6;color:#555;margin:4px 0 0">负责艺术设计教育产品从0到1策略制定，构建T0-T4分层服务模型与6条产品线定价策略。用户调研驱动4个版本迭代，谈单成功率30%→50%，服务21位学生，营收增长17.9%。</p></div>
+          <div><div style="display:flex;justify-content:space-between"><strong style="font-size:13px">四方股份 · 工业设计实习</strong><span style="font-size:12px;color:#999">2025.11-2026.01</span></div><p style="font-size:12px;line-height:1.6;color:#555;margin:4px 0 0">服务器机柜外观升级，Midjourney+SD+Magnific AI辅助方案迭代，团队输出8套方案中选率37.5%，3套通过客户评审。</p></div>
+          <div><div style="display:flex;justify-content:space-between"><strong style="font-size:13px">宇树科技×北理工 · 机器人设计</strong><span style="font-size:12px;color:#999">2025.09-2025.11</span></div><p style="font-size:12px;line-height:1.6;color:#555;margin:4px 0 0">消费级四足机器宠物产品设计，负责外观造型与CMF设计，2套方案中1套被选中参赛。</p></div>
+        </div>
+      </div>
+      <div style="margin-bottom:20px">
+        <h3 style="font-size:14px;font-weight:700;color:#3D5A3E;margin:0 0 10px;text-transform:uppercase;letter-spacing:.05em">学术成果</h3>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:10px 14px;background:rgba(61,90,62,.05);border-radius:8px;border-left:3px solid #3D5A3E">
+            <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:2px">Behaviour & Information Technology（第一作者）</div>
+            <div style="font-size:11px;color:#666;line-height:1.5">JCR Q1（人因工程）· SSCI/SCIE · 影响因子4.2 · Minor Revision<br>多模态感知+具身机器人狗情绪反馈系统，多模态识别准确率89.6%</div>
+          </div>
+          <div style="padding:10px 14px;background:rgba(201,104,46,.05);border-radius:8px;border-left:3px solid #C9682E">
+            <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:2px">CHI 会议论文 ×2（第一作者）· 在投</div>
+            <div style="font-size:11px;color:#666;line-height:1.5">CCF A类顶会 · ①老年上肢运动可穿戴外骨骼（IMU+FSR多传感器，气囊+震动双反馈）②PneuCalm气动背心（Unity+LLM对话，ASR/TTS语音交互）</div>
+          </div>
+          <div style="padding:10px 14px;background:rgba(107,138,99,.05);border-radius:8px;border-left:3px solid #6B8A63">
+            <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:2px">HCII 2026 Best Paper Award · 已录用</div>
+            <div style="font-size:11px;color:#666;line-height:1.5">CCF B类会议 · Spativibe：三维空间振动序列，增强视障人士方向感知的可穿戴硬件</div>
+          </div>
+          <div style="padding:10px 14px;background:rgba(154,125,90,.05);border-radius:8px;border-left:3px solid #9A7D5A">
+            <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:2px">ICDDE 2025 Conference Paper · 已录用</div>
+            <div style="font-size:11px;color:#666;line-height:1.5">EI Indexed Publication · 基于Python+K-means聚类的电影海报色彩应用规律研究</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-bottom:20px">
+        <h3 style="font-size:14px;font-weight:700;color:#3D5A3E;margin:0 0 10px;text-transform:uppercase;letter-spacing:.05em">设计竞赛与荣誉</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="font-size:11px;padding:6px 10px;background:rgba(61,90,62,.05);border-radius:6px;color:#444;line-height:1.4"><strong>IDEA Design Award</strong> · Winner（美国工业设计优秀奖）</div>
+          <div style="font-size:11px;padding:6px 10px;background:rgba(61,90,62,.05);border-radius:6px;color:#444;line-height:1.4"><strong>Asia Design Prize</strong> · Gold（亚洲设计奖金奖）</div>
+          <div style="font-size:11px;padding:6px 10px;background:rgba(201,104,46,.05);border-radius:6px;color:#444;line-height:1.4"><strong>K-Design Award</strong> · Winner（韩国设计奖）</div>
+          <div style="font-size:11px;padding:6px 10px;background:rgba(201,104,46,.05);border-radius:6px;color:#444;line-height:1.4"><strong>DNA Paris Design Awards</strong> ×2（巴黎设计奖）</div>
+          <div style="font-size:11px;padding:6px 10px;background:rgba(107,138,99,.05);border-radius:6px;color:#444;line-height:1.4"><strong>Muse Design Awards</strong> · Silver（缪斯设计奖银奖）</div>
+          <div style="font-size:11px;padding:6px 10px;background:rgba(107,138,99,.05);border-radius:6px;color:#444;line-height:1.4"><strong>European Product Design Award</strong> ×2（欧洲产品设计奖）</div>
+          <div style="font-size:11px;padding:6px 10px;background:rgba(154,125,90,.05);border-radius:6px;color:#444;line-height:1.4"><strong>DIA设计奖</strong> ×5（中国设计智造大奖）</div>
+          <div style="font-size:11px;padding:6px 10px;background:rgba(154,125,90,.05);border-radius:6px;color:#444;line-height:1.4"><strong>华灿奖</strong> · 国家一等奖</div>
+        </div>
+        <div style="font-size:11px;color:#999;margin-top:8px">2025 研究生校级特等奖学金 · Core77 Student Notable</div>
+      </div>
+      <div style="margin-bottom:24px">
+        <h3 style="font-size:14px;font-weight:700;color:#3D5A3E;margin:0 0 8px;text-transform:uppercase;letter-spacing:.05em">专业技能</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="font-size:11px;padding:4px 10px;background:rgba(61,90,62,.1);color:#3D5A3E;border-radius:4px">Python</span>
+          <span style="font-size:11px;padding:4px 10px;background:rgba(61,90,62,.1);color:#3D5A3E;border-radius:4px">SQL</span>
+          <span style="font-size:11px;padding:4px 10px;background:rgba(61,90,62,.1);color:#3D5A3E;border-radius:4px">mongoDB</span>
+          <span style="font-size:11px;padding:4px 10px;background:rgba(61,90,62,.1);color:#3D5A3E;border-radius:4px">数据爬虫</span>
+          <span style="font-size:11px;padding:4px 10px;background:rgba(201,104,46,.1);color:#C9682E;border-radius:4px">用户研究</span>
+          <span style="font-size:11px;padding:4px 10px;background:rgba(201,104,46,.1);color:#C9682E;border-radius:4px">需求分析</span>
+          <span style="font-size:11px;padding:4px 10px;background:rgba(201,104,46,.1);color:#C9682E;border-radius:4px">产品策略</span>
+          <span style="font-size:11px;padding:4px 10px;background:rgba(107,138,99,.1);color:#6B8A63;border-radius:4px">工业设计</span>
+          <span style="font-size:11px;padding:4px 10px;background:rgba(107,138,99,.1);color:#6B8A63;border-radius:4px">CMF设计</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;padding-top:16px;border-top:1px solid #eee">
+        <a href="https://aka.doubaocdn.com/s/6X1U4s4by5" target="_blank" style="flex:1;text-align:center;padding:12px;background:#3D5A3E;color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600">下载完整简历 PDF</a>
+        <div style="font-size:12px;color:#999">📱 15562692993 · ✉️ 1710756188@qq.com · 📍 北京</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
