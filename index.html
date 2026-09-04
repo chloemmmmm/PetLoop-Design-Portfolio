@@ -228,7 +228,7 @@ section{position:relative;padding-block:80px}
 .product-flow{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:36px;margin-bottom:48px;box-shadow:var(--shadow-sm)}
 .flow-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
 .flow-step{text-align:center;padding:0 16px;position:relative}
-.flow-step:not(:last-child)::after{content:"→";position:absolute;right:-8px;top:36px;font-size:20px;color:var(--primary-light);z-index:1}
+.flow-step:not(:last-child)::after{content:"<svg class="icon"><use href="#icon-arrow-right"/></svg>";position:absolute;right:-8px;top:36px;font-size:20px;color:var(--primary-light);z-index:1}
 .flow-icon{width:64px;height:64px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:28px;background:var(--canvas-2);border:2px solid var(--primary);overflow:hidden}
 .flow-icon img{width:100%;height:100%;object-fit:cover}
 .flow-step h4{font-size:16px;font-weight:700;margin-bottom:6px}
@@ -397,7 +397,7 @@ section{position:relative;padding-block:80px}
 .prd-req-table .req-desc{font-size:12px;color:var(--muted);line-height:1.5}
 .prd-req-table .acceptance{font-size:12px;color:var(--ink-soft);line-height:1.6}
 .prd-req-table .acceptance li{margin-bottom:3px;list-style:none;padding-left:14px;position:relative}
-.prd-req-table .acceptance li::before{content:"✓";position:absolute;left:0;color:var(--primary);font-weight:700;font-size:11px}
+.prd-req-table .acceptance li::before{content:"<svg class="icon icon-sm"><use href="#icon-check"/></svg>";position:absolute;left:0;color:var(--primary);font-weight:700;font-size:11px}
 .prd-req-table .prio{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700}
 .prd-req-table .prio.p0{background:rgba(201,104,46,.12);color:var(--accent)}
 .prd-req-table .prio.p1{background:rgba(61,90,62,.1);color:var(--primary)}
@@ -466,10 +466,56 @@ section#needs .ice-table td:first-child {
 </style>
 </head>
 <body>
+<!-- 统一SVG图标库 (Phosphor Icons风格) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="icon-arrow-right" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M72 128H216"/><path d="M160 72L216 128L160 184"/><path d="M40 48V208"/></symbol>
+    <symbol id="icon-sparkles" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M140 84L152 40L164 84L208 96L164 108L152 152L140 108L96 96L140 84Z"/><path d="M60 144L68 116L76 144L104 152L76 160L68 188L60 160L32 152L60 144Z"/><path d="M184 164L190 144L196 164L216 170L196 176L190 196L184 176L164 170L184 164Z"/></symbol>
+    <symbol id="icon-user" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><circle cx="128" cy="96" r="60"/><path d="M32 216C32 176 72 148 128 148C184 148 224 176 224 216"/></symbol>
+    <symbol id="icon-warning" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M128 32L224 200H32L128 32Z"/><path d="M128 104V144"/><path d="M128 176H128.01"/></symbol>
+    <symbol id="icon-robot" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="72" width="176" height="128" rx="24"/><path d="M128 32V72"/><circle cx="128" cy="24" r="8"/><circle cx="92" cy="128" r="12"/><circle cx="164" cy="128" r="12"/><path d="M92 172H164"/><path d="M24 120V152"/><path d="M232 120V152"/></symbol>
+    <symbol id="icon-arrows-left-right" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M96 48L40 104L96 160"/><path d="M40 104H216"/><path d="M160 48L216 104L160 160"/></symbol>
+    <symbol id="icon-link" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M120 136L136 120C152 104 176 104 192 120C208 136 208 160 192 176L176 192C160 208 136 208 120 192"/><path d="M80 64L64 80C48 96 48 120 64 136L80 152"/></symbol>
+    <symbol id="icon-file-text" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M148 32H72C58.7 32 48 42.7 48 56V200C48 213.3 58.7 224 72 224H184C197.3 224 208 213.3 208 200V92L148 32Z"/><path d="M148 32V92H208"/><path d="M88 128H168"/><path d="M88 168H168"/><path d="M88 208H136"/></symbol>
+    <symbol id="icon-lightbulb" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M128 16C88 16 56 48 56 88C56 116 72 140 96 152V176H160V152C184 140 200 116 200 88C200 48 168 16 128 16Z"/><path d="M96 208H160"/><path d="M104 240H152"/></symbol>
+    <symbol id="icon-target" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><circle cx="128" cy="128" r="96"/><circle cx="128" cy="128" r="64"/><circle cx="128" cy="128" r="32"/></symbol>
+    <symbol id="icon-test-tube" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M96 24V168C96 192 112 216 144 216C176 216 192 192 192 168V24"/><path d="M80 24H208"/><path d="M96 128H192"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M48 128L112 192L208 64"/></symbol>
+    <symbol id="icon-arrow-up-right" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M72 184L184 72"/><path d="M88 72H184V168"/></symbol>
+    <symbol id="icon-speaker-slash" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M72 96H40C35.6 96 32 99.6 32 104V152C32 156.4 35.6 160 40 160H72L128 208V48L72 96Z"/><path d="M168 88C180 100 188 114 188 128C188 142 180 156 168 168"/><path d="M196 60C220 84 232 104 232 128C232 152 220 172 196 196"/><path d="M48 48L208 208"/></symbol>
+    <symbol id="icon-question" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><circle cx="128" cy="128" r="96"/><path d="M96 96C96 78 110 64 128 64C146 64 160 78 160 96C160 114 140 120 128 136"/><path d="M128 176H128.01"/></symbol>
+    <symbol id="icon-x" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M48 48L208 208"/><path d="M208 48L48 208"/></symbol>
+    <symbol id="icon-chart-line-down" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M32 208H224"/><path d="M48 208V48"/><path d="M48 160L96 112L136 144L192 80"/><path d="M160 80H192V112"/></symbol>
+    <symbol id="icon-rocket" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M128 16C160 48 176 88 176 128V176H80V128C80 88 96 48 128 16Z"/><path d="M80 176L64 224L96 208"/><path d="M176 176L192 224L160 208"/><circle cx="128" cy="112" r="24"/><path d="M48 128C48 112 56 100 72 96"/><path d="M208 128C208 112 200 100 184 96"/></symbol>
+    <symbol id="icon-house" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M32 120L128 32L224 120"/><path d="M56 104V216H200V104"/><path d="M104 216V144H152V216"/></symbol>
+    <symbol id="icon-heart-break" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M128 216C128 216 32 160 32 96C32 64 56 40 88 40C108 40 124 50 128 64C132 50 148 40 168 40C200 40 224 64 224 96C224 160 128 216 128 216Z"/><path d="M128 64L96 128H144L112 192"/></symbol>
+    <symbol id="icon-cat" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M48 80L32 48L64 64C80 48 104 40 128 40C152 40 176 48 192 64L224 48L208 80C216 96 220 116 220 136C220 184 180 224 128 224C76 224 36 184 36 136C36 116 40 96 48 80Z"/><circle cx="96" cy="128" r="8"/><circle cx="160" cy="128" r="8"/><path d="M96 168C104 176 120 180 128 180C136 180 152 176 160 168"/><path d="M112 72L104 88"/><path d="M144 72L152 88"/></symbol>
+    <symbol id="icon-houses" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M72 104L120 64L168 104"/><path d="M56 96V184H136V96"/><path d="M144 120L184 88L224 120"/><path d="M160 112V200H224V112"/><path d="M32 184H160"/><path d="M88 184V144H104V184"/></symbol>
+    <symbol id="icon-chart-bar" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M32 208H224"/><rect x="56" y="120" width="32" height="88" rx="4"/><rect x="112" y="72" width="32" height="136" rx="4"/><rect x="168" y="104" width="32" height="104" rx="4"/></symbol>
+    <symbol id="icon-paw-print" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="128" cy="168" rx="48" ry="36"/><ellipse cx="64" cy="112" rx="20" ry="28"/><ellipse cx="104" cy="72" rx="20" ry="28"/><ellipse cx="152" cy="72" rx="20" ry="28"/><ellipse cx="192" cy="112" rx="20" ry="28"/></symbol>
+    <symbol id="icon-dog" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M48 80L32 48L64 64C80 48 104 40 128 40C152 40 176 48 192 64L224 48L208 80C216 96 220 116 220 136C220 184 180 224 128 224C76 224 36 184 36 136C36 116 40 96 48 80Z"/><circle cx="96" cy="128" r="8"/><circle cx="160" cy="128" r="8"/><path d="M96 168C104 176 120 180 128 180C136 180 152 176 160 168"/><path d="M112 72L104 88"/><path d="M144 72L152 88"/></symbol>
+    <symbol id="icon-chart-line-up" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M32 208H224"/><path d="M48 208V48"/><path d="M48 160L96 112L136 144L192 80"/><path d="M160 80H192V112"/></symbol>
+    <symbol id="icon-clipboard" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><rect x="56" y="48" width="144" height="176" rx="8"/><path d="M96 48V32C96 27.6 99.6 24 104 24H152C156.4 24 160 27.6 160 32V48"/><path d="M88 96H168"/><path d="M88 136H168"/><path d="M88 176H136"/></symbol>
+    <symbol id="icon-monitor" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><rect x="24" y="40" width="208" height="136" rx="8"/><path d="M96 216H160"/><path d="M128 176V216"/></symbol>
+    <symbol id="icon-wrench" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M216 144C216 188 180 224 136 224C92 224 56 188 56 144C56 112 76 84 104 72L136 104L168 72C196 84 216 112 216 144Z"/><path d="M136 104L168 72"/><circle cx="136" cy="144" r="16"/></symbol>
+    <symbol id="icon-note-pencil" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M48 40H176L216 80V200C216 213.3 205.3 224 192 224H48C34.7 224 24 213.3 24 200V64C24 50.7 34.7 40 48 40Z"/><path d="M176 40V80H216"/><path d="M72 128H144"/><path d="M72 168H128"/><path d="M184 144L224 184L184 224L144 184L184 144Z"/></symbol>
+    <symbol id="icon-device-mobile" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><rect x="64" y="24" width="128" height="208" rx="16"/><path d="M112 200H144"/></symbol>
+    <symbol id="icon-envelope" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><rect x="24" y="56" width="208" height="144" rx="8"/><path d="M24 72L128 144L232 72"/></symbol>
+    <symbol id="icon-map-pin" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M128 24C88 24 56 56 56 96C56 144 128 232 128 232C128 232 200 144 200 96C200 56 168 24 128 24Z"/><circle cx="128" cy="96" r="24"/></symbol>
+  </defs>
+</svg>
+<!-- 统一图标样式 -->
+<style>
+  .icon { display:inline-block; vertical-align:middle; width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:16; stroke-linecap:round; stroke-linejoin:round; }
+  .icon-sm { width:14px; height:14px; }
+  .icon-md { width:20px; height:20px; }
+  .icon-lg { width:28px; height:28px; }
+  .icon-xl { width:36px; height:36px; }
+</style>
 <nav>
   <div class="logo"><span class="dot"></span>PetLoop</div>
   <div class="nav-links">
-    <a href="#problem">问题定义</a><a href="#research">用户研究</a><a href="#needs">需求分析</a><a href="#prd">PRD</a><a href="#design">产品设计</a><a href="#validation">验证迭代</a><a href="https://chloemmmmm.github.io/PetLoop-Design-Portfolio/demo/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;cursor:pointer;pointer-events:auto;position:relative;z-index:1001;text-decoration:none">🔗 Demo网站</a>
+    <a href="#problem">问题定义</a><a href="#research">用户研究</a><a href="#needs">需求分析</a><a href="#prd">PRD</a><a href="#design">产品设计</a><a href="#validation">验证迭代</a><a href="https://chloemmmmm.github.io/PetLoop-Design-Portfolio/demo/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;cursor:pointer;pointer-events:auto;position:relative;z-index:1001;text-decoration:none"><svg class="icon icon-md"><use href="#icon-link"/></svg> Demo网站</a>
   </div>
   <div class="role" style="cursor:pointer" onclick="document.getElementById('resumeModal').style.display='flex'">产品负责人 · 点击查看简历</div>
 </nav>
@@ -489,8 +535,8 @@ section#needs .ice-table td:first-child {
       <div class="item"><span class="num">SSCI</span><span class="label">Q1期刊二审</span></div>
     </div>
     <div class="hero-cta rv">
-      <a href="#research" class="btn btn-primary">查看用户研究 →</a>
-      <a href="https://aka.doubaocdn.com/s/8BtOTFbMtE" download="PetLoop_PRD_V1.3_等线字体版.docx" class="btn btn-ghost" style="pointer-events:auto;position:relative;z-index:10">📄 PRD下载</a>
+      <a href="#research" class="btn btn-primary">查看用户研究 <svg class="icon"><use href="#icon-arrow-right"/></svg></a>
+      <a href="https://aka.doubaocdn.com/s/8BtOTFbMtE" download="PetLoop_PRD_V1.3_等线字体版.docx" class="btn btn-ghost" style="pointer-events:auto;position:relative;z-index:10"><svg class="icon icon-md"><use href="#icon-file-text"/></svg> PRD下载</a>
     </div>
   </div>
   <div class="hero-visual">
@@ -512,7 +558,7 @@ section#needs .ice-table td:first-child {
         <div class="tl-item"><span class="tl-time">刚刚</span><span class="tl-dot" style="background:#6B8A63"></span><span class="tl-text">安抚互动已完成</span></div>
       </div>
     </div>
-    <a href="https://chloemmmmm.github.io/PetLoop-Design-Portfolio/demo/" target="_blank" class="hero-badge" style="text-decoration:none;cursor:pointer;display:block">Demo: <strong>chloemmmmm.github.io/PetLoop</strong> ↗</a>
+    <a href="https://chloemmmmm.github.io/PetLoop-Design-Portfolio/demo/" target="_blank" class="hero-badge" style="text-decoration:none;cursor:pointer;display:block">Demo: <strong>chloemmmmm.github.io/PetLoop</strong> <svg class="icon icon-sm"><use href="#icon-arrow-up-right"/></svg></a>
   </div>
 
 
@@ -530,7 +576,7 @@ section#needs .ice-table td:first-child {
   <div class="sec-head rv">
     <div class="sec-num">01 / Problem</div>
     <h2 class="sec-title">用户要的不是"看到"，是"互动"</h2>
-    <p class="sec-desc">现有设备停留在"监看"层面（满意度仅2.8-3.5/5），缺乏<strong style="color:var(--accent)">感知→回应</strong>的情感闭环。</p>
+    <p class="sec-desc">现有设备停留在"监看"层面（满意度仅2.8-3.5/5），缺乏<strong style="color:var(--accent)">感知<svg class="icon"><use href="#icon-arrow-right"/></svg>回应</strong>的情感闭环。</p>
   </div>
   <div class="problem-grid">
     <div class="problem-text rv">
@@ -587,25 +633,25 @@ section#needs .ice-table td:first-child {
       <p>用户的真实需求不是"知道宠物在做什么"，而是"和宠物产生真实的双向互动"。现有监控摄像头只能提供"安全感"，但无法提供"陪伴感"——用户能看到宠物，但宠物看不到用户，这种单向连接反而加剧了分离焦虑。</p>
       <div class="quote">"我上班时会反复打开监控看它，但每次看到它趴在门口等我，我就更难受了。我能看到它，但它看不到我，这种感觉很无力。"<br><br>— 受访者P03，养猫2年，互联网运营</div>
       <div style="margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-sm)">
-        <h4 style="font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:6px">💡 三大核心痛点</h4>
+        <h4 style="font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:6px"><svg class="icon icon-md"><use href="#icon-lightbulb"/></svg> 三大核心痛点</h4>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
           <div style="background:linear-gradient(135deg,rgba(201,104,46,.08),rgba(201,104,46,.02));border-radius:var(--radius);padding:20px;border-top:3px solid var(--accent);text-align:center">
-            <div style="font-size:36px;margin-bottom:10px">🔇</div>
+            <div style="font-size:36px;margin-bottom:10px"><svg class="icon icon-xl"><use href="#icon-speaker-slash"/></svg></div>
             <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px">单向连接</div>
             <div style="font-size:12px;color:var(--ink-soft);line-height:1.6">能看到宠物但宠物看不到主人，反而加剧分离焦虑</div>
-            <div style="margin-top:10px;font-size:11px;color:var(--primary);font-weight:600;background:rgba(61,90,62,.08);padding:4px 8px;border-radius:4px;display:inline-block">→ PetLoop：桌面机器人双向互动</div>
+            <div style="margin-top:10px;font-size:11px;color:var(--primary);font-weight:600;background:rgba(61,90,62,.08);padding:4px 8px;border-radius:4px;display:inline-block"><svg class="icon"><use href="#icon-arrow-right"/></svg> PetLoop：桌面机器人双向互动</div>
           </div>
           <div style="background:linear-gradient(135deg,rgba(201,104,46,.08),rgba(201,104,46,.02));border-radius:var(--radius);padding:20px;border-top:3px solid var(--accent);text-align:center">
-            <div style="font-size:36px;margin-bottom:10px">❓</div>
+            <div style="font-size:36px;margin-bottom:10px"><svg class="icon icon-xl"><use href="#icon-question"/></svg></div>
             <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px">无法判断</div>
             <div style="font-size:12px;color:var(--ink-soft);line-height:1.6">不知道宠物是在玩耍还是焦虑，缺乏情绪状态的量化理解</div>
-            <div style="margin-top:10px;font-size:11px;color:var(--primary);font-weight:600;background:rgba(61,90,62,.08);padding:4px 8px;border-radius:4px;display:inline-block">→ PetLoop：多模态AI情绪识别</div>
+            <div style="margin-top:10px;font-size:11px;color:var(--primary);font-weight:600;background:rgba(61,90,62,.08);padding:4px 8px;border-radius:4px;display:inline-block"><svg class="icon"><use href="#icon-arrow-right"/></svg> PetLoop：多模态AI情绪识别</div>
           </div>
           <div style="background:linear-gradient(135deg,rgba(201,104,46,.08),rgba(201,104,46,.02));border-radius:var(--radius);padding:20px;border-top:3px solid var(--accent);text-align:center">
-            <div style="font-size:36px;margin-bottom:10px">❌</div>
+            <div style="font-size:36px;margin-bottom:10px"><svg class="icon icon-xl"><use href="#icon-x"/></svg></div>
             <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px">互动失败</div>
             <div style="font-size:12px;color:var(--ink-soft);line-height:1.6">语音延迟大、宠物无反应，远程互动体验差强人意</div>
-            <div style="margin-top:10px;font-size:11px;color:var(--primary);font-weight:600;background:rgba(61,90,62,.08);padding:4px 8px;border-radius:4px;display:inline-block">→ PetLoop：低延迟具身机器人反馈</div>
+            <div style="margin-top:10px;font-size:11px;color:var(--primary);font-weight:600;background:rgba(61,90,62,.08);padding:4px 8px;border-radius:4px;display:inline-block"><svg class="icon"><use href="#icon-arrow-right"/></svg> PetLoop：低延迟具身机器人反馈</div>
           </div>
         </div>
       </div>
@@ -682,7 +728,7 @@ section#needs .ice-table td:first-child {
         
         <!-- 标题 -->
         <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;position:relative;z-index:1">
-          <div style="width:48px;height:48px;background:linear-gradient(135deg,#E8A87C,#C9682E);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 6px 20px rgba(201,104,46,.35)">🎯</div>
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,#E8A87C,#C9682E);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 6px 20px rgba(201,104,46,.35)"><svg class="icon icon-md"><use href="#icon-target"/></svg></div>
           <div>
             <h4 style="font-size:20px;font-weight:800;color:#fff;margin:0;letter-spacing:-.3px">机会空间定位</h4>
             <p style="font-size:13px;color:rgba(255,255,255,.55);margin:3px 0 0">基于竞品分析与用户痛点，识别市场空白</p>
@@ -700,7 +746,7 @@ section#needs .ice-table td:first-child {
             </div>
             <div style="padding:20px 22px">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-                <span style="font-size:20px">📉</span>
+                <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-chart-line-down"/></svg></span>
                 <span style="font-size:15px;font-weight:700;color:#FFB088">市场拥挤区</span>
               </div>
               <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:14px;letter-spacing:-.3px">监看 + 喂食</div>
@@ -724,7 +770,7 @@ section#needs .ice-table td:first-child {
             <div style="position:absolute;top:50%;left:0;right:0;height:3px;background:linear-gradient(90deg,rgba(232,168,124,.4),rgba(255,255,255,.6),rgba(168,213,162,.4));transform:translateY(-50%)"></div>
             <div style="width:64px;height:64px;background:linear-gradient(135deg,#fff,#f0f0f0);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,.25);position:relative;z-index:2;border:3px solid rgba(255,255,255,.8)">
               <span style="font-size:10px;font-weight:800;color:#C9682E;letter-spacing:.05em;margin-bottom:2px">PetLoop</span>
-              <span style="font-size:22px;color:#333;line-height:1">→</span>
+              <span style="font-size:22px;color:#333;line-height:1"><svg class="icon"><use href="#icon-arrow-right"/></svg></span>
             </div>
           </div>
           
@@ -734,11 +780,11 @@ section#needs .ice-table td:first-child {
             <div style="height:240px;overflow:hidden;background:#fff;position:relative">
               <img src="https://aka.doubaocdn.com/s/16tXnMxTEY" alt="蓝海机会" style="width:100%;height:100%;object-fit:cover;display:block;opacity:.95;object-position:center">
               <div style="position:absolute;top:12px;left:12px;background:rgba(107,138,99,.9);color:#fff;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.05em">BLUE OCEAN</div>
-              <div style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.95);color:#6B8A63;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700">✨ 唯一</div>
+              <div style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.95);color:#6B8A63;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> 唯一</div>
             </div>
             <div style="padding:20px 22px">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-                <span style="font-size:20px">🚀</span>
+                <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-rocket"/></svg></span>
                 <span style="font-size:15px;font-weight:700;color:#B8E8B4">机会空白区</span>
               </div>
               <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:14px;letter-spacing:-.3px">情感交互 + 状态理解</div>
@@ -784,7 +830,7 @@ section#needs .ice-table td:first-child {
   <div class="sec-head rv">
     <div class="sec-num">02 / Research</div>
     <h2 class="sec-title">用户研究：从假设到证据</h2>
-    <p class="sec-desc">探索性序贯混合方法：<strong style="color:var(--primary)">8场访谈</strong> 提炼需求 → <strong style="color:var(--accent)">126份问卷</strong> 量化验证 → <strong style="color:#4A7C9B">K-means聚类</strong> 3类画像 + <strong style="color:#9B6B4A">因子分析</strong> 4维度（KMO=0.78）</p>
+    <p class="sec-desc">探索性序贯混合方法：<strong style="color:var(--primary)">8场访谈</strong> 提炼需求 <svg class="icon"><use href="#icon-arrow-right"/></svg> <strong style="color:var(--accent)">126份问卷</strong> 量化验证 <svg class="icon"><use href="#icon-arrow-right"/></svg> <strong style="color:#4A7C9B">K-means聚类</strong> 3类画像 + <strong style="color:#9B6B4A">因子分析</strong> 4维度（KMO=0.78）</p>
   </div>
   <div class="research-methods">
     <div class="method-card rv"><div class="method-icon"><img src="https://aka.doubaocdn.com/s/nhVIPzmo0A" alt="深度访谈"></div><h4>深度访谈</h4><div class="method-count">8场 · 每场45-60分钟</div><p>最大差异抽样，半结构化访谈5模块提纲，双人独立编码（Kappa=0.79），第7场后达到信息饱和。提炼4项核心发现、12项关键需求。</p></div>
@@ -880,63 +926,63 @@ section#needs .ice-table td:first-child {
       <!-- 底部详细信息卡片 -->
       <div class="journey-details">
         <div class="journey-detail-card">
-          <div class="row-label">👤 用户行为</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">喂食、换水，和宠物告别</div>
           <div class="divider"></div>
-          <div class="row-label pain-row">⚠️ 核心痛点</div>
+          <div class="row-label pain-row"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
           <div class="row-content pain-row">知道宠物会孤单，但无能为力</div>
           <div class="divider"></div>
-          <div class="row-label opp-row">✨ PetLoop机会</div>
+          <div class="row-label opp-row"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
           <div class="row-content opp-row">设置今日陪伴计划</div>
         </div>
         <div class="journey-detail-card">
-          <div class="row-label">👤 用户行为</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">工作间隙打开监控查看</div>
           <div class="divider"></div>
-          <div class="row-label">⚠️ 核心痛点</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
           <div class="row-content pain-row">只能看到宠物在睡觉，无法互动</div>
           <div class="divider"></div>
-          <div class="row-label">✨ PetLoop机会</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
           <div class="row-content opp-row">情绪实时推送+轻量陪伴</div>
         </div>
         <div class="journey-detail-card">
-          <div class="row-label">👤 用户行为</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">边吃饭边看监控，尝试语音对讲</div>
           <div class="divider"></div>
-          <div class="row-label">⚠️ 核心痛点</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
           <div class="row-content pain-row">语音延迟大，宠物没反应，互动失败</div>
           <div class="divider"></div>
-          <div class="row-label">✨ PetLoop机会</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
           <div class="row-content opp-row">一键陪伴模式，低延迟互动</div>
         </div>
         <div class="journey-detail-card">
-          <div class="row-label">👤 用户行为</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">收到移动侦测提醒，紧张查看</div>
           <div class="divider"></div>
-          <div class="row-label">⚠️ 核心痛点</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
           <div class="row-content pain-row">不知道宠物是在玩还是焦虑，无法判断</div>
           <div class="divider"></div>
-          <div class="row-label">✨ PetLoop机会</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
           <div class="row-content opp-row">AI情绪判断+事件时间线</div>
         </div>
         <div class="journey-detail-card">
-          <div class="row-label">👤 用户行为</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">想着回家要陪宠物玩</div>
           <div class="divider"></div>
-          <div class="row-label">⚠️ 核心痛点</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
           <div class="row-content pain-row">想提前让宠物知道"我快回来了"</div>
           <div class="divider"></div>
-          <div class="row-label">✨ PetLoop机会</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
           <div class="row-content opp-row">回家预告功能</div>
         </div>
         <div class="journey-detail-card">
-          <div class="row-label">👤 用户行为</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">宠物扑过来，互动、喂食、玩耍</div>
           <div class="divider"></div>
-          <div class="row-label">⚠️ 核心痛点</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
           <div class="row-content pain-row">自己很累但有愧疚感，想补偿宠物</div>
           <div class="divider"></div>
-          <div class="row-label">✨ PetLoop机会</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
           <div class="row-content opp-row">今日陪伴报告+建议</div>
         </div>
       </div>
@@ -980,8 +1026,8 @@ section#needs .ice-table td:first-child {
       <div style="background:#fff;border-radius:12px;padding:20px;border:1px solid rgba(27,36,25,.1)">
   <!-- 四象限矩阵 -->
   <div class="matrix" style="height:380px;padding:16px;position:relative">
-    <div class="matrix-axis-x">实现难度 →</div>
-    <div class="matrix-axis-y">用户价值 →</div>
+    <div class="matrix-axis-x">实现难度 <svg class="icon"><use href="#icon-arrow-right"/></svg></div>
+    <div class="matrix-axis-y">用户价值 <svg class="icon"><use href="#icon-arrow-right"/></svg></div>
     <div class="matrix-grid">
       <div class="matrix-quad hl">
         <span class="q-label">高价值 × 低难度</span>
@@ -1050,7 +1096,7 @@ section#needs .ice-table td:first-child {
     <!-- 背景装饰 -->
     <div style="position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(201,104,46,.15) 0%,transparent 70%);border-radius:50%"></div>
     <h4 style="font-size:18px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:10px;color:#fff">
-      <span style="width:36px;height:36px;background:#C9682E;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">🎯</span>
+      <span style="width:36px;height:36px;background:#C9682E;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px"><svg class="icon icon-md"><use href="#icon-target"/></svg></span>
       产品决策 <span class="tag" style="background:#C9682E;padding:4px 12px;border-radius:12px;font-size:12px;color:#fff">MVP范围与版本规划</span>
     </h4>
     <p style="font-size:13px;color:rgba(255,255,255,.7);margin-bottom:24px;line-height:1.6">基于ICE评分与用户价值，分3阶段渐进式交付，每阶段设置Go/No-Go准入标准</p>
@@ -1147,7 +1193,7 @@ section#needs .ice-table td:first-child {
     <div class="story-card" style="border-left:4px solid var(--accent)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:20px">🏠</span>
+          <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-house"/></svg></span>
           <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">独居白领</span>
         </div>
         <span style="font-size:11px;font-weight:700;background:var(--accent);color:#fff;padding:3px 10px;border-radius:10px">P0 核心</span>
@@ -1158,7 +1204,7 @@ section#needs .ice-table td:first-child {
     <div class="story-card" style="border-left:4px solid var(--accent)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:20px">😰</span>
+          <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-heart-break"/></svg></span>
           <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">焦虑关注者</span>
         </div>
         <span style="font-size:11px;font-weight:700;background:var(--accent);color:#fff;padding:3px 10px;border-radius:10px">P0 核心</span>
@@ -1169,7 +1215,7 @@ section#needs .ice-table td:first-child {
     <div class="story-card p1" style="border-left:4px solid var(--primary)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:20px">🐱</span>
+          <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-cat"/></svg></span>
           <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">资深养宠者</span>
         </div>
         <span style="font-size:11px;font-weight:700;background:var(--primary);color:#fff;padding:3px 10px;border-radius:10px">P0 核心</span>
@@ -1180,7 +1226,7 @@ section#needs .ice-table td:first-child {
     <div class="story-card p1" style="border-left:4px solid var(--primary-light)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:20px">🏘️</span>
+          <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-houses"/></svg>️</span>
           <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">多猫家庭</span>
         </div>
         <span style="font-size:11px;font-weight:700;background:var(--primary-light);color:#fff;padding:3px 10px;border-radius:10px">P1 迭代</span>
@@ -1214,7 +1260,7 @@ section#needs .ice-table td:first-child {
           <li><strong>使用场景：</strong>宠物焦虑时远程安抚/互动</li>
           <li><strong>用户价值：</strong>现有产品最大的问题是"单向"——用户能看宠物，但宠物看不到用户。用户说"我看着它焦虑，我比它还焦虑"</li>
         </ul>
-      </td><td><ul class="acceptance"><li>系统根据当前情绪推荐互动模式（焦虑→安抚，平静→陪伴），用户一键确认，也可手动选</li><li>指令延迟P95≤500ms，支持中断重试（最多3次）；执行中显示实时状态</li><li>安抚模式时长可配置（默认3min，范围1-10min）；互动记录自动写入事件时间线</li><li>机器人动作缓慢可预测（&lt;15cm/s），避免宠物敏感的高频音（&gt;8kHz），音量≤60dB</li></ul></td>
+      </td><td><ul class="acceptance"><li>系统根据当前情绪推荐互动模式（焦虑<svg class="icon"><use href="#icon-arrow-right"/></svg>安抚，平静<svg class="icon"><use href="#icon-arrow-right"/></svg>陪伴），用户一键确认，也可手动选</li><li>指令延迟P95≤500ms，支持中断重试（最多3次）；执行中显示实时状态</li><li>安抚模式时长可配置（默认3min，范围1-10min）；互动记录自动写入事件时间线</li><li>机器人动作缓慢可预测（&lt;15cm/s），避免宠物敏感的高频音（&gt;8kHz），音量≤60dB</li></ul></td>
         </tr>
         <tr>
           <td class="req-id">FR-003</td>
@@ -1290,7 +1336,7 @@ section#needs .ice-table td:first-child {
     <div style="padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between">
       <div>
         <h4 style="font-size:15px;font-weight:700;margin:0">产品设计框架：从跨物种解读鸿沟到具身反馈闭环</h4>
-        <p style="font-size:11px;color:var(--muted);margin:4px 0 0">四阶段设计逻辑：问题定义 → 多模态感知 → 具身机器人反馈 → 评估与用户理解</p>
+        <p style="font-size:11px;color:var(--muted);margin:4px 0 0">四阶段设计逻辑：问题定义 <svg class="icon"><use href="#icon-arrow-right"/></svg> 多模态感知 <svg class="icon"><use href="#icon-arrow-right"/></svg> 具身机器人反馈 <svg class="icon"><use href="#icon-arrow-right"/></svg> 评估与用户理解</p>
       </div>
       <span style="font-size:11px;padding:4px 10px;background:rgba(61,90,62,.1);color:var(--primary);border-radius:4px;font-weight:600">核心设计框架</span>
     </div>
@@ -1356,14 +1402,14 @@ section#needs .ice-table td:first-child {
         <div class="src-acc">单模态准确率 68.9% · 单模态最低</div>
         <p>时间/主人在场/互动频率/环境变化等情境变量</p>
         <div class="src-detail">
-          <strong>优势：</strong>约束解释范围，帮助定位状态触发原因（如主人离开→孤独、雷声→焦虑）<br>
+          <strong>优势：</strong>约束解释范围，帮助定位状态触发原因（如主人离开<svg class="icon"><use href="#icon-arrow-right"/></svg>孤独、雷声<svg class="icon"><use href="#icon-arrow-right"/></svg>焦虑）<br>
           <strong>局限：</strong>仅提供间接证据，不直接捕捉狗的行为/运动/声音；单独使用准确率最低<br>
-          <strong>最佳场景：</strong>结合其他模态，消除歧义（如低活动+主人不在→孤独 vs 低活动+深夜→平静）
+          <strong>最佳场景：</strong>结合其他模态，消除歧义（如低活动+主人不在<svg class="icon"><use href="#icon-arrow-right"/></svg>孤独 vs 低活动+深夜<svg class="icon"><use href="#icon-arrow-right"/></svg>平静）
         </div>
       </div>
     </div>
     <div style="background:var(--primary);color:#fff;padding:16px 24px;border-radius:var(--radius);font-size:13px;line-height:1.7">
-      <strong>💡 核心设计决策：</strong>4种信息源各有盲区，单独使用准确率68.9%-76.9%；多模态融合显著提升识别准确率与稳定性，尤其在Anxious/Lonely等难判类别上提升最显著（实验数据见验证部分）。这就是PetLoop采用多模态感知架构的核心依据。
+      <strong><svg class="icon icon-md"><use href="#icon-lightbulb"/></svg> 核心设计决策：</strong>4种信息源各有盲区，单独使用准确率68.9%-76.9%；多模态融合显著提升识别准确率与稳定性，尤其在Anxious/Lonely等难判类别上提升最显著（实验数据见验证部分）。这就是PetLoop采用多模态感知架构的核心依据。
     </div>
   </div>
 
@@ -1371,7 +1417,7 @@ section#needs .ice-table td:first-child {
     <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px;overflow:hidden">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
         <h4 style="font-size:16px;font-weight:700">系统架构图 · 人宠情感闭环全链路</h4>
-        <span style="font-size:12px;color:var(--muted)">主人端 ↔ 桌面机器人 ↔ 宠物端 ↔ AI情绪判定</span>
+        <span style="font-size:12px;color:var(--muted)">主人端 <svg class="icon icon-md"><use href="#icon-arrows-left-right"/></svg> 桌面机器人 <svg class="icon icon-md"><use href="#icon-arrows-left-right"/></svg> 宠物端 <svg class="icon icon-md"><use href="#icon-arrows-left-right"/></svg> AI情绪判定</span>
       </div>
       <img src="https://aka.doubaocdn.com/s/6jOL2VxMJF" alt="PetLoop系统架构图" style="width:85%;max-width:1000px;margin:0 auto;display:block;border-radius:var(--radius);border:1px solid var(--line)">
     </div>
@@ -1404,7 +1450,7 @@ section#needs .ice-table td:first-child {
         </div>
       </div>
       <div class="robot-mapping">
-        <h5>🤖 机器人反馈映射</h5>
+        <h5><svg class="icon icon-md"><use href="#icon-robot"/></svg> 机器人反馈映射</h5>
         <div class="mapping-row"><span class="mapping-label">运动强度</span><span class="mapping-value">低 · 缓慢呼吸式起伏</span></div>
         <div class="mapping-row"><span class="mapping-label">姿势</span><span class="mapping-value">放松低位，头部微低</span></div>
         <div class="mapping-row"><span class="mapping-label">交互时长</span><span class="mapping-value">长 · 持续陪伴模式</span></div>
@@ -1430,7 +1476,7 @@ section#needs .ice-table td:first-child {
         </div>
       </div>
       <div class="robot-mapping">
-        <h5>🤖 机器人反馈映射</h5>
+        <h5><svg class="icon icon-md"><use href="#icon-robot"/></svg> 机器人反馈映射</h5>
         <div class="mapping-row"><span class="mapping-label">运动强度</span><span class="mapping-value">高 · 快速摆动/旋转</span></div>
         <div class="mapping-row"><span class="mapping-label">姿势</span><span class="mapping-value">高位抬头，前倾</span></div>
         <div class="mapping-row"><span class="mapping-label">交互时长</span><span class="mapping-value">中 · 玩耍模式</span></div>
@@ -1456,7 +1502,7 @@ section#needs .ice-table td:first-child {
         </div>
       </div>
       <div class="robot-mapping">
-        <h5>🤖 机器人反馈映射</h5>
+        <h5><svg class="icon icon-md"><use href="#icon-robot"/></svg> 机器人反馈映射</h5>
         <div class="mapping-row"><span class="mapping-label">运动强度</span><span class="mapping-value">低 · 缓慢靠近，不突然移动</span></div>
         <div class="mapping-row"><span class="mapping-label">姿势</span><span class="mapping-value">低位，侧身（非正面威胁）</span></div>
         <div class="mapping-row"><span class="mapping-label">交互时长</span><span class="mapping-value">长 · 安抚模式，持续存在</span></div>
@@ -1482,7 +1528,7 @@ section#needs .ice-table td:first-child {
         </div>
       </div>
       <div class="robot-mapping">
-        <h5>🤖 机器人反馈映射</h5>
+        <h5><svg class="icon icon-md"><use href="#icon-robot"/></svg> 机器人反馈映射</h5>
         <div class="mapping-row"><span class="mapping-label">运动强度</span><span class="mapping-value">极低 · 静止，仅头部微动</span></div>
         <div class="mapping-row"><span class="mapping-label">姿势</span><span class="mapping-value">直立，头部转向刺激源</span></div>
         <div class="mapping-row"><span class="mapping-label">交互时长</span><span class="mapping-value">短 · 观察模式，不干扰</span></div>
@@ -1508,7 +1554,7 @@ section#needs .ice-table td:first-child {
         </div>
       </div>
       <div class="robot-mapping">
-        <h5>🤖 机器人反馈映射</h5>
+        <h5><svg class="icon icon-md"><use href="#icon-robot"/></svg> 机器人反馈映射</h5>
         <div class="mapping-row"><span class="mapping-label">运动强度</span><span class="mapping-value">中 · 主动接近宠物，缓慢跟随</span></div>
         <div class="mapping-row"><span class="mapping-label">姿势</span><span class="mapping-value">亲近位，靠近宠物身旁</span></div>
         <div class="mapping-row"><span class="mapping-label">交互时长</span><span class="mapping-value">长 · 陪伴模式，模拟主人存在</span></div>
@@ -1527,7 +1573,7 @@ section#needs .ice-table td:first-child {
         <div class="f-tag">P0 · 核心功能</div>
         <h4>宠物情绪实时可视化</h4>
         <p>5种基础情绪（Calm平静/Excited兴奋/Anxious焦虑/Alert警觉/Lonely孤独）+ 活动量/声音强度两个辅助维度，用颜色和图标直观呈现。</p>
-        <div class="decision"><strong>关键决策：</strong>不直接显示"AI判断结果"，而是展示"信号→推断→证据"的可追溯链路，降低用户对AI准确性的不信任。低置信度时不强行判断。</div>
+        <div class="decision"><strong>关键决策：</strong>不直接显示"AI判断结果"，而是展示"信号<svg class="icon"><use href="#icon-arrow-right"/></svg>推断<svg class="icon"><use href="#icon-arrow-right"/></svg>证据"的可追溯链路，降低用户对AI准确性的不信任。低置信度时不强行判断。</div>
       </div>
     </div>
     <div class="feature-card rv">
@@ -1569,11 +1615,11 @@ section#needs .ice-table td:first-child {
   <div class="sec-head rv">
     <div class="sec-num">06 / Validation</div>
     <h2 class="sec-title">验证与迭代：数据驱动的产品优化</h2>
-    <p class="sec-desc"><strong style="color:var(--primary)">30人实验</strong> + <strong style="color:var(--accent)">5人可用性</strong> + <strong style="color:#4A7C9B">5只宠物测试</strong> → 3轮迭代，SUS 62→78（+25.8%）</p>
+    <p class="sec-desc"><strong style="color:var(--primary)">30人实验</strong> + <strong style="color:var(--accent)">5人可用性</strong> + <strong style="color:#4A7C9B">5只宠物测试</strong> <svg class="icon"><use href="#icon-arrow-right"/></svg> 3轮迭代，SUS 62<svg class="icon"><use href="#icon-arrow-right"/></svg>78（+25.8%）</p>
   </div>
   <div class="validation-grid">
     <div class="test-card rv">
-      <h3><span class="icon">🧪</span>受控实验 · 30人被试内设计</h3>
+      <h3><span class="icon"><svg class="icon icon-md"><use href="#icon-test-tube"/></svg></span>受控实验 · 30人被试内设计</h3>
       <div class="test-metrics">
         <div class="test-metric"><div class="val">89.6<span class="unit">%</span></div><div class="lbl">多模态识别准确率</div></div>
         <div class="test-metric"><div class="val">76.9<span class="unit">%</span></div><div class="lbl">最优单模态(IMU)</div></div>
@@ -1581,7 +1627,7 @@ section#needs .ice-table td:first-child {
         <div class="test-metric"><div class="val">p<.001</div><div class="lbl">统计显著性</div></div>
       </div>
       <div class="accuracy-chart">
-        <div class="chart-title">📊 5种信息条件识别准确率对比</div>
+        <div class="chart-title"><svg class="icon icon-md"><use href="#icon-chart-bar"/></svg> 5种信息条件识别准确率对比</div>
         <div class="chart-sub">30人被试内实验 · 拉丁方平衡顺序 · 多模态融合显著优于单模态（F(4,116)=32.47, p<.001, η²=.53）</div>
         <div class="accuracy-bars">
           <div class="accuracy-bar highlight">
@@ -1614,7 +1660,7 @@ section#needs .ice-table td:first-child {
       </ul>
     </div>
     <div class="test-card rv">
-      <h3><span class="icon">🐾</span>宠物行为测试（5只 · 3狗2猫）</h3>
+      <h3><span class="icon"><svg class="icon icon-md"><use href="#icon-paw-print"/></svg></span>宠物行为测试（5只 · 3狗2猫）</h3>
       <div class="test-metrics">
         <div class="test-metric"><div class="val">80<span class="unit">%</span></div><div class="lbl">设备接受度</div></div>
         <div class="test-metric"><div class="val">72<span class="unit">%</span></div><div class="lbl">互动响应率</div></div>
@@ -1631,11 +1677,11 @@ section#needs .ice-table td:first-child {
         <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">狗 vs 猫 穿戴适应时间对比</div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600">🐕 狗（3只）</span><span style="font-weight:700;color:var(--primary)">7.7 分钟</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600"><svg class="icon icon-md"><use href="#icon-dog"/></svg> 狗（3只）</span><span style="font-weight:700;color:var(--primary)">7.7 分钟</span></div>
             <div style="height:14px;background:var(--canvas-2);border-radius:4px;overflow:hidden"><div style="width:44%;height:100%;background:linear-gradient(90deg,var(--primary),#4A6B45);border-radius:4px"></div></div>
           </div>
           <div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600">🐈 猫（2只）</span><span style="font-weight:700;color:var(--accent)">17.5 分钟</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600"><svg class="icon icon-md"><use href="#icon-cat"/></svg> 猫（2只）</span><span style="font-weight:700;color:var(--accent)">17.5 分钟</span></div>
             <div style="height:14px;background:var(--canvas-2);border-radius:4px;overflow:hidden"><div style="width:100%;height:100%;background:linear-gradient(90deg,var(--accent),#A05020);border-radius:4px"></div></div>
           </div>
         </div>
@@ -1646,7 +1692,7 @@ section#needs .ice-table td:first-child {
   <div class="rv" style="margin-top:32px">
     <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-        <div style="width:40px;height:40px;border-radius:10px;background:rgba(201,104,46,.1);display:flex;align-items:center;justify-content:center;font-size:20px">🧪</div>
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(201,104,46,.1);display:flex;align-items:center;justify-content:center;font-size:20px"><svg class="icon icon-md"><use href="#icon-test-tube"/></svg></div>
         <div>
           <h3 style="font-size:18px;font-weight:700">机器人反馈映射先导实验 · 8人</h3>
           <p style="font-size:12px;color:var(--muted)">正式实验前的预验证，确保5种状态的机器人运动表达可被用户识别</p>
@@ -1680,7 +1726,7 @@ section#needs .ice-table td:first-child {
     <h3>三轮产品迭代记录</h3>
     <!-- 迭代前后对比可视化 -->
     <div style="background:linear-gradient(135deg,rgba(61,90,62,.05),rgba(201,104,46,.05));border-radius:var(--radius);padding:20px;margin-bottom:24px;border:1px solid var(--line)">
-      <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em">📈 迭代前后关键指标对比</div>
+      <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em"><svg class="icon icon-md"><use href="#icon-chart-line-up"/></svg> 迭代前后关键指标对比</div>
       <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center">
         <!-- 迭代前 V1 -->
         <div style="text-align:center;padding:16px;background:rgba(155,155,155,.08);border-radius:var(--radius)">
@@ -1696,7 +1742,7 @@ section#needs .ice-table td:first-child {
         <div style="text-align:center">
           <div style="font-size:28px;color:var(--accent);font-weight:800;line-height:1">+25.8%</div>
           <div style="font-size:11px;color:var(--accent);font-weight:600;margin-top:4px">SUS提升</div>
-          <div style="font-size:24px;margin-top:8px">→</div>
+          <div style="font-size:24px;margin-top:8px"><svg class="icon"><use href="#icon-arrow-right"/></svg></div>
           <div style="font-size:10px;color:var(--muted);margin-top:4px">3轮迭代</div>
         </div>
         <!-- 迭代后 V3 -->
@@ -1744,10 +1790,10 @@ section#needs .ice-table td:first-child {
     <p class="sec-desc"><strong style="color:var(--primary)">Web Demo</strong> + <strong style="color:var(--accent)">硬件原型</strong> + <strong style="color:#4A7C9B">PRD文档</strong> + <strong style="color:#9B6B4A">SSCI Q1论文</strong>（Minor Revision）</p>
   </div>
   <div class="outcomes">
-    <div class="outcome-card rv"><div class="outcome-icon">📄</div><div><h4>学术论文 · 人因领域SSCI Q1在投</h4><p>Behaviour & Information Technology（人因领域SSCI Q1）在投，30人受控实验验证多模态+具身反馈框架，3项假设全部统计显著</p><div class="detail">→ 外审Minor Revision，第一作者</div></div></div>
-    <div class="outcome-card rv"><div class="outcome-icon">📋</div><div><h4>产品需求文档（PRD）</h4><p>12项核心需求的ICE优先级排序、MVP范围定义、功能规格、交互流程、验收标准</p><div class="detail">→ 研发可执行的产品规格</div></div></div>
-    <div class="outcome-card rv"><div class="outcome-icon">🖥️</div><div><h4>可交互Web Demo</h4><p>完整演示"感知-理解-决策-回应"闭环，含状态总览、互动控制台、事件时间线三大模块</p><div class="detail">→ chloemmmmm.github.io/PetLoop-Project</div></div></div>
-    <div class="outcome-card rv"><div class="outcome-icon">🔧</div><div><h4>硬件功能原型</h4><p>可穿戴背心（6种材质测试+传感器布局）、桌面机器人（四种互动模式动作执行）</p><div class="detail">→ 经过5只宠物真实行为测试验证</div></div></div>
+    <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-file-text"/></svg></div><div><h4>学术论文 · 人因领域SSCI Q1在投</h4><p>Behaviour & Information Technology（人因领域SSCI Q1）在投，30人受控实验验证多模态+具身反馈框架，3项假设全部统计显著</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> 外审Minor Revision，第一作者</div></div></div>
+    <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-clipboard"/></svg></div><div><h4>产品需求文档（PRD）</h4><p>12项核心需求的ICE优先级排序、MVP范围定义、功能规格、交互流程、验收标准</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> 研发可执行的产品规格</div></div></div>
+    <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-monitor"/></svg>️</div><div><h4>可交互Web Demo</h4><p>完整演示"感知-理解-决策-回应"闭环，含状态总览、互动控制台、事件时间线三大模块</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> chloemmmmm.github.io/PetLoop-Project</div></div></div>
+    <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-wrench"/></svg></div><div><h4>硬件功能原型</h4><p>可穿戴背心（6种材质测试+传感器布局）、桌面机器人（四种互动模式动作执行）</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> 经过5只宠物真实行为测试验证</div></div></div>
   </div>
   <div class="rv" style="margin-bottom:48px">
     <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden">
@@ -1756,7 +1802,7 @@ section#needs .ice-table td:first-child {
           <h4 style="font-size:16px;font-weight:700">可交互Web Demo · 在线体验</h4>
           <p style="font-size:12px;color:var(--muted);margin-top:2px">完整演示"感知-理解-决策-回应"闭环</p>
         </div>
-        <a href="https://chloemmmmm.github.io/PetLoop-Design-Portfolio/demo/" target="_blank" class="btn btn-primary" style="padding:10px 20px;font-size:13px">访问Demo →</a>
+        <a href="https://chloemmmmm.github.io/PetLoop-Design-Portfolio/demo/" target="_blank" class="btn btn-primary" style="padding:10px 20px;font-size:13px">访问Demo <svg class="icon"><use href="#icon-arrow-right"/></svg></a>
       </div>
       <img src="https://aka.doubaocdn.com/s/4Gxxikmtat" alt="PetLoop Demo网页首页" style="width:100%;display:block;object-fit:cover;max-height:400px">
     </div>
@@ -1771,7 +1817,7 @@ section#needs .ice-table td:first-child {
     </div>
   </div>
   <div class="resume-section rv">
-    <h3>📝 简历项目描述</h3>
+    <h3><svg class="icon icon-md"><use href="#icon-note-pencil"/></svg> 简历项目描述</h3>
     <p class="sub">PetLoop 人宠情感闭环系统 | 产品负责人 | 本科生智能硬件课程助教 | 2026.04 – 2026.06</p>
     <ul class="resume-bullets">
       <li><span class="arrow">▸</span><span class="text">主导从0到1的产品设计全流程，通过<strong>8场深度访谈+126份问卷+5款竞品分析</strong>，验证"远程情感陪伴"为都市养宠人群的强需求（<span class="highlight">75%用户存在分离焦虑</span>），提炼3类核心用户画像和完整用户旅程地图</span></li>
@@ -1787,7 +1833,7 @@ section#needs .ice-table td:first-child {
   <div class="foot-sub">产品设计作品集 · 从用户研究到产品交付的完整闭环</div>
   <div class="foot-links">
     <a href="#problem">问题定义</a><a href="#research">用户研究</a><a href="#needs">需求分析</a>
-    <a href="#design">产品设计</a><a href="#validation">验证迭代</a><a href="https://chloemmmmm.github.io/PetLoop-Design-Portfolio/demo/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;cursor:pointer;pointer-events:auto;position:relative;z-index:1001;text-decoration:none">🔗 Demo网站</a>
+    <a href="#design">产品设计</a><a href="#validation">验证迭代</a><a href="https://chloemmmmm.github.io/PetLoop-Design-Portfolio/demo/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;cursor:pointer;pointer-events:auto;position:relative;z-index:1001;text-decoration:none"><svg class="icon icon-md"><use href="#icon-link"/></svg> Demo网站</a>
   </div>
 </footer>
 
@@ -1883,7 +1929,7 @@ initCarousel('marketCarousel');
       <div style="margin-bottom:20px">
         <h3 style="font-size:14px;font-weight:700;color:#3D5A3E;margin:0 0 10px;text-transform:uppercase;letter-spacing:.05em">实习经历</h3>
         <div style="display:flex;flex-direction:column;gap:12px">
-          <div><div style="display:flex;justify-content:space-between"><strong style="font-size:13px">北京垣环教育科技 · 策略产品经理实习</strong><span style="font-size:12px;color:#999">2026.04-2026.08</span></div><p style="font-size:12px;line-height:1.6;color:#555;margin:4px 0 0">负责艺术设计教育产品从0到1策略制定，构建T0-T4分层服务模型与6条产品线定价策略。用户调研驱动4个版本迭代，谈单成功率30%→50%，服务21位学生，营收增长17.9%。</p></div>
+          <div><div style="display:flex;justify-content:space-between"><strong style="font-size:13px">北京垣环教育科技 · 策略产品经理实习</strong><span style="font-size:12px;color:#999">2026.04-2026.08</span></div><p style="font-size:12px;line-height:1.6;color:#555;margin:4px 0 0">负责艺术设计教育产品从0到1策略制定，构建T0-T4分层服务模型与6条产品线定价策略。用户调研驱动4个版本迭代，谈单成功率30%<svg class="icon"><use href="#icon-arrow-right"/></svg>50%，服务21位学生，营收增长17.9%。</p></div>
           <div><div style="display:flex;justify-content:space-between"><strong style="font-size:13px">四方股份 · 工业设计实习</strong><span style="font-size:12px;color:#999">2025.11-2026.01</span></div><p style="font-size:12px;line-height:1.6;color:#555;margin:4px 0 0">服务器机柜外观升级，Midjourney+SD+Magnific AI辅助方案迭代，团队输出8套方案中选率37.5%，3套通过客户评审。</p></div>
           <div><div style="display:flex;justify-content:space-between"><strong style="font-size:13px">宇树科技×北理工 · 机器人设计</strong><span style="font-size:12px;color:#999">2025.09-2025.11</span></div><p style="font-size:12px;line-height:1.6;color:#555;margin:4px 0 0">消费级四足机器宠物产品设计，负责外观造型与CMF设计，2套方案中1套被选中参赛。</p></div>
         </div>
@@ -1939,7 +1985,7 @@ initCarousel('marketCarousel');
       </div>
       <div style="display:flex;gap:12px;align-items:center;padding-top:16px;border-top:1px solid #eee">
         <a href="https://aka.doubaocdn.com/s/6X1U4s4by5" target="_blank" style="flex:1;text-align:center;padding:12px;background:#3D5A3E;color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600">下载完整简历 PDF</a>
-        <div style="font-size:12px;color:#999">📱 15562692993 · ✉️ 1710756188@qq.com · 📍 北京</div>
+        <div style="font-size:12px;color:#999"><svg class="icon icon-md"><use href="#icon-device-mobile"/></svg> 15562692993 · <svg class="icon icon-md"><use href="#icon-envelope"/></svg>️ 1710756188@qq.com · <svg class="icon icon-md"><use href="#icon-map-pin"/></svg> 北京</div>
       </div>
     </div>
   </div>
