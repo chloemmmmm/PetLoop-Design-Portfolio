@@ -11,18 +11,18 @@ export function PrototypeSection() {
         <div className="prototype__heading editorial-grid">
           <div>
             <p className="eyebrow">08 / PROTOTYPE & MAKING</p>
-            <h2>Making the loop tangible.</h2>
+            <h2>让闭环触手可及</h2>
           </div>
           <p>实体制作让 PetLoop 从系统设想落到具体的穿戴方式、材料、传感器整合与机器人结构。这里呈现的是原项目已有的制作过程，而非额外包装出的验证结果。</p>
         </div>
         <div className="prototype__media-grid">
           <figure className="source-figure">
             <img src={assetUrl(media.wearable.src)} alt={media.wearable.alt} loading="lazy" decoding="async" />
-            <figcaption>Wearable / pattern, material and wearing prototype</figcaption>
+            <figcaption>可穿戴设备 / pattern, material and wearing prototype</figcaption>
           </figure>
           <figure className="source-figure">
             <img src={assetUrl(media.robot.src)} alt={media.robot.alt} loading="lazy" decoding="async" />
-            <figcaption>Desktop Robot / components, assembly and interaction evolution</figcaption>
+            <figcaption>桌面机器人 / components, assembly and interaction evolution</figcaption>
           </figure>
         </div>
       </div>

@@ -10,8 +10,8 @@ export function SystemLoopSection() {
       <div className="site-shell">
         <div className="system-loop__intro editorial-grid">
           <div className="system-loop__heading">
-            <p className="eyebrow">05 / SYSTEM LOOP</p>
-            <h2>Sense. Interpret. Respond. Repeat.</h2>
+            <p className="eyebrow">05 / 系统闭环</p>
+            <h2>感知 · 理解 · 回应 · 循环</h2>
           </div>
           <p className="system-loop__lede">PetLoop 不是单向监测工具，而是从宠物出发、经过可穿戴采集与数据理解，再由主人和桌面机器人完成回应的闭环。</p>
         </div>

@@ -21,9 +21,9 @@
   --space-8: 7rem;
   --container: 1440px;
   --font-sans: Inter, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-  --display-xl: clamp(3.6rem, 10vw, 9.8rem);
-  --display-lg: clamp(2.8rem, 6vw, 6.6rem);
-  --display-md: clamp(2rem, 4vw, 4rem);
+  --display-xl: clamp(2.4rem, 6vw, 4.5rem);
+  --display-lg: clamp(2rem, 4.5vw, 3.5rem);
+  --display-md: clamp(1.5rem, 3vw, 2.5rem);
   --body-lg: clamp(1.05rem, 1.6vw, 1.35rem);
   --body: 1rem;
   --small: 0.82rem;

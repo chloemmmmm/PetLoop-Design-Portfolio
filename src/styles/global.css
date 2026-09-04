@@ -12,7 +12,7 @@ button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation
 .editorial-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(14px, 2vw, 28px); }
 .section { padding: var(--space-8) 0; }
 .eyebrow { margin: 0 0 12px; text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; color: var(--soft-grey); }
-.section-heading h2 { margin: 0; font-size: var(--display-md); line-height: .98; letter-spacing: -.035em; }
+.section-heading h2 { margin: 0; font-size: var(--display-md); line-height: 1.25; letter-spacing: -.02em; }
 .section-heading p { max-width: 720px; font-size: var(--body-lg); color: var(--soft-grey); }
 .media-frame { margin: 0; overflow: hidden; border-radius: var(--radius-lg); background: var(--mist); box-shadow: var(--shadow-soft); }
 .media-frame img { width: 100%; height: auto; }

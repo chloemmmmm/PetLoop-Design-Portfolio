@@ -10,9 +10,9 @@ export function OverviewSection() {
         </div>
         <p className="overview__summary">{projectContent.identity.summary}</p>
         <div className="project-facts" aria-label="Project focus">
-          <div><span>PHYSICAL</span><strong>Wearable Device</strong></div>
-          <div><span>DIGITAL</span><strong>PetLoop Console</strong></div>
-          <div><span>INTERACTION</span><strong>Desktop Robot</strong></div>
+          <div><span>物理层</span><strong>可穿戴设备 Device</strong></div>
+          <div><span>数字层</span><strong>PetLoop 控制台</strong></div>
+          <div><span>交互层</span><strong>桌面机器人</strong></div>
         </div>
       </div>
     </section>

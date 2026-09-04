@@ -6,7 +6,7 @@ export function ResearchSection() {
     <section className="section research" id="research">
       <div className="site-shell">
         <div className="research__intro editorial-grid">
-          <div className="research__heading"><SectionHeading eyebrow="04 / RESEARCH" title="From signals to context." subtitle="项目从行为、声音与运动等线索出发，探索如何把难以直接理解的宠物表达转为具有上下文的信息。" /></div>
+          <div className="research__heading"><SectionHeading eyebrow="04 / 用户研究" title="从信号到上下文" subtitle="项目从行为、声音与运动等线索出发，探索如何把难以直接理解的宠物表达转为具有上下文的信息。" /></div>
           <div className="method-tags" aria-label="Research methods"><span>Behavior</span><span>Sound</span><span>Motion</span><span>MFCC</span></div>
         </div>
         <div className="insight-list">

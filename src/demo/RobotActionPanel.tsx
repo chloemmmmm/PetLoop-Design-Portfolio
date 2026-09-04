@@ -10,18 +10,18 @@ type Props = {
 }
 
 const phaseCopy = (mode: RobotMode | null, phase: RobotPhase) => {
-  const label = robotModes.find((item) => item.id === mode)?.label ?? 'Response'
+  const label = robotModes.find((item) => item.id === mode)?.label ?? '回应'
   switch (phase) {
     case 'idle':
-      return 'Select a response mode'
+      return '选择回应模式'
     case 'selected':
-      return `${label} selected`
+      return `已选择 ${label}`
     case 'connecting':
-      return 'Connecting'
+      return '连接中'
     case 'active':
-      return `${label} mode activated`
+      return `${label} 模式已激活`
     case 'complete':
-      return 'Interaction recorded'
+      return '互动已记录'
   }
 }
 
@@ -33,8 +33,8 @@ export function RobotActionPanel({ mode, phase, onSelectMode, onSend, onReset }:
     <section className="robot-action-panel" aria-labelledby="robot-action-title">
       <div className="robot-action-panel__heading">
         <div>
-          <p>RESPONSE MODES</p>
-          <h2 id="robot-action-title">Choose how PetLoop responds</h2>
+          <p>回应模式</p>
+          <h2 id="robot-action-title">选择PetLoop如何回应</h2>
         </div>
         <span>Concept interaction · simulated response</span>
       </div>
@@ -51,20 +51,20 @@ export function RobotActionPanel({ mode, phase, onSelectMode, onSend, onReset }:
           >
             <span>{item.label}</span>
             <small>{item.description}</small>
-            <em>{mode === item.id ? 'Selected ✓' : 'Select mode'}</em>
+            <em>{mode === item.id ? '已选择 ✓' : '选择模式'}</em>
           </button>
         ))}
       </div>
 
       <div className="robot-status-card">
         <div>
-          <p>ROBOT STATUS</p>
+          <p>机器人状态</p>
           <strong aria-live="polite">{phaseCopy(mode, phase)}</strong>
           {selected && <span>{selected.description}</span>}
         </div>
         <div className="robot-status-card__actions">
           <button type="button" className="robot-send" onClick={onSend} disabled={!canSend}>
-            {selected ? `Send ${selected.label}` : 'Select a mode first'}
+            {selected ? `Send ${selected.label}` : '请先选择一个模式'}
           </button>
           {(phase === 'complete' || phase === 'selected') && (
             <button type="button" className="robot-reset" onClick={onReset}>Reset</button>

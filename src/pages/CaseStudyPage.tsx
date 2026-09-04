@@ -7,7 +7,7 @@ import { ReflectionSection } from '../sections/ReflectionSection'
 import { ResearchSection } from '../sections/ResearchSection'
 import { RobotSection } from '../sections/RobotSection'
 import { SystemLoopSection } from '../sections/SystemLoopSection'
-import { WearableSection } from '../sections/WearableSection'
+import { 可穿戴设备Section } from '../sections/可穿戴设备Section'
 import { WhySection } from '../sections/WhySection'
 import '../styles/case-study.css'
 
@@ -22,7 +22,7 @@ export function CaseStudyPage() {
         <WhySection />
         <ResearchSection />
         <SystemLoopSection />
-        <WearableSection />
+        <可穿戴设备Section />
         <RobotSection />
         <ProductExperienceSection />
         <PrototypeSection />

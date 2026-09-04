@@ -64,8 +64,8 @@
 
 .demo-intro h1 {
   margin: 0;
-  font-size: clamp(2.8rem, 6vw, 6.4rem);
-  line-height: .92;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.2;
   letter-spacing: -.055em;
 }
 
@@ -196,3 +196,339 @@
   .range-control { width: 100%; }
   .range-control button { flex: 1; }
 }
+
+/* ===== PetMonitor 宠物监控组件样式 ===== */
+.pet-monitor {
+  background: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.pet-monitor__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #2a2a2a;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.pet-monitor__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pet-monitor__info {
+  display: flex;
+  gap: 16px;
+  color: #999;
+  font-size: 12px;
+}
+
+.rec-dot {
+  width: 8px;
+  height: 8px;
+  background: #ff4444;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.rec-dot--blink {
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.pet-monitor__video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #000;
+}
+
+.pet-monitor__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.5s ease-in-out, filter 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.pet-monitor__image--loaded {
+  opacity: 1;
+}
+
+.pet-monitor__scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+}
+
+.pet-monitor__timestamp {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #fff;
+  font-size: 11px;
+  font-family: monospace;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.pet-monitor__time {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.pet-monitor__rec {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.pet-monitor__detection {
+  position: absolute;
+  transition: top 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+              width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+              height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.detection-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid #00ff00;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.detection-box::before,
+.detection-box::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #00ff00;
+}
+
+.detection-box::before {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.detection-box::after {
+  bottom: -2px;
+  right: -2px;
+  border-left: none;
+  border-top: none;
+}
+
+.detection-label {
+  position: absolute;
+  top: -24px;
+  left: -2px;
+  background: #00ff00;
+  color: #000;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 2px 2px 0 0;
+  white-space: nowrap;
+}
+
+.pet-monitor__env {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  gap: 12px;
+  color: #fff;
+  font-size: 11px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.pet-monitor__status {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.status-item {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  padding: 6px 10px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.status-label {
+  color: #999;
+  font-size: 10px;
+}
+
+.status-value {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-value--active {
+  color: #00ff00;
+}
+
+.status-value--animate {
+  animation: valueSlideIn 0.5s ease-out;
+}
+
+@keyframes valueSlideIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.pet-monitor__change-tip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 16px 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.pet-monitor__change-tip--animate {
+  animation: changeTipSlide 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes changeTipSlide {
+  0% { opacity: 0; transform: translate(-50%, -50%) translateY(-20px) scale(0.9); }
+  100% { opacity: 1; transform: translate(-50%, -50%) translateY(0) scale(1); }
+}
+
+.change-tip__icon {
+  font-size: 28px;
+  animation: iconBounce 1s ease-in-out infinite;
+}
+
+@keyframes iconBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.change-tip__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.change-tip__desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.pet-monitor__controls {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #2a2a2a;
+  border-top: 1px solid #3a3a3a;
+}
+
+.monitor-btn {
+  flex: 1;
+  padding: 8px 12px;
+  background: #3a3a3a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.monitor-btn:hover {
+  background: #4a4a4a;
+}
+
+.monitor-btn--active {
+  background: #ff4444;
+}
+
+.monitor-btn--active:hover {
+  background: #ff5555;
+}
+
+.pet-monitor__sync-tip {
+  padding: 8px 16px;
+  background: rgba(0, 255, 0, 0.1);
+  color: #00ff00;
+  font-size: 12px;
+  text-align: center;
+  animation: syncTipPulse 2s ease-in-out infinite;
+}
+
+@keyframes syncTipPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.pet-monitor__mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  padding: 3px 8px;
+  background: linear-gradient(135deg, #42543A, #5B8C5A);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  animation: badgePop 0.4s ease-out;
+}
+
+@keyframes badgePop {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+

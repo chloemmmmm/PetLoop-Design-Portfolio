@@ -2,7 +2,7 @@ import { projectContent } from '../data/project'
 
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`
 
-export function WearableSection() {
+export function 可穿戴设备Section() {
   const { wearable, media } = projectContent
 
   return (
@@ -13,7 +13,7 @@ export function WearableSection() {
           <h2>{wearable.title}</h2>
           <p>{wearable.text}</p>
           <div className="decision-note">
-            <span>DESIGN FOCUS</span>
+            <span>设计重点</span>
             <strong>Wearability · sensing · everyday use</strong>
           </div>
         </div>

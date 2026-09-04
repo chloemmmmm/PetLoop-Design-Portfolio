@@ -17,7 +17,7 @@ export function RobotSection() {
           <h2>{robot.title}</h2>
           <p>{robot.text}</p>
           <div className="decision-note">
-            <span>INTERACTION EVOLUTION</span>
+            <span>交互层 EVOLUTION</span>
             <strong>Mechanical structure → voice + screen terminal</strong>
           </div>
         </div>

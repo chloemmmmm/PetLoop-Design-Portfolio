@@ -16,7 +16,7 @@ export function ProductExperienceSection() {
         </div>
         <figure className="source-figure product-experience__media">
           <img src={assetUrl(media.ui.src)} alt={media.ui.alt} loading="lazy" decoding="async" />
-          <figcaption>Existing PetLoop Console and multi-device visual direction.</figcaption>
+          <figcaption>Existing PetLoop 控制台 and multi-device visual direction.</figcaption>
         </figure>
         <div className="product-experience__footer">
           <p>从状态总览到行为证据，再到远程回应，交互演示把这套闭环转成可操作的产品体验。</p>
