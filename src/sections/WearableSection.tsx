@@ -2,7 +2,7 @@ import { projectContent } from '../data/project'
 
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`
 
-export function 可穿戴设备Section() {
+export function WearableSection() {
   const { wearable, media } = projectContent
 
   return (

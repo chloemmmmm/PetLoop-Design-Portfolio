@@ -9,8 +9,8 @@ export const projectContent = {
   identity: {
     name: 'PetLoop',
     titleZh: '人宠情感闭环系统',
-    titleEn: 'HUMAN–PET EMOTIONAL LOOP',
-    positioning: 'Pet 可穿戴设备 × 桌面机器人 × Emotional Computing',
+    titleEn: '人宠情感闭环系统',
+    positioning: '宠物可穿戴设备 × 桌面机器人 × 情感计算',
     summary: '通过宠物可穿戴设备采集行为与状态线索，经数据处理转化为可理解的信息，再通过桌面机器人与主人侧界面形成“感知—理解—回应”的双向交互闭环。',
   },
   problems: [

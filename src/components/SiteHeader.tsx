@@ -5,7 +5,7 @@ const items = [
   ['研究', 'research'],
   ['系统', 'system'],
   ['产品', 'product'],
-  ['Prototype', 'prototype'],
+  ['原型', 'prototype'],
 ] as const
 
 export function SiteHeader({ onNavigate }: { onNavigate?: (id: string) => void }) {
