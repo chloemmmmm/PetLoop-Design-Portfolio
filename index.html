@@ -1177,7 +1177,7 @@ section#needs .ice-table td:first-child {
     <div class="prd-card">
       <div class="prd-label">成功指标</div>
       <ul class="metric-list">
-        <li><span>情绪识别准确率</span><span class="val">≥85%</span><span style="font-size:11px;color:var(--muted);display:block;margin-top:2px">基线：单模态最优76.9%，实际89.6%</span></li>
+        <li><span>情绪识别准确率</span><span class="val">≥85%</span><span style="font-size:11px;color:var(--muted);display:block;margin-top:2px">基线：单模态最优76.9%，实际89.6%，较最优单模态提升12.7个百分点</span></li>
         <li><span>互动指令延迟</span><span class="val">&lt;500ms</span></li>
         <li><span>7日用户留存</span><span class="val">≥40%</span></li>
         <li><span>SUS可用性评分</span><span class="val">≥75</span><span style="font-size:11px;color:var(--muted);display:block;margin-top:2px">基线：V1原型62分，实际78分</span></li>
@@ -1798,6 +1798,46 @@ section#needs .ice-table td:first-child {
   </div>
   <div class="outcomes">
     <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-file-text"/></svg></div><div><h4>学术论文 · 人因领域SSCI Q1在投</h4><p>Behaviour & Information Technology（人因领域SSCI Q1）在投，30人受控实验验证多模态+具身反馈框架，3项假设全部统计显著</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> 外审Minor Revision，第一作者</div></div></div>
+  <div class="rv" style="margin-top:32px">
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(61,90,62,.1);display:flex;align-items:center;justify-content:center;font-size:20px"><svg class="icon icon-md"><use href="#icon-cycle"/></svg></div>
+        <div>
+          <h3 style="font-size:18px;font-weight:700">3轮可用性迭代 · SUS 62 → 78（+25.8%）</h3>
+          <p style="font-size:12px;color:var(--muted)">每轮迭代基于用户反馈进行针对性优化，逐步提升产品可用性</p>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+        <div style="background:var(--canvas-2);border-radius:var(--radius);padding:20px;border-top:3px solid #C9682E">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <span style="background:#C9682E;color:#fff;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">第1轮</span>
+            <span style="font-size:20px;font-weight:800;color:#C9682E">SUS 62</span>
+          </div>
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:8px">初始原型测试</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.6">主要问题：情绪状态表达不直观、机器人交互反馈延迟、事件时间线信息过载。用户反馈"不知道宠物现在是什么情绪"、"机器人反应太慢"。</div>
+        </div>
+        <div style="background:var(--canvas-2);border-radius:var(--radius);padding:20px;border-top:3px solid #4A7C9B">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <span style="background:#4A7C9B;color:#fff;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">第2轮</span>
+            <span style="font-size:20px;font-weight:800;color:#4A7C9B">SUS 71</span>
+          </div>
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:8px">交互优化迭代</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.6">优化内容：增加情绪色彩编码（5种状态对应5种颜色）、优化机器人响应速度（延迟从2.3s降至0.8s）、简化时间线为关键事件摘要。用户反馈"现在能一眼看出宠物情绪了"。</div>
+        </div>
+        <div style="background:var(--canvas-2);border-radius:var(--radius);padding:20px;border-top:3px solid var(--primary)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <span style="background:var(--primary);color:#fff;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">第3轮</span>
+            <span style="font-size:20px;font-weight:800;color:var(--primary)">SUS 78</span>
+          </div>
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:8px">体验完善迭代</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.6">完善内容：增加异常情绪预警推送、优化可穿戴设备佩戴舒适度（重量从85g降至68g）、增加多宠物管理功能。用户反馈"产品已经可以日常使用了"，达到MVP上线标准。</div>
+        </div>
+      </div>
+      <div style="margin-top:20px;padding:14px 18px;background:rgba(61,90,62,.08);border-radius:var(--radius);border-left:3px solid var(--primary);font-size:12px;color:var(--ink-soft);line-height:1.7">
+        <strong>迭代结论：</strong>经过3轮针对性迭代，SUS评分从62提升至78（+25.8%），达到"良好可用性"标准（SUS≥70），验证了"数据驱动的快速迭代"产品方法论的有效性。第3轮迭代后产品达到MVP上线标准，可进入小范围用户测试阶段。
+      </div>
+    </div>
+  </div>
     <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-clipboard"/></svg></div><div><h4>产品需求文档（PRD）</h4><p>12项核心需求的ICE优先级排序、MVP范围定义、功能规格、交互流程、验收标准</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> 研发可执行的产品规格</div></div></div>
     <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-monitor"/></svg></div><div><h4>可交互Web Demo</h4><p>完整演示"感知-理解-决策-回应"闭环，含状态总览、互动控制台、事件时间线三大模块</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> chloemmmmm.github.io/PetLoop-Project</div></div></div>
     <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-wrench"/></svg></div><div><h4>硬件功能原型</h4><p>可穿戴背心（6种材质测试+传感器布局）、桌面机器人（四种互动模式动作执行）</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> 经过5只宠物真实行为测试验证</div></div></div>
