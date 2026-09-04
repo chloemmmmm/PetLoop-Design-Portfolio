@@ -228,7 +228,7 @@ section{position:relative;padding-block:80px}
 .product-flow{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:36px;margin-bottom:48px;box-shadow:var(--shadow-sm)}
 .flow-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
 .flow-step{text-align:center;padding:0 16px;position:relative}
-.flow-step:not(:last-child)::after{content:"<svg class="icon"><use href="#icon-arrow-right"/></svg>";position:absolute;right:-8px;top:36px;font-size:20px;color:var(--primary-light);z-index:1}
+.flow-step:not(:last-child)::after{content:"<svg class="icon"><use href="#icon-arrow-right"/></svg> ";position:absolute;right:-8px;top:36px;font-size:20px;color:var(--primary-light);z-index:1}
 .flow-icon{width:64px;height:64px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:28px;background:var(--canvas-2);border:2px solid var(--primary);overflow:hidden}
 .flow-icon img{width:100%;height:100%;object-fit:cover}
 .flow-step h4{font-size:16px;font-weight:700;margin-bottom:6px}
@@ -397,7 +397,7 @@ section{position:relative;padding-block:80px}
 .prd-req-table .req-desc{font-size:12px;color:var(--muted);line-height:1.5}
 .prd-req-table .acceptance{font-size:12px;color:var(--ink-soft);line-height:1.6}
 .prd-req-table .acceptance li{margin-bottom:3px;list-style:none;padding-left:14px;position:relative}
-.prd-req-table .acceptance li::before{content:"<svg class="icon icon-sm"><use href="#icon-check"/></svg>";position:absolute;left:0;color:var(--primary);font-weight:700;font-size:11px}
+.prd-req-table .acceptance li::before{content:"<svg class="icon icon-sm"><use href="#icon-check"/></svg> ";position:absolute;left:0;color:var(--primary);font-weight:700;font-size:11px}
 .prd-req-table .prio{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700}
 .prd-req-table .prio.p0{background:rgba(201,104,46,.12);color:var(--accent)}
 .prd-req-table .prio.p1{background:rgba(61,90,62,.1);color:var(--primary)}
@@ -506,7 +506,7 @@ section#needs .ice-table td:first-child {
 </svg>
 <!-- 统一图标样式 -->
 <style>
-  .icon { display:inline-block; vertical-align:middle; width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:16; stroke-linecap:round; stroke-linejoin:round; }
+  .icon { display:inline-block; vertical-align:middle; width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:16; stroke-linecap:round; stroke-linejoin:round; margin-right:4px; }
   .icon-sm { width:14px; height:14px; }
   .icon-md { width:20px; height:20px; }
   .icon-lg { width:28px; height:28px; }
@@ -576,7 +576,7 @@ section#needs .ice-table td:first-child {
   <div class="sec-head rv">
     <div class="sec-num">01 / Problem</div>
     <h2 class="sec-title">用户要的不是"看到"，是"互动"</h2>
-    <p class="sec-desc">现有设备停留在"监看"层面（满意度仅2.8-3.5/5），缺乏<strong style="color:var(--accent)">感知<svg class="icon"><use href="#icon-arrow-right"/></svg>回应</strong>的情感闭环。</p>
+    <p class="sec-desc">现有设备停留在"监看"层面（满意度仅2.8-3.5/5），缺乏<strong style="color:var(--accent)">感知<svg class="icon"><use href="#icon-arrow-right"/></svg> 回应</strong>的情感闭环。</p>
   </div>
   <div class="problem-grid">
     <div class="problem-text rv">
@@ -746,7 +746,7 @@ section#needs .ice-table td:first-child {
             </div>
             <div style="padding:20px 22px">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-                <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-chart-line-down"/></svg></span>
+                <svg class="icon icon-md"><use href="#icon-chart-line-down"/></svg>
                 <span style="font-size:15px;font-weight:700;color:#FFB088">市场拥挤区</span>
               </div>
               <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:14px;letter-spacing:-.3px">监看 + 喂食</div>
@@ -770,7 +770,7 @@ section#needs .ice-table td:first-child {
             <div style="position:absolute;top:50%;left:0;right:0;height:3px;background:linear-gradient(90deg,rgba(232,168,124,.4),rgba(255,255,255,.6),rgba(168,213,162,.4));transform:translateY(-50%)"></div>
             <div style="width:64px;height:64px;background:linear-gradient(135deg,#fff,#f0f0f0);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,.25);position:relative;z-index:2;border:3px solid rgba(255,255,255,.8)">
               <span style="font-size:10px;font-weight:800;color:#C9682E;letter-spacing:.05em;margin-bottom:2px">PetLoop</span>
-              <span style="font-size:22px;color:#333;line-height:1"><svg class="icon"><use href="#icon-arrow-right"/></svg></span>
+              <svg class="icon"><use href="#icon-arrow-right"/></svg>
             </div>
           </div>
           
@@ -784,7 +784,7 @@ section#needs .ice-table td:first-child {
             </div>
             <div style="padding:20px 22px">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-                <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-rocket"/></svg></span>
+                <svg class="icon icon-md"><use href="#icon-rocket"/></svg>
                 <span style="font-size:15px;font-weight:700;color:#B8E8B4">机会空白区</span>
               </div>
               <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:14px;letter-spacing:-.3px">情感交互 + 状态理解</div>
@@ -929,7 +929,7 @@ section#needs .ice-table td:first-child {
           <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">喂食、换水，和宠物告别</div>
           <div class="divider"></div>
-          <div class="row-label pain-row"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
+          <div class="row-label pain-row"><svg class="icon icon-md"><use href="#icon-warning"/></svg> 核心痛点</div>
           <div class="row-content pain-row">知道宠物会孤单，但无能为力</div>
           <div class="divider"></div>
           <div class="row-label opp-row"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
@@ -939,7 +939,7 @@ section#needs .ice-table td:first-child {
           <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">工作间隙打开监控查看</div>
           <div class="divider"></div>
-          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg> 核心痛点</div>
           <div class="row-content pain-row">只能看到宠物在睡觉，无法互动</div>
           <div class="divider"></div>
           <div class="row-label"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
@@ -949,7 +949,7 @@ section#needs .ice-table td:first-child {
           <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">边吃饭边看监控，尝试语音对讲</div>
           <div class="divider"></div>
-          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg> 核心痛点</div>
           <div class="row-content pain-row">语音延迟大，宠物没反应，互动失败</div>
           <div class="divider"></div>
           <div class="row-label"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
@@ -959,7 +959,7 @@ section#needs .ice-table td:first-child {
           <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">收到移动侦测提醒，紧张查看</div>
           <div class="divider"></div>
-          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg> 核心痛点</div>
           <div class="row-content pain-row">不知道宠物是在玩还是焦虑，无法判断</div>
           <div class="divider"></div>
           <div class="row-label"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
@@ -969,7 +969,7 @@ section#needs .ice-table td:first-child {
           <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">想着回家要陪宠物玩</div>
           <div class="divider"></div>
-          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg> 核心痛点</div>
           <div class="row-content pain-row">想提前让宠物知道"我快回来了"</div>
           <div class="divider"></div>
           <div class="row-label"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
@@ -979,7 +979,7 @@ section#needs .ice-table td:first-child {
           <div class="row-label"><svg class="icon icon-md"><use href="#icon-user"/></svg> 用户行为</div>
           <div class="row-content">宠物扑过来，互动、喂食、玩耍</div>
           <div class="divider"></div>
-          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg>️ 核心痛点</div>
+          <div class="row-label"><svg class="icon icon-md"><use href="#icon-warning"/></svg> 核心痛点</div>
           <div class="row-content pain-row">自己很累但有愧疚感，想补偿宠物</div>
           <div class="divider"></div>
           <div class="row-label"><svg class="icon icon-md"><use href="#icon-sparkles"/></svg> PetLoop机会</div>
@@ -1096,7 +1096,7 @@ section#needs .ice-table td:first-child {
     <!-- 背景装饰 -->
     <div style="position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(201,104,46,.15) 0%,transparent 70%);border-radius:50%"></div>
     <h4 style="font-size:18px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:10px;color:#fff">
-      <span style="width:36px;height:36px;background:#C9682E;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px"><svg class="icon icon-md"><use href="#icon-target"/></svg></span>
+      <svg class="icon icon-md"><use href="#icon-target"/></svg>
       产品决策 <span class="tag" style="background:#C9682E;padding:4px 12px;border-radius:12px;font-size:12px;color:#fff">MVP范围与版本规划</span>
     </h4>
     <p style="font-size:13px;color:rgba(255,255,255,.7);margin-bottom:24px;line-height:1.6">基于ICE评分与用户价值，分3阶段渐进式交付，每阶段设置Go/No-Go准入标准</p>
@@ -1193,7 +1193,7 @@ section#needs .ice-table td:first-child {
     <div class="story-card" style="border-left:4px solid var(--accent)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-house"/></svg></span>
+          <svg class="icon icon-md"><use href="#icon-house"/></svg>
           <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">独居白领</span>
         </div>
         <span style="font-size:11px;font-weight:700;background:var(--accent);color:#fff;padding:3px 10px;border-radius:10px">P0 核心</span>
@@ -1204,7 +1204,7 @@ section#needs .ice-table td:first-child {
     <div class="story-card" style="border-left:4px solid var(--accent)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-heart-break"/></svg></span>
+          <svg class="icon icon-md"><use href="#icon-heart-break"/></svg>
           <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">焦虑关注者</span>
         </div>
         <span style="font-size:11px;font-weight:700;background:var(--accent);color:#fff;padding:3px 10px;border-radius:10px">P0 核心</span>
@@ -1215,7 +1215,7 @@ section#needs .ice-table td:first-child {
     <div class="story-card p1" style="border-left:4px solid var(--primary)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-cat"/></svg></span>
+          <svg class="icon icon-md"><use href="#icon-cat"/></svg>
           <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">资深养宠者</span>
         </div>
         <span style="font-size:11px;font-weight:700;background:var(--primary);color:#fff;padding:3px 10px;border-radius:10px">P0 核心</span>
@@ -1226,7 +1226,7 @@ section#needs .ice-table td:first-child {
     <div class="story-card p1" style="border-left:4px solid var(--primary-light)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:20px"><svg class="icon icon-md"><use href="#icon-houses"/></svg>️</span>
+          <svg class="icon icon-md"><use href="#icon-houses"/></svg>
           <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">多猫家庭</span>
         </div>
         <span style="font-size:11px;font-weight:700;background:var(--primary-light);color:#fff;padding:3px 10px;border-radius:10px">P1 迭代</span>
@@ -1260,7 +1260,7 @@ section#needs .ice-table td:first-child {
           <li><strong>使用场景：</strong>宠物焦虑时远程安抚/互动</li>
           <li><strong>用户价值：</strong>现有产品最大的问题是"单向"——用户能看宠物，但宠物看不到用户。用户说"我看着它焦虑，我比它还焦虑"</li>
         </ul>
-      </td><td><ul class="acceptance"><li>系统根据当前情绪推荐互动模式（焦虑<svg class="icon"><use href="#icon-arrow-right"/></svg>安抚，平静<svg class="icon"><use href="#icon-arrow-right"/></svg>陪伴），用户一键确认，也可手动选</li><li>指令延迟P95≤500ms，支持中断重试（最多3次）；执行中显示实时状态</li><li>安抚模式时长可配置（默认3min，范围1-10min）；互动记录自动写入事件时间线</li><li>机器人动作缓慢可预测（&lt;15cm/s），避免宠物敏感的高频音（&gt;8kHz），音量≤60dB</li></ul></td>
+      </td><td><ul class="acceptance"><li>系统根据当前情绪推荐互动模式（焦虑<svg class="icon"><use href="#icon-arrow-right"/></svg> 安抚，平静<svg class="icon"><use href="#icon-arrow-right"/></svg> 陪伴），用户一键确认，也可手动选</li><li>指令延迟P95≤500ms，支持中断重试（最多3次）；执行中显示实时状态</li><li>安抚模式时长可配置（默认3min，范围1-10min）；互动记录自动写入事件时间线</li><li>机器人动作缓慢可预测（&lt;15cm/s），避免宠物敏感的高频音（&gt;8kHz），音量≤60dB</li></ul></td>
         </tr>
         <tr>
           <td class="req-id">FR-003</td>
@@ -1402,9 +1402,9 @@ section#needs .ice-table td:first-child {
         <div class="src-acc">单模态准确率 68.9% · 单模态最低</div>
         <p>时间/主人在场/互动频率/环境变化等情境变量</p>
         <div class="src-detail">
-          <strong>优势：</strong>约束解释范围，帮助定位状态触发原因（如主人离开<svg class="icon"><use href="#icon-arrow-right"/></svg>孤独、雷声<svg class="icon"><use href="#icon-arrow-right"/></svg>焦虑）<br>
+          <strong>优势：</strong>约束解释范围，帮助定位状态触发原因（如主人离开<svg class="icon"><use href="#icon-arrow-right"/></svg> 孤独、雷声<svg class="icon"><use href="#icon-arrow-right"/></svg> 焦虑）<br>
           <strong>局限：</strong>仅提供间接证据，不直接捕捉狗的行为/运动/声音；单独使用准确率最低<br>
-          <strong>最佳场景：</strong>结合其他模态，消除歧义（如低活动+主人不在<svg class="icon"><use href="#icon-arrow-right"/></svg>孤独 vs 低活动+深夜<svg class="icon"><use href="#icon-arrow-right"/></svg>平静）
+          <strong>最佳场景：</strong>结合其他模态，消除歧义（如低活动+主人不在<svg class="icon"><use href="#icon-arrow-right"/></svg> 孤独 vs 低活动+深夜<svg class="icon"><use href="#icon-arrow-right"/></svg> 平静）
         </div>
       </div>
     </div>
@@ -1573,7 +1573,7 @@ section#needs .ice-table td:first-child {
         <div class="f-tag">P0 · 核心功能</div>
         <h4>宠物情绪实时可视化</h4>
         <p>5种基础情绪（Calm平静/Excited兴奋/Anxious焦虑/Alert警觉/Lonely孤独）+ 活动量/声音强度两个辅助维度，用颜色和图标直观呈现。</p>
-        <div class="decision"><strong>关键决策：</strong>不直接显示"AI判断结果"，而是展示"信号<svg class="icon"><use href="#icon-arrow-right"/></svg>推断<svg class="icon"><use href="#icon-arrow-right"/></svg>证据"的可追溯链路，降低用户对AI准确性的不信任。低置信度时不强行判断。</div>
+        <div class="decision"><strong>关键决策：</strong>不直接显示"AI判断结果"，而是展示"信号<svg class="icon"><use href="#icon-arrow-right"/></svg> 推断<svg class="icon"><use href="#icon-arrow-right"/></svg> 证据"的可追溯链路，降低用户对AI准确性的不信任。低置信度时不强行判断。</div>
       </div>
     </div>
     <div class="feature-card rv">
@@ -1615,7 +1615,7 @@ section#needs .ice-table td:first-child {
   <div class="sec-head rv">
     <div class="sec-num">06 / Validation</div>
     <h2 class="sec-title">验证与迭代：数据驱动的产品优化</h2>
-    <p class="sec-desc"><strong style="color:var(--primary)">30人实验</strong> + <strong style="color:var(--accent)">5人可用性</strong> + <strong style="color:#4A7C9B">5只宠物测试</strong> <svg class="icon"><use href="#icon-arrow-right"/></svg> 3轮迭代，SUS 62<svg class="icon"><use href="#icon-arrow-right"/></svg>78（+25.8%）</p>
+    <p class="sec-desc"><strong style="color:var(--primary)">30人实验</strong> + <strong style="color:var(--accent)">5人可用性</strong> + <strong style="color:#4A7C9B">5只宠物测试</strong> <svg class="icon"><use href="#icon-arrow-right"/></svg> 3轮迭代，SUS 62<svg class="icon"><use href="#icon-arrow-right"/></svg> 78（+25.8%）</p>
   </div>
   <div class="validation-grid">
     <div class="test-card rv">
@@ -1792,7 +1792,7 @@ section#needs .ice-table td:first-child {
   <div class="outcomes">
     <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-file-text"/></svg></div><div><h4>学术论文 · 人因领域SSCI Q1在投</h4><p>Behaviour & Information Technology（人因领域SSCI Q1）在投，30人受控实验验证多模态+具身反馈框架，3项假设全部统计显著</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> 外审Minor Revision，第一作者</div></div></div>
     <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-clipboard"/></svg></div><div><h4>产品需求文档（PRD）</h4><p>12项核心需求的ICE优先级排序、MVP范围定义、功能规格、交互流程、验收标准</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> 研发可执行的产品规格</div></div></div>
-    <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-monitor"/></svg>️</div><div><h4>可交互Web Demo</h4><p>完整演示"感知-理解-决策-回应"闭环，含状态总览、互动控制台、事件时间线三大模块</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> chloemmmmm.github.io/PetLoop-Project</div></div></div>
+    <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-monitor"/></svg></div><div><h4>可交互Web Demo</h4><p>完整演示"感知-理解-决策-回应"闭环，含状态总览、互动控制台、事件时间线三大模块</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> chloemmmmm.github.io/PetLoop-Project</div></div></div>
     <div class="outcome-card rv"><div class="outcome-icon"><svg class="icon icon-md"><use href="#icon-wrench"/></svg></div><div><h4>硬件功能原型</h4><p>可穿戴背心（6种材质测试+传感器布局）、桌面机器人（四种互动模式动作执行）</p><div class="detail"><svg class="icon"><use href="#icon-arrow-right"/></svg> 经过5只宠物真实行为测试验证</div></div></div>
   </div>
   <div class="rv" style="margin-bottom:48px">
@@ -1929,7 +1929,7 @@ initCarousel('marketCarousel');
       <div style="margin-bottom:20px">
         <h3 style="font-size:14px;font-weight:700;color:#3D5A3E;margin:0 0 10px;text-transform:uppercase;letter-spacing:.05em">实习经历</h3>
         <div style="display:flex;flex-direction:column;gap:12px">
-          <div><div style="display:flex;justify-content:space-between"><strong style="font-size:13px">北京垣环教育科技 · 策略产品经理实习</strong><span style="font-size:12px;color:#999">2026.04-2026.08</span></div><p style="font-size:12px;line-height:1.6;color:#555;margin:4px 0 0">负责艺术设计教育产品从0到1策略制定，构建T0-T4分层服务模型与6条产品线定价策略。用户调研驱动4个版本迭代，谈单成功率30%<svg class="icon"><use href="#icon-arrow-right"/></svg>50%，服务21位学生，营收增长17.9%。</p></div>
+          <div><div style="display:flex;justify-content:space-between"><strong style="font-size:13px">北京垣环教育科技 · 策略产品经理实习</strong><span style="font-size:12px;color:#999">2026.04-2026.08</span></div><p style="font-size:12px;line-height:1.6;color:#555;margin:4px 0 0">负责艺术设计教育产品从0到1策略制定，构建T0-T4分层服务模型与6条产品线定价策略。用户调研驱动4个版本迭代，谈单成功率30%<svg class="icon"><use href="#icon-arrow-right"/></svg> 50%，服务21位学生，营收增长17.9%。</p></div>
           <div><div style="display:flex;justify-content:space-between"><strong style="font-size:13px">四方股份 · 工业设计实习</strong><span style="font-size:12px;color:#999">2025.11-2026.01</span></div><p style="font-size:12px;line-height:1.6;color:#555;margin:4px 0 0">服务器机柜外观升级，Midjourney+SD+Magnific AI辅助方案迭代，团队输出8套方案中选率37.5%，3套通过客户评审。</p></div>
           <div><div style="display:flex;justify-content:space-between"><strong style="font-size:13px">宇树科技×北理工 · 机器人设计</strong><span style="font-size:12px;color:#999">2025.09-2025.11</span></div><p style="font-size:12px;line-height:1.6;color:#555;margin:4px 0 0">消费级四足机器宠物产品设计，负责外观造型与CMF设计，2套方案中1套被选中参赛。</p></div>
         </div>
@@ -1985,7 +1985,7 @@ initCarousel('marketCarousel');
       </div>
       <div style="display:flex;gap:12px;align-items:center;padding-top:16px;border-top:1px solid #eee">
         <a href="https://aka.doubaocdn.com/s/6X1U4s4by5" target="_blank" style="flex:1;text-align:center;padding:12px;background:#3D5A3E;color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600">下载完整简历 PDF</a>
-        <div style="font-size:12px;color:#999"><svg class="icon icon-md"><use href="#icon-device-mobile"/></svg> 15562692993 · <svg class="icon icon-md"><use href="#icon-envelope"/></svg>️ 1710756188@qq.com · <svg class="icon icon-md"><use href="#icon-map-pin"/></svg> 北京</div>
+        <div style="font-size:12px;color:#999"><svg class="icon icon-md"><use href="#icon-device-mobile"/></svg> 15562692993 · <svg class="icon icon-md"><use href="#icon-envelope"/></svg> 1710756188@qq.com · <svg class="icon icon-md"><use href="#icon-map-pin"/></svg> 北京</div>
       </div>
     </div>
   </div>
