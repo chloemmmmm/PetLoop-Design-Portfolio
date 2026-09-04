@@ -586,12 +586,27 @@ section#needs .ice-table td:first-child {
       <h3 style="margin-top:24px">核心洞察</h3>
       <p>用户的真实需求不是"知道宠物在做什么"，而是"和宠物产生真实的双向互动"。现有监控摄像头只能提供"安全感"，但无法提供"陪伴感"——用户能看到宠物，但宠物看不到用户，这种单向连接反而加剧了分离焦虑。</p>
       <div class="quote">"我上班时会反复打开监控看它，但每次看到它趴在门口等我，我就更难受了。我能看到它，但它看不到我，这种感觉很无力。"<br><br>— 受访者P03，养猫2年，互联网运营</div>
-      <div style="margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px">
-        <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px">💡 三大核心痛点</h4>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="background:rgba(201,104,46,.12);color:var(--accent);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;flex-shrink:0">01</span><span style="font-size:13px;color:var(--ink-soft);line-height:1.5"><strong>单向连接</strong>：能看到宠物但宠物看不到主人，反而加剧分离焦虑</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="background:rgba(201,104,46,.12);color:var(--accent);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;flex-shrink:0">02</span><span style="font-size:13px;color:var(--ink-soft);line-height:1.5"><strong>无法判断</strong>：不知道宠物是在玩耍还是焦虑，缺乏情绪状态的量化理解</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="background:rgba(201,104,46,.12);color:var(--accent);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;flex-shrink:0">03</span><span style="font-size:13px;color:var(--ink-soft);line-height:1.5"><strong>互动失败</strong>：语音延迟大、宠物无反应，远程互动体验差强人意</span></div>
+      <div style="margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-sm)">
+        <h4 style="font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:6px">💡 三大核心痛点</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+          <div style="background:linear-gradient(135deg,rgba(201,104,46,.08),rgba(201,104,46,.02));border-radius:var(--radius);padding:20px;border-top:3px solid var(--accent);text-align:center">
+            <div style="font-size:36px;margin-bottom:10px">🔇</div>
+            <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px">单向连接</div>
+            <div style="font-size:12px;color:var(--ink-soft);line-height:1.6">能看到宠物但宠物看不到主人，反而加剧分离焦虑</div>
+            <div style="margin-top:10px;font-size:11px;color:var(--primary);font-weight:600;background:rgba(61,90,62,.08);padding:4px 8px;border-radius:4px;display:inline-block">→ PetLoop：桌面机器人双向互动</div>
+          </div>
+          <div style="background:linear-gradient(135deg,rgba(201,104,46,.08),rgba(201,104,46,.02));border-radius:var(--radius);padding:20px;border-top:3px solid var(--accent);text-align:center">
+            <div style="font-size:36px;margin-bottom:10px">❓</div>
+            <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px">无法判断</div>
+            <div style="font-size:12px;color:var(--ink-soft);line-height:1.6">不知道宠物是在玩耍还是焦虑，缺乏情绪状态的量化理解</div>
+            <div style="margin-top:10px;font-size:11px;color:var(--primary);font-weight:600;background:rgba(61,90,62,.08);padding:4px 8px;border-radius:4px;display:inline-block">→ PetLoop：多模态AI情绪识别</div>
+          </div>
+          <div style="background:linear-gradient(135deg,rgba(201,104,46,.08),rgba(201,104,46,.02));border-radius:var(--radius);padding:20px;border-top:3px solid var(--accent);text-align:center">
+            <div style="font-size:36px;margin-bottom:10px">❌</div>
+            <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px">互动失败</div>
+            <div style="font-size:12px;color:var(--ink-soft);line-height:1.6">语音延迟大、宠物无反应，远程互动体验差强人意</div>
+            <div style="margin-top:10px;font-size:11px;color:var(--primary);font-weight:600;background:rgba(61,90,62,.08);padding:4px 8px;border-radius:4px;display:inline-block">→ PetLoop：低延迟具身机器人反馈</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1129,25 +1144,49 @@ section#needs .ice-table td:first-child {
     <div style="border-radius:var(--radius);overflow:hidden;height:140px"><img src="https://aka.doubaocdn.com/s/DER4vf4yOR" alt="资深养宠者" style="width:100%;height:100%;object-fit:cover"></div>
   </div>
   <div class="user-stories rv">
-    <div class="story-card">
-      <div class="story-id">US-001 · P0</div>
+    <div class="story-card" style="border-left:4px solid var(--accent)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:20px">🏠</span>
+          <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">独居白领</span>
+        </div>
+        <span style="font-size:11px;font-weight:700;background:var(--accent);color:#fff;padding:3px 10px;border-radius:10px">P0 核心</span>
+      </div>
+      <div class="story-id" style="margin-bottom:6px">US-001 · 关联 FR-001</div>
       <div class="story-text">作为<strong>独居养猫用户</strong>，我想<strong>实时看到猫的情绪状态</strong>，这样我能在上班时知道它是否安好，减少分离焦虑。</div>
-      <div class="story-meta"><span>优先级：P0</span><span>关联需求：FR-001</span></div>
     </div>
-    <div class="story-card">
-      <div class="story-id">US-002 · P0</div>
+    <div class="story-card" style="border-left:4px solid var(--accent)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:20px">😰</span>
+          <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">焦虑关注者</span>
+        </div>
+        <span style="font-size:11px;font-weight:700;background:var(--accent);color:#fff;padding:3px 10px;border-radius:10px">P0 核心</span>
+      </div>
+      <div class="story-id" style="margin-bottom:6px">US-002 · 关联 FR-002</div>
       <div class="story-text">作为<strong>担心猫焦虑的用户</strong>，我想<strong>远程启动安抚互动</strong>，这样我能在猫出现焦虑信号时及时回应，而不是只能看着。</div>
-      <div class="story-meta"><span>优先级：P0</span><span>关联需求：FR-002</span></div>
     </div>
-    <div class="story-card p1">
-      <div class="story-id">US-003 · P0</div>
+    <div class="story-card p1" style="border-left:4px solid var(--primary)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:20px">🐱</span>
+          <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">资深养宠者</span>
+        </div>
+        <span style="font-size:11px;font-weight:700;background:var(--primary);color:#fff;padding:3px 10px;border-radius:10px">P0 核心</span>
+      </div>
+      <div class="story-id" style="margin-bottom:6px">US-003 · 关联 FR-003</div>
       <div class="story-text">作为<strong>资深养宠者</strong>，我想<strong>查看全天事件时间线</strong>，这样我能回看猫一天都干了啥，有没有异常，而不是只知道"现在"怎么样。</div>
-      <div class="story-meta"><span>优先级：P0</span><span>关联需求：FR-003</span></div>
     </div>
-    <div class="story-card p1">
-      <div class="story-id">US-004 · P1</div>
+    <div class="story-card p1" style="border-left:4px solid var(--primary-light)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:20px">🏘️</span>
+          <span style="font-size:11px;font-weight:700;background:rgba(61,90,62,.1);color:var(--primary);padding:3px 8px;border-radius:10px">多猫家庭</span>
+        </div>
+        <span style="font-size:11px;font-weight:700;background:var(--primary-light);color:#fff;padding:3px 10px;border-radius:10px">P1 迭代</span>
+      </div>
+      <div class="story-id" style="margin-bottom:6px">US-004 · 关联 FR-004</div>
       <div class="story-text">作为<strong>多猫家庭用户</strong>，我想<strong>切换查看不同宠物的状态</strong>，这样我能同时照顾多只猫，而不需要多个设备。</div>
-      <div class="story-meta"><span>优先级：P1</span><span>关联需求：FR-004</span></div>
     </div>
   </div>
   <h3 class="rv" style="font-size:18px;font-weight:700;margin-bottom:16px">MVP功能需求与验收标准</h3>
@@ -1639,6 +1678,39 @@ section#needs .ice-table td:first-child {
 
   <div class="iteration-timeline rv">
     <h3>三轮产品迭代记录</h3>
+    <!-- 迭代前后对比可视化 -->
+    <div style="background:linear-gradient(135deg,rgba(61,90,62,.05),rgba(201,104,46,.05));border-radius:var(--radius);padding:20px;margin-bottom:24px;border:1px solid var(--line)">
+      <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em">📈 迭代前后关键指标对比</div>
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center">
+        <!-- 迭代前 V1 -->
+        <div style="text-align:center;padding:16px;background:rgba(155,155,155,.08);border-radius:var(--radius)">
+          <div style="font-size:11px;font-weight:700;color:#999;margin-bottom:8px">V1 概念验证版</div>
+          <div style="font-size:32px;font-weight:800;color:#999;line-height:1">62</div>
+          <div style="font-size:11px;color:#999;margin-top:4px">SUS可用性评分</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:11px;color:#999">任务完成率 <strong style="color:#666">62%</strong></div>
+            <div style="font-size:11px;color:#999">关键问题 <strong style="color:#666">8项</strong></div>
+          </div>
+        </div>
+        <!-- 中间箭头 -->
+        <div style="text-align:center">
+          <div style="font-size:28px;color:var(--accent);font-weight:800;line-height:1">+25.8%</div>
+          <div style="font-size:11px;color:var(--accent);font-weight:600;margin-top:4px">SUS提升</div>
+          <div style="font-size:24px;margin-top:8px">→</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px">3轮迭代</div>
+        </div>
+        <!-- 迭代后 V3 -->
+        <div style="text-align:center;padding:16px;background:rgba(201,104,46,.08);border-radius:var(--radius);border:2px solid var(--accent)">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px">V3 最终交付版</div>
+          <div style="font-size:32px;font-weight:800;color:var(--accent);line-height:1">78</div>
+          <div style="font-size:11px;color:var(--accent);margin-top:4px">SUS可用性评分</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:11px;color:var(--ink-soft)">任务完成率 <strong style="color:var(--primary)">85%</strong></div>
+            <div style="font-size:11px;color:var(--ink-soft)">关键问题 <strong style="color:var(--primary)">2项</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="iter-steps">
       <div class="iter-step" style="transition:transform .3s ease,box-shadow .3s ease;cursor:pointer" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 12px 32px rgba(0,0,0,.1)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'"><div class="iter-num">V1</div><h4>概念验证版</h4><div class="iter-date">第1-4周</div><p style="line-height:1.7;margin:0;text-align:left">完成核心功能原型：情绪可视化、基础互动、事件时间线。可用性测试SUS评分62分，发现8项关键问题。</p></div>
       <div class="iter-step" style="transition:transform .3s ease,box-shadow .3s ease;cursor:pointer" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 12px 32px rgba(0,0,0,.1)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'"><div class="iter-num">V2</div><h4>体验优化版</h4><div class="iter-date">第5-6周</div><p style="line-height:1.7;margin:0;text-align:left">增加可追溯证据链、系统推荐功能、事件分级展示。SUS评分提升至74分，解决6项关键问题。</p></div>
