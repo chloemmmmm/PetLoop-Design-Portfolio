@@ -10,6 +10,14 @@
     <link rel="stylesheet" crossorigin href="/PetLoop-Design-Portfolio/demo/assets/index-1SiBb4Vv.css">
   </head>
   <body>
+    <div id="portfolio-notice" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#3D5A3E 0%,#5B8C5A 100%);color:#fff;padding:10px 20px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:13px;box-shadow:0 2px 12px rgba(0,0,0,.15)">
+      <span style="display:flex;align-items:center;gap:8px">
+        <span style="background:#C9682E;color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px">提示</span>
+        本页为产品亮点概览与交互演示，详细的产品思考、研究方法和PRD请查看
+        <a href="https://chloemmmmm.github.io/PetLoop-Design-Portfolio/" target="_blank" rel="noopener noreferrer" style="color:#FFE4C4;font-weight:700;text-decoration:underline">作品集网站 →</a>
+      </span>
+      <button onclick="document.getElementById('portfolio-notice').style.display='none'" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">×</button>
+    </div>
     <div id="root"></div>
   </body>
 </html>
