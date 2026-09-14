@@ -1421,11 +1421,6 @@ section#needs .ice-table td:first-child {
   </div>
   <h3 class="rv" style="font-size:22px;font-weight:700;margin-bottom:16px">宠物状态分类与机器人反馈映射 <span style="font-size:13px;font-weight:400;color:var(--muted)">· 点击切换查看5种状态</span></h3>
   <div class="rv" style="margin-bottom:48px">
-    <!-- 5种情绪状态整体概览图 -->
-    <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;margin-bottom:20px;overflow:hidden">
-      <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em">📊 五种情绪状态行为表达总览</div>
-      <img src="images/emotion_states.png" alt="五种情绪状态行为表达" style="width:100%;max-width:1000px;height:auto;display:block;object-fit:contain;margin:0 auto">
-    </div>
     <div class="state-tabs" id="stateTabs">
       <button class="state-tab active" data-state="calm"><span class="state-dot" style="background:#4A7C9B"></span> Calm 平静</button>
       <button class="state-tab" data-state="excited"><span class="state-dot" style="background:#C9682E"></span> Excited 兴奋</button>
@@ -1435,7 +1430,7 @@ section#needs .ice-table td:first-child {
     </div>
     <div class="state-panel active" id="panel-calm">
       <div class="state-panel-header">
-        <div class="state-icon" style="background:rgba(107,138,99,.15)"><img src="images/image_042.png" alt="Calm 平静"></div>
+        <div class="state-icon" style="background:rgba(107,138,99,.15)"><img src="images/emotion_calm.png" alt="Calm 平静"></div>
         <div>
           <h4>Calm 平静</h4>
           <div class="state-acc">多模态识别准确率 <strong>92.3%</strong> · 最易识别状态</div>
@@ -1461,7 +1456,7 @@ section#needs .ice-table td:first-child {
     </div>
     <div class="state-panel" id="panel-excited">
       <div class="state-panel-header">
-        <div class="state-icon" style="background:rgba(232,144,90,.15)"><img src="images/image_032.png" alt="Excited 兴奋"></div>
+        <div class="state-icon" style="background:rgba(232,144,90,.15)"><img src="images/emotion_excited.png" alt="Excited 兴奋"></div>
         <div>
           <h4>Excited 兴奋</h4>
           <div class="state-acc">多模态识别准确率 <strong>90.5%</strong> · 音频单模态表现最佳(81.1%)</div>
@@ -1487,7 +1482,7 @@ section#needs .ice-table td:first-child {
     </div>
     <div class="state-panel" id="panel-anxious">
       <div class="state-panel-header">
-        <div class="state-icon" style="background:rgba(201,104,46,.15)"><img src="images/image_033.png" alt="Anxious 焦虑"></div>
+        <div class="state-icon" style="background:rgba(201,104,46,.15)"><img src="images/emotion_anxious.png" alt="Anxious 焦虑"></div>
         <div>
           <h4>Anxious 焦虑</h4>
           <div class="state-acc">多模态识别准确率 <strong>91.1%</strong> · 单模态最难识别(IMU仅72.2%)</div>
@@ -1513,7 +1508,7 @@ section#needs .ice-table td:first-child {
     </div>
     <div class="state-panel" id="panel-alert">
       <div class="state-panel-header">
-        <div class="state-icon" style="background:rgba(107,138,99,.2)"><img src="images/image_050.png" alt="Alert 警觉"></div>
+        <div class="state-icon" style="background:rgba(107,138,99,.2)"><img src="images/emotion_alert.png" alt="Alert 警觉"></div>
         <div>
           <h4>Alert 警觉</h4>
           <div class="state-acc">多模态识别准确率 <strong>88.7%</strong> · 单模态波动较大</div>
@@ -1539,7 +1534,7 @@ section#needs .ice-table td:first-child {
     </div>
     <div class="state-panel" id="panel-lonely">
       <div class="state-panel-header">
-        <div class="state-icon" style="background:rgba(122,117,104,.15)"><img src="images/image_039.png" alt="Lonely 孤独"></div>
+        <div class="state-icon" style="background:rgba(122,117,104,.15)"><img src="images/emotion_lonely.png" alt="Lonely 孤独"></div>
         <div>
           <h4>Lonely 孤独</h4>
           <div class="state-acc">多模态识别准确率 <strong>87.8%</strong> · 音频单模态最差(66.7%)</div>
