@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 2160px; height: 1215px; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #fff; position: relative; overflow: hidden; }
+.bg-texture { position: absolute; top: 0; right: 0; width: 60%; height: 100%; opacity: 0.08; background: repeating-radial-gradient(circle at 70% 30%, transparent, transparent 40px, #5a7a4a 40px, #5a7a4a 41px), repeating-radial-gradient(circle at 80% 60%, transparent, transparent 60px, #5a7a4a 60px, #5a7a4a 61px); }
+.sidebar { position: absolute; right: 60px; top: 120px; width: 180px; height: 900px; border-left: 2px dashed #c5d5b8; padding-left: 30px; }
+.sidebar-title { font-size: 22px; color: #999; margin-bottom: 40px; font-weight: 300; }
+.sidebar-item { font-size: 24px; color: #333; margin-bottom: 35px; font-weight: 500; position: relative; }
+.sidebar-item.active { color: #5a7a4a; font-weight: 700; }
+.sidebar-item.active::before { content: ''; position: absolute; left: -38px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: #5a7a4a; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 2px #5a7a4a; }
+.sidebar-section { font-size: 22px; color: #999; margin: 50px 0 25px 0; font-weight: 300; }
+.content { position: absolute; left: 80px; top: 80px; width: 1750px; height: 1055px; }
+.page-title { display: flex; align-items: baseline; margin-bottom: 30px; }
+.page-number { font-size: 72px; font-weight: 900; color: #1a1a1a; margin-right: 25px; }
+.page-title-text { font-size: 56px; font-weight: 700; color: #1a1a1a; }
+.page-subtitle { font-size: 32px; color: #5a7a4a; margin-left: 30px; font-weight: 500; }
+/* 网页展示区 */
+.web-showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 25px; }
+.web-card { background: #f8faf5; border-radius: 16px; padding: 20px; border-left: 6px solid #5a7a4a; }
+.web-card-title { font-size: 22px; font-weight: 700; color: #5a7a4a; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.web-mockup { background: #fff; border-radius: 10px; padding: 15px; border: 1px solid #e0e8d8; height: 280px; position: relative; overflow: hidden; }
+.mockup-header { background: #5a7a4a; color: #fff; padding: 8px 12px; border-radius: 6px 6px 0 0; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+.mockup-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+.mockup-body { padding: 12px; background: #fafcf7; height: calc(100% - 30px); border-radius: 0 0 6px 6px; }
+.mockup-title { font-size: 18px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; }
+.mockup-subtitle { font-size: 12px; color: #666; margin-bottom: 10px; }
+.mockup-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+.mockup-card { background: #fff; border-radius: 6px; padding: 8px; text-align: center; border: 1px solid #e8f0e0; }
+.mockup-card-icon { font-size: 18px; }
+.mockup-card-label { font-size: 10px; color: #888; margin-top: 4px; }
+.mockup-card-value { font-size: 14px; font-weight: 700; color: #5a7a4a; }
+/* Demo交互展示 */
+.demo-section { background: #f8faf5; border-radius: 16px; padding: 25px; border-left: 6px solid #5a7a4a; }
+.demo-title { font-size: 24px; font-weight: 700; color: #5a7a4a; margin-bottom: 15px; }
+.demo-modes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+.mode-card { background: #fff; border-radius: 12px; padding: 18px; text-align: center; border-top: 4px solid #5a7a4a; transition: transform 0.2s; }
+.mode-icon { font-size: 40px; margin-bottom: 10px; }
+.mode-name { font-size: 20px; font-weight: 700; color: #333; margin-bottom: 6px; }
+.mode-desc { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 10px; }
+.mode-robot { font-size: 12px; color: #5a7a4a; background: #e8f0e0; padding: 4px 8px; border-radius: 4px; display: inline-block; }
+/* 技术栈标签 */
+.tech-tags { display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
+.tech-tag { background: #5a7a4a; color: #fff; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="bg-texture"></div>
+<div class="sidebar">
+  <div class="sidebar-title">项目规划</div>
+  <div class="sidebar-item">选题分析</div><div class="sidebar-item">选题来源</div><div class="sidebar-item">市场调研</div><div class="sidebar-item">用户画像</div>
+  <div class="sidebar-section">调研</div><div class="sidebar-item">数据收集</div><div class="sidebar-item">行为总结</div><div class="sidebar-item">语言总结</div><div class="sidebar-item">技术调研</div>
+  <div class="sidebar-section">设计</div><div class="sidebar-item active">系统图</div>
+  <div class="sidebar-section">开发</div>
+</div>
+<div class="content">
+  <div class="page-title">
+    <span class="page-number">07</span>
+    <span class="page-title-text">网页设计与交互式Demo</span>
+    <span class="page-subtitle">Web Design & Interactive Demo</span>
+  </div>
+  <div class="web-showcase">
+    <div class="web-card">
+      <div class="web-card-title">🌐 作品集网站设计</div>
+      <div class="web-mockup">
+        <div class="mockup-header">
+          <span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span>
+          <span style="margin-left:8px;">PetLoop 人宠情感闭环系统</span>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-title">人宠情感闭环系统</div>
+          <div class="mockup-subtitle">宠物可穿戴设备 × 桌面机器人 × 情感计算</div>
+          <div class="mockup-cards">
+            <div class="mockup-card"><div class="mockup-card-icon">📊</div><div class="mockup-card-value">适中</div><div class="mockup-card-label">活动量</div></div>
+            <div class="mockup-card"><div class="mockup-card-icon">🔊</div><div class="mockup-card-value">较低</div><div class="mockup-card-label">声音线索</div></div>
+            <div class="mockup-card"><div class="mockup-card-icon">❤️</div><div class="mockup-card-value">平静</div><div class="mockup-card-label">情绪线索</div></div>
+          </div>
+          <div style="margin-top:12px; background:#fff; border-radius:6px; padding:8px; border-left:3px solid #5a7a4a;">
+            <div style="font-size:11px; color:#888;">09:05 · 检测到休息模式</div>
+            <div style="font-size:10px; color:#aaa;">运动强度低，姿态线索稳定</div>
+          </div>
+        </div>
+      </div>
+      <div class="tech-tags">
+        <span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript</span><span class="tech-tag">响应式设计</span>
+      </div>
+    </div>
+    <div class="web-card">
+      <div class="web-card-title">📱 Console状态总览界面</div>
+      <div class="web-mockup">
+        <div class="mockup-header">
+          <span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span>
+          <span style="margin-left:8px;">Console · Mochi的日常概览</span>
+        </div>
+        <div class="mockup-body" style="background:#1a2e1a;">
+          <div style="color:#fff; font-size:20px; font-weight:700; margin-bottom:8px;">Mochi</div>
+          <div style="display:flex; gap:15px; margin-bottom:12px;">
+            <div style="color:#a8c89a; font-size:12px;">平静 / 好奇</div>
+            <div style="color:#a8c89a; font-size:12px;">已连接</div>
+            <div style="color:#a8c89a; font-size:12px;">电量 82%</div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:flex-end; height:60px; margin-bottom:10px;">
+            <div style="flex:1; background:#3d5a3e; height:40%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#3d5a3e; height:60%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#5a7a4a; height:80%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#3d5a3e; height:55%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#3d5a3e; height:45%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#3d5a3e; height:70%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#3d5a3e; height:50%; border-radius:4px 4px 0 0;"></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.05); border-radius:6px; padding:8px;">
+            <div style="color:#a8c89a; font-size:11px; margin-bottom:4px;">📋 事件时间线</div>
+            <div style="color:#fff; font-size:11px;">09:05 检测到休息行为 · 已观察</div>
+            <div style="color:#fff; font-size:11px;">10:42 好奇状态线索 · 已理解</div>
+          </div>
+        </div>
+      </div>
+      <div class="tech-tags">
+        <span class="tech-tag">React</span><span class="tech-tag">状态管理</span><span class="tech-tag">数据可视化</span><span class="tech-tag">暗色模式</span>
+      </div>
+    </div>
+  </div>
+  <div class="demo-section">
+    <div class="demo-title">🎮 交互式Demo · 四种互动模式（桌面机器人 → 宠物端反馈）</div>
+    <div class="demo-modes">
+      <div class="mode-card">
+        <div class="mode-icon">❤️</div>
+        <div class="mode-name">陪伴</div>
+        <div class="mode-desc">以温和的屏幕和语音反馈保持陪伴，让宠物感受到主人的存在</div>
+        <div class="mode-robot">🤖 温柔语音+爱心灯光</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-icon">🌙</div>
+        <div class="mode-name">安抚</div>
+        <div class="mode-desc">触发平静安抚序列，帮助宠物在焦虑或紧张时放松下来</div>
+        <div class="mode-robot">🤖 轻柔白噪音+月亮灯光</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-icon">📢</div>
+        <div class="mode-name">呼叫</div>
+        <div class="mode-desc">开启主人到宠物的语音连接概念，让宠物听到主人的声音</div>
+        <div class="mode-robot">🤖 呼唤音效+闪烁灯光</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-icon">🎾</div>
+        <div class="mode-name">玩耍</div>
+        <div class="mode-desc">开始简短的玩耍互动序列，激光点+玩具音效吸引宠物互动</div>
+        <div class="mode-robot">🤖 激光点+玩具音效</div>
+      </div>
+    </div>
+    <div style="margin-top:15px; text-align:center; color:#5a7a4a; font-size:15px; font-weight:600;">
+      💡 核心交互闭环：感知设备采集 → AI模型理解 → 桌面机器人反馈 → 宠物状态变化 → 实时监控展示
+    </div>
+  </div>
+</div>
+</body>
+</html>

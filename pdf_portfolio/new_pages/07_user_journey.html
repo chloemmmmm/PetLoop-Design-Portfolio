@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 2160px;
+  height: 1215px;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.bg-texture {
+  position: absolute;
+  top: 0; right: 0;
+  width: 60%; height: 100%;
+  opacity: 0.08;
+  background: 
+    repeating-radial-gradient(circle at 70% 30%, transparent, transparent 40px, #5a7a4a 40px, #5a7a4a 41px),
+    repeating-radial-gradient(circle at 80% 60%, transparent, transparent 60px, #5a7a4a 60px, #5a7a4a 61px);
+}
+.sidebar {
+  position: absolute;
+  right: 60px;
+  top: 120px;
+  width: 180px;
+  height: 900px;
+  border-left: 2px dashed #c5d5b8;
+  padding-left: 30px;
+}
+.sidebar-title { font-size: 22px; color: #999; margin-bottom: 40px; font-weight: 300; }
+.sidebar-item { font-size: 24px; color: #333; margin-bottom: 35px; font-weight: 500; position: relative; }
+.sidebar-item.active { color: #5a7a4a; font-weight: 700; }
+.sidebar-item.active::before {
+  content: ''; position: absolute; left: -38px; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; background: #5a7a4a; border-radius: 50%;
+  border: 3px solid #fff; box-shadow: 0 0 0 2px #5a7a4a;
+}
+.sidebar-section { font-size: 22px; color: #999; margin: 50px 0 25px 0; font-weight: 300; }
+.content { position: absolute; left: 80px; top: 80px; width: 1750px; height: 1055px; }
+.page-title { display: flex; align-items: baseline; margin-bottom: 40px; }
+.page-number { font-size: 72px; font-weight: 900; color: #1a1a1a; margin-right: 25px; }
+.page-title-text { font-size: 56px; font-weight: 700; color: #1a1a1a; }
+.page-subtitle { font-size: 32px; color: #5a7a4a; margin-left: 30px; font-weight: 500; }
+
+/* 用户旅程地图 */
+.journey-map {
+  background: #f8faf5;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border-left: 6px solid #5a7a4a;
+}
+.journey-title { font-size: 26px; font-weight: 700; color: #5a7a4a; margin-bottom: 20px; }
+.journey-stages {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.stage {
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  border-top: 4px solid #5a7a4a;
+}
+.stage-icon { font-size: 32px; margin-bottom: 8px; }
+.stage-name { font-size: 18px; font-weight: 700; color: #333; margin-bottom: 5px; }
+.stage-action { font-size: 14px; color: #666; line-height: 1.4; }
+/* 情绪曲线 */
+.emotion-curve {
+  height: 80px;
+  position: relative;
+  margin: 10px 0;
+}
+.emotion-line {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+}
+.emotion-point {
+  position: absolute;
+  width: 16px; height: 16px;
+  background: #5a7a4a;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #5a7a4a;
+  transform: translate(-50%, -50%);
+}
+.emotion-label {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 600;
+  color: #5a7a4a;
+  white-space: nowrap;
+}
+/* 痛点和机会 */
+.pain-opportunity {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.pain-box, .opportunity-box {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+}
+.pain-box { border-left: 4px solid #d4756a; }
+.opportunity-box { border-left: 4px solid #5a7a4a; }
+.box-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+.pain-box .box-title { color: #d4756a; }
+.opportunity-box .box-title { color: #5a7a4a; }
+.box-item {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 8px;
+  padding-left: 20px;
+  position: relative;
+}
+.pain-box .box-item::before { content: '😣'; position: absolute; left: 0; }
+.opportunity-box .box-item::before { content: '💡'; position: absolute; left: 0; }
+
+/* 需求优先级矩阵 */
+.priority-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.priority-card {
+  background: #f8faf5;
+  border-radius: 16px;
+  padding: 25px;
+  border-left: 6px solid #5a7a4a;
+}
+.priority-title { font-size: 24px; font-weight: 700; color: #5a7a4a; margin-bottom: 15px; }
+.mvp-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.mvp-tag {
+  background: #5a7a4a;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.mvp-tag.p1 { background: #8a9a7a; }
+.mvp-tag.p2 { background: #b5c5a8; color: #333; }
+.ice-score {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+.ice-item {
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+.ice-num { font-size: 28px; font-weight: 900; color: #5a7a4a; }
+.ice-label { font-size: 13px; color: #666; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="bg-texture"></div>
+
+<div class="sidebar">
+  <div class="sidebar-title">项目规划</div>
+  <div class="sidebar-item">选题分析</div>
+  <div class="sidebar-item">选题来源</div>
+  <div class="sidebar-item">市场调研</div>
+  <div class="sidebar-item active">用户画像</div>
+  <div class="sidebar-section">调研</div>
+  <div class="sidebar-item">数据收集</div>
+  <div class="sidebar-item">行为总结</div>
+  <div class="sidebar-item">语言总结</div>
+  <div class="sidebar-item">技术调研</div>
+  <div class="sidebar-section">设计</div>
+  <div class="sidebar-item">系统图</div>
+  <div class="sidebar-section">开发</div>
+</div>
+
+<div class="content">
+  <div class="page-title">
+    <span class="page-number">03</span>
+    <span class="page-title-text">用户旅程与需求分析</span>
+    <span class="page-subtitle">User Journey & Requirements</span>
+  </div>
+
+  <!-- 用户旅程地图 -->
+  <div class="journey-map">
+    <div class="journey-title">🗺️ 核心用户旅程地图（以Luna为例）</div>
+    <div class="journey-stages">
+      <div class="stage">
+        <div class="stage-icon">😟</div>
+        <div class="stage-name">发现问题</div>
+        <div class="stage-action">上班时担心猫咪在家状态，频繁查看监控</div>
+      </div>
+      <div class="stage">
+        <div class="stage-icon">🔍</div>
+        <div class="stage-name">寻找方案</div>
+        <div class="stage-action">搜索智能宠物产品，对比监控摄像头、喂食器</div>
+      </div>
+      <div class="stage">
+        <div class="stage-icon">🛒</div>
+        <div class="stage-name">购买使用</div>
+        <div class="stage-action">购买PetLoop，给猫咪穿上可穿戴背心</div>
+      </div>
+      <div class="stage">
+        <div class="stage-icon">😊</div>
+        <div class="stage-name">日常互动</div>
+        <div class="stage-action">通过桌面机器人了解猫咪状态，发起互动</div>
+      </div>
+      <div class="stage">
+        <div class="stage-icon">❤️</div>
+        <div class="stage-name">情感连接</div>
+        <div class="stage-action">建立持续的人宠情感闭环，减少分离焦虑</div>
+      </div>
+    </div>
+    <!-- 情绪曲线 -->
+    <div class="emotion-curve">
+      <svg width="100%" height="100%" viewBox="0 0 1600 80" preserveAspectRatio="none">
+        <path d="M 0,60 Q 160,55 320,45 T 640,30 T 960,20 T 1280,15 T 1600,10" 
+              stroke="#5a7a4a" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="emotion-point" style="left: 0%; top: 75%;"><span class="emotion-label">焦虑</span></div>
+      <div class="emotion-point" style="left: 25%; top: 56%;"><span class="emotion-label">期待</span></div>
+      <div class="emotion-point" style="left: 50%; top: 38%;"><span class="emotion-label">好奇</span></div>
+      <div class="emotion-point" style="left: 75%; top: 25%;"><span class="emotion-label">安心</span></div>
+      <div class="emotion-point" style="left: 100%; top: 12%;"><span class="emotion-label">幸福</span></div>
+    </div>
+    <div class="pain-opportunity">
+      <div class="pain-box">
+        <div class="box-title">😣 关键痛点</div>
+        <div class="box-item">视频监控很被动，无法形成真实互动</div>
+        <div class="box-item">语音呼叫容易打扰，也不一定有效</div>
+        <div class="box-item">宠物的状态无法被准确理解</div>
+        <div class="box-item">离家时间越长，关系维持越依赖他人代劳</div>
+      </div>
+      <div class="opportunity-box">
+        <div class="box-title">💡 设计机会</div>
+        <div class="box-item">从"远程监看"升级为"远程陪伴与情感反馈"</div>
+        <div class="box-item">通过可穿戴设备精准感知宠物情绪状态</div>
+        <div class="box-item">桌面机器人作为情感交互媒介，双向互动</div>
+        <div class="box-item">建立可追溯的事件时间线，让关心有迹可循</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 需求优先级 -->
+  <div class="priority-section">
+    <div class="priority-card">
+      <div class="priority-title">🎯 MVP需求范围（ICE评分）</div>
+      <div class="mvp-list">
+        <span class="mvp-tag">P0 情绪可视化</span>
+        <span class="mvp-tag">P0 双向互动</span>
+        <span class="mvp-tag">P0 事件时间线</span>
+        <span class="mvp-tag p1">P1 异常预警</span>
+        <span class="mvp-tag p1">P1 数据统计</span>
+        <span class="mvp-tag p2">P2 社区分享</span>
+        <span class="mvp-tag p2">P2 多宠物管理</span>
+      </div>
+      <p style="margin-top: 15px; font-size: 15px; color: #666; line-height: 1.6;">
+        从12项需求中筛选出3项P0核心功能，聚焦"感知-互动-记录"闭环，
+        确保MVP能验证核心价值假设。
+      </p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-title">📊 核心需求ICE评分</div>
+      <div class="ice-score">
+        <div class="ice-item">
+          <div class="ice-num">9</div>
+          <div class="ice-label">影响力 Impact</div>
+        </div>
+        <div class="ice-item">
+          <div class="ice-num">8</div>
+          <div class="ice-label">信心 Confidence</div>
+        </div>
+        <div class="ice-item">
+          <div class="ice-num">5</div>
+          <div class="ice-label">易实现 Ease</div>
+        </div>
+      </div>
+      <p style="margin-top: 15px; font-size: 15px; color: #666; line-height: 1.6;">
+        <strong>情绪状态实时可视化</strong>：ICE总分360，P0优先级<br>
+        <strong>低延迟远程双向互动</strong>：ICE总分360，P0优先级<br>
+        <strong>事件时间线与可追溯证据</strong>：ICE总分392，P0优先级
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

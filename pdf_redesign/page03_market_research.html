@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>02 市场调研</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:2160px;
+    height:1215px;
+    background:#fafbf8;
+    font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    position:relative;
+    overflow:hidden;
+    color:#2c2c2c;
+  }
+  /* 背景装饰 */
+  .bg-circle-1 {
+    position:absolute;
+    top:-200px;
+    right:-100px;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(90,122,74,0.06) 0%, transparent 70%);
+  }
+  .bg-circle-2 {
+    position:absolute;
+    bottom:-150px;
+    left:-100px;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(201,104,46,0.04) 0%, transparent 70%);
+  }
+  /* 主内容区 */
+  .main-content {
+    padding:60px 80px 50px 80px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    z-index:1;
+  }
+  /* 标题区 */
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:40px;
+  }
+  .header-left {
+    display:flex;
+    align-items:baseline;
+    gap:20px;
+  }
+  .page-num {
+    font-size:72px;
+    font-weight:900;
+    color:rgba(90,122,74,0.15);
+    line-height:1;
+    letter-spacing:-2px;
+  }
+  .page-title-group {
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .page-title-cn {
+    font-size:42px;
+    font-weight:800;
+    color:#2c2c2c;
+    line-height:1.2;
+    letter-spacing:-0.5px;
+  }
+  .page-title-en {
+    font-size:16px;
+    color:#5a7a4a;
+    font-weight:500;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  .header-right {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
+  }
+  .method-label {
+    font-size:11px;
+    color:#999;
+    font-weight:600;
+    letter-spacing:1px;
+  }
+  .method-tags {
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    max-width:500px;
+  }
+  .method-tag {
+    font-size:10px;
+    padding:4px 10px;
+    background:#fff;
+    border-radius:20px;
+    color:#5a7a4a;
+    border:1px solid rgba(90,122,74,0.2);
+    font-weight:500;
+  }
+  /* 分隔线 */
+  .divider {
+    height:1px;
+    background:linear-gradient(90deg, transparent 0%, rgba(90,122,74,0.2) 20%, rgba(90,122,74,0.2) 80%, transparent 100%);
+    margin-bottom:35px;
+  }
+  /* 内容区 - 两列布局 */
+  .content-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    flex:1;
+  }
+  /* 左列 */
+  .left-col {
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+  }
+  /* 右列 */
+  .right-col {
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+  }
+  /* 模块标题 */
+  .section-title {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .section-title-num {
+    width:28px;
+    height:28px;
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:13px;
+    font-weight:800;
+  }
+  .section-title-text {
+    font-size:20px;
+    font-weight:700;
+    color:#2c2c2c;
+    letter-spacing:-0.3px;
+  }
+  .section-title-sub {
+    font-size:11px;
+    color:#999;
+    margin-left:auto;
+    font-weight:500;
+  }
+  /* 市场体量卡片 */
+  .market-card {
+    background:#fff;
+    border-radius:16px;
+    padding:24px 28px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+  }
+  .market-stats {
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:16px;
+    margin-bottom:20px;
+  }
+  .market-stat {
+    text-align:center;
+    padding:12px 8px;
+    background:linear-gradient(180deg, rgba(90,122,74,0.04) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:12px;
+  }
+  .market-stat-num {
+    font-size:24px;
+    font-weight:800;
+    color:#5a7a4a;
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .market-stat-num span {
+    font-size:12px;
+    font-weight:600;
+  }
+  .market-stat-label {
+    font-size:10px;
+    color:#666;
+    line-height:1.4;
+  }
+  /* 情绪消费洞察 */
+  .insight-row {
+    display:grid;
+    grid-template-columns:1fr 1.5fr;
+    gap:20px;
+    align-items:center;
+  }
+  .donut-container {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+  }
+  .donut {
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:conic-gradient(#5a7a4a 0deg 267.84deg, #e8f0e2 267.84deg 360deg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  .donut-inner {
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  .donut-num {
+    font-size:16px;
+    font-weight:800;
+    color:#5a7a4a;
+    line-height:1;
+  }
+  .donut-label {
+    font-size:7px;
+    color:#999;
+    margin-top:2px;
+  }
+  .donut-legend {
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .legend-item {
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:10px;
+    color:#666;
+  }
+  .legend-dot {
+    width:8px;
+    height:8px;
+    border-radius:2px;
+  }
+  .age-section {
+    background:rgba(90,122,74,0.04);
+    border-radius:10px;
+    padding:12px 16px;
+  }
+  .age-row {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:6px;
+  }
+  .age-label {
+    font-size:11px;
+    color:#444;
+    font-weight:600;
+  }
+  .age-badge {
+    background:#5a7a4a;
+    color:#fff;
+    padding:3px 10px;
+    border-radius:12px;
+    font-size:10px;
+    font-weight:700;
+  }
+  .age-bar-container {
+    height:6px;
+    background:#e8f0e2;
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .age-bar {
+    height:100%;
+    background:linear-gradient(90deg, #6b8a63 0%, #5a7a4a 100%);
+    border-radius:3px;
+  }
+  /* PEST卡片 */
+  .pest-card {
+    background:#fff;
+    border-radius:16px;
+    padding:20px 24px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .pest-img-container {
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    overflow:hidden;
+    background:#fafbf8;
+  }
+  .pest-img {
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+  }
+  /* 竞争格局卡片 */
+  .competition-card {
+    background:#fff;
+    border-radius:16px;
+    padding:24px 28px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+  }
+  .quadrant-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .quadrant {
+    border-radius:12px;
+    padding:14px 16px;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    overflow:hidden;
+  }
+  .quadrant::before {
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:4px;
+    height:100%;
+  }
+  .quadrant.red { background:rgba(200,80,60,0.05); }
+  .quadrant.red::before { background:#c8503c; }
+  .quadrant.yellow { background:rgba(220,170,60,0.05); }
+  .quadrant.yellow::before { background:#dcaa3c; }
+  .quadrant.green { background:rgba(90,122,74,0.08); }
+  .quadrant.green::before { background:#5a7a4a; }
+  .quadrant.blue { background:rgba(70,130,180,0.05); }
+  .quadrant.blue::before { background:#4682b4; }
+  .quadrant-header {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:6px;
+  }
+  .quadrant-icon {
+    width:24px;
+    height:24px;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+  }
+  .quadrant.red .quadrant-icon { background:rgba(200,80,60,0.15); }
+  .quadrant.yellow .quadrant-icon { background:rgba(220,170,60,0.15); }
+  .quadrant.green .quadrant-icon { background:rgba(90,122,74,0.15); }
+  .quadrant.blue .quadrant-icon { background:rgba(70,130,180,0.15); }
+  .quadrant-name {
+    font-size:14px;
+    font-weight:700;
+    color:#2c2c2c;
+  }
+  .quadrant-desc {
+    font-size:10px;
+    color:#666;
+    line-height:1.5;
+    flex:1;
+  }
+  .quadrant-tag {
+    display:inline-block;
+    margin-top:8px;
+    padding:3px 8px;
+    border-radius:10px;
+    font-size:9px;
+    font-weight:700;
+    align-self:flex-start;
+  }
+  .quadrant.red .quadrant-tag { background:rgba(200,80,60,0.12); color:#c8503c; }
+  .quadrant.yellow .quadrant-tag { background:rgba(220,170,60,0.12); color:#b89020; }
+  .quadrant.green .quadrant-tag { background:#5a7a4a; color:#fff; }
+  .quadrant.blue .quadrant-tag { background:rgba(70,130,180,0.12); color:#4682b4; }
+  /* 核心机会 */
+  .core-opportunity {
+    background:linear-gradient(135deg, rgba(90,122,74,0.08) 0%, rgba(90,122,74,0.04) 100%);
+    border-radius:12px;
+    padding:14px 18px;
+    border-left:3px solid #5a7a4a;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .core-opportunity-icon {
+    width:36px;
+    height:36px;
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    flex-shrink:0;
+  }
+  .core-opportunity-text {
+    font-size:11px;
+    color:#444;
+    line-height:1.6;
+  }
+  .core-opportunity-text strong {
+    color:#5a7a4a;
+    font-weight:700;
+  }
+  /* 竞品分析卡片 */
+  .competitor-card {
+    background:#fff;
+    border-radius:16px;
+    padding:24px 28px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .competitor-list {
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    flex:1;
+  }
+  .competitor-item {
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+  }
+  .competitor-item-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .competitor-name {
+    font-size:12px;
+    font-weight:600;
+    color:#333;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .competitor-rank {
+    width:18px;
+    height:18px;
+    border-radius:5px;
+    background:rgba(201,104,46,0.1);
+    color:#c9682e;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    font-weight:800;
+  }
+  .competitor-score {
+    font-size:14px;
+    font-weight:800;
+    color:#c9682e;
+  }
+  .competitor-bar-container {
+    height:8px;
+    background:#f5f5f5;
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .competitor-bar {
+    height:100%;
+    border-radius:4px;
+    background:linear-gradient(90deg, #e8a87c 0%, #c9682e 100%);
+  }
+  .competitor-bar.petloop {
+    background:linear-gradient(90deg, #a8d5a2 0%, #5a7a4a 100%);
+  }
+  .petloop-highlight {
+    background:linear-gradient(135deg, rgba(90,122,74,0.06) 0%, rgba(90,122,74,0.03) 100%);
+    border-radius:12px;
+    padding:12px 16px;
+    border:1px solid rgba(90,122,74,0.15);
+    margin-top:4px;
+  }
+  .petloop-label {
+    font-size:10px;
+    color:#5a7a4a;
+    font-weight:700;
+    margin-bottom:4px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .petloop-label::before {
+    content:'';
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#5a7a4a;
+  }
+  /* 数据来源 */
+  .data-source {
+    position:absolute;
+    bottom:20px;
+    left:80px;
+    right:80px;
+    font-size:10px;
+    color:#bbb;
+    text-align:center;
+    padding-top:15px;
+    border-top:1px solid rgba(0,0,0,0.05);
+  }
+</style>
+</head>
+<body>
+  <div class="bg-circle-1"></div>
+  <div class="bg-circle-2"></div>
+
+  <!-- 主内容 -->
+  <div class="main-content">
+    <!-- 标题区 -->
+    <div class="header">
+      <div class="header-left">
+        <span class="page-num">02</span>
+        <div class="page-title-group">
+          <span class="page-title-cn">市场调研</span>
+          <span class="page-title-en">Market Research & Opportunity</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="method-label">RESEARCH METHODS</span>
+        <div class="method-tags">
+          <span class="method-tag">桌面研究</span>
+          <span class="method-tag">竞品分析</span>
+          <span class="method-tag">PEST分析</span>
+          <span class="method-tag">用户访谈 n=8</span>
+          <span class="method-tag">NLP分析 n=1247</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 内容区 - 两列布局 -->
+    <div class="content-grid">
+      <!-- 左列 -->
+      <div class="left-col">
+        <!-- 市场体量 -->
+        <div class="market-card">
+          <div class="section-title">
+            <div class="section-title-num">01</div>
+            <span class="section-title-text">宠物情绪消费市场体量</span>
+            <span class="section-title-sub">2025年数据</span>
+          </div>
+          <div class="market-stats">
+            <div class="market-stat">
+              <div class="market-stat-num">3002<span>亿</span></div>
+              <div class="market-stat-label">城镇犬猫<br>消费市场</div>
+            </div>
+            <div class="market-stat">
+              <div class="market-stat-num">1180<span>亿</span></div>
+              <div class="market-stat-label">智能用品<br>市场规模</div>
+            </div>
+            <div class="market-stat">
+              <div class="market-stat-num">1460<span>亿</span></div>
+              <div class="market-stat-label">宠物医疗<br>市场规模</div>
+            </div>
+            <div class="market-stat">
+              <div class="market-stat-num">5580<span>亿</span></div>
+              <div class="market-stat-label">宏观消费<br>土壤约</div>
+            </div>
+          </div>
+          <div class="insight-row">
+            <div class="donut-container">
+              <div class="donut">
+                <div class="donut-inner">
+                  <div class="donut-num">74.4%</div>
+                  <div class="donut-label">情绪消费</div>
+                </div>
+              </div>
+              <div class="donut-legend">
+                <div class="legend-item">
+                  <div class="legend-dot" style="background:#5a7a4a"></div>
+                  <span>因情绪价值购买</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot" style="background:#e8f0e2"></div>
+                  <span>功能型消费</span>
+                </div>
+              </div>
+            </div>
+            <div class="age-section">
+              <div class="age-row">
+                <span class="age-label">情绪消费主力年龄</span>
+                <span class="age-badge">18-35岁 · 73%</span>
+              </div>
+              <div class="age-bar-container">
+                <div class="age-bar" style="width:73%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PEST分析 -->
+        <div class="pest-card">
+          <div class="section-title">
+            <div class="section-title-num">02</div>
+            <span class="section-title-text">PEST增长逻辑分析</span>
+            <span class="section-title-sub">为什么不是短期泡沫？</span>
+          </div>
+          <div class="pest-img-container">
+            <img src="images/pest_original.png" alt="PEST增长逻辑分析" class="pest-img">
+          </div>
+        </div>
+      </div>
+
+      <!-- 右列 -->
+      <div class="right-col">
+        <!-- 竞争格局 -->
+        <div class="competition-card">
+          <div class="section-title">
+            <div class="section-title-num">03</div>
+            <span class="section-title-text">竞争格局与机会空间</span>
+            <span class="section-title-sub">四象限分析</span>
+          </div>
+          <div class="quadrant-grid">
+            <div class="quadrant red">
+              <div class="quadrant-header">
+                <div class="quadrant-icon">🔴</div>
+                <span class="quadrant-name">红海市场</span>
+              </div>
+              <div class="quadrant-desc">宠物玩具、服饰、家具<br>基础功能，同质化严重</div>
+              <span class="quadrant-tag">竞争激烈</span>
+            </div>
+            <div class="quadrant green">
+              <div class="quadrant-header">
+                <div class="quadrant-icon">🟢</div>
+                <span class="quadrant-name">机会空白区</span>
+              </div>
+              <div class="quadrant-desc">远程情感陪伴、双向互动<br>UI/UX + 智能硬件结合</div>
+              <span class="quadrant-tag">PetLoop 定位</span>
+            </div>
+            <div class="quadrant yellow">
+              <div class="quadrant-header">
+                <div class="quadrant-icon">🟡</div>
+                <span class="quadrant-name">新兴市场</span>
+              </div>
+              <div class="quadrant-desc">智能喂食器、宠物监控<br>单向功能，缺乏情感交互</div>
+              <span class="quadrant-tag">快速增长</span>
+            </div>
+            <div class="quadrant blue">
+              <div class="quadrant-header">
+                <div class="quadrant-icon">🔵</div>
+                <span class="quadrant-name">未来设计</span>
+              </div>
+              <div class="quadrant-desc">AI情绪识别、可穿戴设备<br>精准理解宠物状态</div>
+              <span class="quadrant-tag">技术前沿</span>
+            </div>
+          </div>
+          <div class="core-opportunity">
+            <div class="core-opportunity-icon">⭐</div>
+            <div class="core-opportunity-text">
+              从<strong>"远程监看"</strong>升级为<strong>"远程陪伴与情感反馈"</strong>，通过可穿戴设备精准感知宠物情绪，桌面机器人作为情感交互媒介。
+            </div>
+          </div>
+        </div>
+
+        <!-- 竞品分析 -->
+        <div class="competitor-card">
+          <div class="section-title">
+            <div class="section-title-num">04</div>
+            <span class="section-title-text">4款竞品用户满意度对比</span>
+            <span class="section-title-sub">/ 5分</span>
+          </div>
+          <div class="competitor-list">
+            <div class="competitor-item">
+              <div class="competitor-item-header">
+                <span class="competitor-name"><span class="competitor-rank">1</span>小佩智能喂食器</span>
+                <span class="competitor-score">3.5</span>
+              </div>
+              <div class="competitor-bar-container">
+                <div class="competitor-bar" style="width:70%"></div>
+              </div>
+            </div>
+            <div class="competitor-item">
+              <div class="competitor-item-header">
+                <span class="competitor-name"><span class="competitor-rank">2</span>小米智能摄像机</span>
+                <span class="competitor-score">3.2</span>
+              </div>
+              <div class="competitor-bar-container">
+                <div class="competitor-bar" style="width:64%"></div>
+              </div>
+            </div>
+            <div class="competitor-item">
+              <div class="competitor-item-header">
+                <span class="competitor-name"><span class="competitor-rank">3</span>陪彼GPS定位器</span>
+                <span class="competitor-score">3.0</span>
+              </div>
+              <div class="competitor-bar-container">
+                <div class="competitor-bar" style="width:60%"></div>
+              </div>
+            </div>
+            <div class="competitor-item">
+              <div class="competitor-item-header">
+                <span class="competitor-name"><span class="competitor-rank">4</span>自动逗猫棒</span>
+                <span class="competitor-score">2.8</span>
+              </div>
+              <div class="competitor-bar-container">
+                <div class="competitor-bar" style="width:56%"></div>
+              </div>
+            </div>
+            <div class="petloop-highlight">
+              <div class="petloop-label">PetLoop 目标满意度</div>
+              <div class="competitor-item">
+                <div class="competitor-item-header">
+                  <span class="competitor-name" style="color:#5a7a4a;font-weight:700">情感陪伴 + 双向互动</span>
+                  <span class="competitor-score" style="color:#5a7a4a">4.5+</span>
+                </div>
+                <div class="competitor-bar-container">
+                  <div class="competitor-bar petloop" style="width:90%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-source">
+      数据来源：《2025年中国宠物行业白皮书》、艾瑞咨询、易观分析、国家统计局、用户访谈(n=8)、电商评论NLP分析(n=1247) · 2026.04
+    </div>
+  </div>
+</body>
+</html>

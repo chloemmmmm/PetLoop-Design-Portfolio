@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>02 市场调研</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:2160px;
+    height:1215px;
+    background:#fff;
+    font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    position:relative;
+    overflow:hidden;
+    color:#2c2c2c;
+  }
+  /* 右上角等高线纹理 */
+  .contour-bg {
+    position:absolute;
+    top:0; right:0;
+    width:800px; height:500px;
+    opacity:0.06;
+    background:
+      radial-gradient(ellipse at 70% 30%, transparent 40%, #5a7a4a 41%, transparent 42%),
+      radial-gradient(ellipse at 60% 40%, transparent 35%, #5a7a4a 36%, transparent 37%),
+      radial-gradient(ellipse at 50% 50%, transparent 30%, #5a7a4a 31%, transparent 32%),
+      radial-gradient(ellipse at 40% 60%, transparent 25%, #5a7a4a 26%, transparent 27%);
+  }
+  /* 右侧导航栏 */
+  .nav-bar {
+    position:absolute;
+    right:60px;
+    top:120px;
+    width:200px;
+    border-left:2px dashed #c5d5b8;
+    padding-left:24px;
+  }
+  .nav-item {
+    font-size:18px;
+    color:#999;
+    padding:14px 0;
+    line-height:1.4;
+  }
+  .nav-item.active {
+    color:#5a7a4a;
+    font-weight:700;
+    position:relative;
+  }
+  .nav-item.active::before {
+    content:'';
+    position:absolute;
+    left:-31px;
+    top:50%;
+    transform:translateY(-50%);
+    width:14px; height:14px;
+    border-radius:50%;
+    background:#5a7a4a;
+    border:3px solid #fff;
+    box-shadow:0 0 0 2px #5a7a4a;
+  }
+  /* 主内容区 */
+  .main-content {
+    padding:80px 320px 60px 100px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+  }
+  /* 标题 */
+  .page-title {
+    display:flex;
+    align-items:baseline;
+    gap:24px;
+    margin-bottom:32px;
+  }
+  .page-num {
+    font-size:72px;
+    font-weight:900;
+    color:#2c2c2c;
+    line-height:1;
+  }
+  .page-title-cn {
+    font-size:52px;
+    font-weight:800;
+    color:#2c2c2c;
+    line-height:1.2;
+  }
+  .page-title-en {
+    font-size:28px;
+    color:#5a7a4a;
+    font-weight:500;
+    letter-spacing:1px;
+  }
+  /* 调研方法论条 */
+  .method-bar {
+    background:linear-gradient(135deg, #f0f5ec 0%, #e8f0e2 100%);
+    border-radius:12px;
+    padding:18px 28px;
+    margin-bottom:28px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    border-left:5px solid #5a7a4a;
+  }
+  .method-label {
+    font-size:18px;
+    font-weight:700;
+    color:#5a7a4a;
+    white-space:nowrap;
+  }
+  .method-tags {
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .method-tag {
+    font-size:15px;
+    padding:6px 14px;
+    background:#fff;
+    border-radius:20px;
+    color:#4a6a3a;
+    border:1px solid #c5d5b8;
+    font-weight:500;
+  }
+  /* 内容区：左右两栏 */
+  .content-row {
+    display:grid;
+    grid-template-columns:1fr 1.1fr;
+    gap:28px;
+    flex:1;
+    margin-bottom:24px;
+  }
+  /* 卡片通用样式 */
+  .card {
+    background:#f8faf5;
+    border-radius:16px;
+    padding:28px 32px;
+    border:1px solid #e0e8d8;
+    display:flex;
+    flex-direction:column;
+  }
+  .card-title {
+    font-size:24px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .card-title-icon {
+    width:32px; height:32px;
+    background:#5a7a4a;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:18px;
+  }
+  /* 左侧：市场体量 */
+  .market-stats {
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:16px;
+    margin-bottom:20px;
+  }
+  .stat-item {
+    text-align:center;
+    padding:16px 8px;
+    background:#fff;
+    border-radius:12px;
+    border:1px solid #e0e8d8;
+  }
+  .stat-num {
+    font-size:32px;
+    font-weight:800;
+    color:#5a7a4a;
+    line-height:1.2;
+  }
+  .stat-unit {
+    font-size:14px;
+    color:#888;
+    font-weight:500;
+  }
+  .stat-label {
+    font-size:13px;
+    color:#666;
+    margin-top:6px;
+    line-height:1.4;
+  }
+  /* 年龄分布 */
+  .age-section {
+    background:#fff;
+    border-radius:12px;
+    padding:16px 20px;
+    margin-bottom:16px;
+    border:1px solid #e0e8d8;
+  }
+  .age-row {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+  }
+  .age-label {
+    font-size:15px;
+    color:#444;
+    font-weight:500;
+  }
+  .age-badge {
+    background:#5a7a4a;
+    color:#fff;
+    padding:4px 12px;
+    border-radius:6px;
+    font-size:14px;
+    font-weight:700;
+  }
+  .age-bar-container {
+    height:10px;
+    background:#e8f0e2;
+    border-radius:5px;
+    overflow:hidden;
+  }
+  .age-bar {
+    height:100%;
+    background:linear-gradient(90deg, #6b8a63 0%, #5a7a4a 100%);
+    border-radius:5px;
+  }
+  /* 关键洞察 */
+  .insight-box {
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    border-radius:12px;
+    padding:16px 20px;
+    color:#fff;
+    margin-top:auto;
+  }
+  .insight-title {
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:6px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .insight-text {
+    font-size:13px;
+    line-height:1.6;
+    opacity:0.95;
+  }
+  .insight-highlight {
+    background:rgba(255,255,255,0.2);
+    padding:1px 6px;
+    border-radius:4px;
+    font-weight:600;
+  }
+  /* 右侧：竞争格局四象限 */
+  .quadrant-container {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .quadrant-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    gap:12px;
+    flex:1;
+  }
+  .quadrant {
+    border-radius:12px;
+    padding:18px 20px;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+  }
+  .quadrant.red {
+    background:rgba(200,80,60,0.08);
+    border:2px solid rgba(200,80,60,0.3);
+  }
+  .quadrant.yellow {
+    background:rgba(220,170,60,0.08);
+    border:2px solid rgba(220,170,60,0.3);
+  }
+  .quadrant.green {
+    background:rgba(90,122,74,0.12);
+    border:2px solid #5a7a4a;
+  }
+  .quadrant.blue {
+    background:rgba(70,130,180,0.08);
+    border:2px solid rgba(70,130,180,0.3);
+  }
+  .quadrant-header {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:8px;
+  }
+  .quadrant-dot {
+    width:12px; height:12px;
+    border-radius:50%;
+  }
+  .quadrant.red .quadrant-dot { background:#c8503c; }
+  .quadrant.yellow .quadrant-dot { background:#dcaa3c; }
+  .quadrant.green .quadrant-dot { background:#5a7a4a; }
+  .quadrant.blue .quadrant-dot { background:#4682b4; }
+  .quadrant-name {
+    font-size:17px;
+    font-weight:700;
+    color:#2c2c2c;
+  }
+  .quadrant.green .quadrant-name {
+    color:#4a6a3a;
+  }
+  .quadrant-desc {
+    font-size:12px;
+    color:#666;
+    line-height:1.5;
+    flex:1;
+  }
+  .quadrant-tag {
+    display:inline-block;
+    margin-top:8px;
+    padding:3px 10px;
+    border-radius:4px;
+    font-size:11px;
+    font-weight:600;
+    align-self:flex-start;
+  }
+  .quadrant.red .quadrant-tag { background:rgba(200,80,60,0.15); color:#c8503c; }
+  .quadrant.yellow .quadrant-tag { background:rgba(220,170,60,0.15); color:#b89020; }
+  .quadrant.green .quadrant-tag { background:#5a7a4a; color:#fff; }
+  .quadrant.blue .quadrant-tag { background:rgba(70,130,180,0.15); color:#4682b4; }
+  /* 核心机会 */
+  .core-opportunity {
+    background:linear-gradient(135deg, #f0f5ec 0%, #e8f0e2 100%);
+    border-radius:12px;
+    padding:14px 20px;
+    border-left:4px solid #5a7a4a;
+  }
+  .core-opportunity-title {
+    font-size:15px;
+    font-weight:700;
+    color:#5a7a4a;
+    margin-bottom:4px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .core-opportunity-text {
+    font-size:13px;
+    color:#444;
+    line-height:1.6;
+  }
+  /* 底部趋势条 */
+  .trends-bar {
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:20px;
+  }
+  .trend-card {
+    background:#f8faf5;
+    border-radius:12px;
+    padding:18px 24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    border:1px solid #e0e8d8;
+  }
+  .trend-icon {
+    width:48px; height:48px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    flex-shrink:0;
+  }
+  .trend-icon.t1 { background:rgba(90,122,74,0.12); }
+  .trend-icon.t2 { background:rgba(201,104,46,0.12); }
+  .trend-icon.t3 { background:rgba(70,130,180,0.12); }
+  .trend-content { flex:1; }
+  .trend-title {
+    font-size:17px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:4px;
+  }
+  .trend-desc {
+    font-size:12px;
+    color:#666;
+    line-height:1.5;
+  }
+  /* 数据来源标注 */
+  .data-source {
+    position:absolute;
+    bottom:30px;
+    left:100px;
+    font-size:11px;
+    color:#aaa;
+  }
+</style>
+</head>
+<body>
+  <div class="contour-bg"></div>
+
+  <!-- 右侧导航栏 -->
+  <div class="nav-bar">
+    <div class="nav-item">项目规划</div>
+    <div class="nav-item active">选题分析</div>
+    <div class="nav-item">选题来源</div>
+    <div class="nav-item">市场调研</div>
+    <div class="nav-item">用户画像</div>
+    <div class="nav-item">调研</div>
+    <div class="nav-item">数据收集</div>
+    <div class="nav-item">行为总结</div>
+    <div class="nav-item">语言总结</div>
+    <div class="nav-item">技术调研</div>
+    <div class="nav-item">设计</div>
+    <div class="nav-item">系统图</div>
+    <div class="nav-item">开发</div>
+  </div>
+
+  <!-- 主内容 -->
+  <div class="main-content">
+    <!-- 标题 -->
+    <div class="page-title">
+      <span class="page-num">02</span>
+      <span class="page-title-cn">市场调研</span>
+      <span class="page-title-en">Market Research & Opportunity</span>
+    </div>
+
+    <!-- 调研方法论条 -->
+    <div class="method-bar">
+      <span class="method-label">🔬 调研方法</span>
+      <div class="method-tags">
+        <span class="method-tag">桌面研究 (Desk Research)</span>
+        <span class="method-tag">竞品分析 (Competitive Analysis)</span>
+        <span class="method-tag">数据三角验证 (Triangulation)</span>
+        <span class="method-tag">PEST宏观分析</span>
+        <span class="method-tag">用户访谈 (8场)</span>
+      </div>
+    </div>
+
+    <!-- 内容区 -->
+    <div class="content-row">
+      <!-- 左侧：市场体量 -->
+      <div class="card">
+        <div class="card-title">
+          <div class="card-title-icon">📊</div>
+          宠物情绪消费市场体量
+        </div>
+
+        <div class="market-stats">
+          <div class="stat-item">
+            <div class="stat-num">3002<span class="stat-unit">亿</span></div>
+            <div class="stat-label">城镇犬猫<br>消费市场</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">1180<span class="stat-unit">亿</span></div>
+            <div class="stat-label">智能用品<br>市场规模</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">1460<span class="stat-unit">亿</span></div>
+            <div class="stat-label">宠物医疗<br>市场规模</div>
+          </div>
+        </div>
+
+        <div class="age-section">
+          <div class="age-row">
+            <span class="age-label">情绪消费主力年龄</span>
+            <span class="age-badge">18-35岁 · 占73%</span>
+          </div>
+          <div class="age-bar-container">
+            <div class="age-bar" style="width:73%"></div>
+          </div>
+        </div>
+
+        <div class="insight-box">
+          <div class="insight-title">💡 关键洞察</div>
+          <div class="insight-text">
+            <span class="insight-highlight">74.4%</span> 的消费者曾因"情绪价值"而购买产品或服务，宠物正从<span class="insight-highlight">"功能型"</span>向<span class="insight-highlight">"情感陪伴型"</span>转变。
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧：竞争格局四象限 -->
+      <div class="card">
+        <div class="card-title">
+          <div class="card-title-icon">🎯</div>
+          竞争格局与机会空间
+        </div>
+
+        <div class="quadrant-container">
+          <div class="quadrant-grid">
+            <div class="quadrant red">
+              <div class="quadrant-header">
+                <div class="quadrant-dot"></div>
+                <span class="quadrant-name">红海市场</span>
+              </div>
+              <div class="quadrant-desc">宠物玩具、服饰、家具<br>基础功能，同质化严重</div>
+              <span class="quadrant-tag">竞争激烈</span>
+            </div>
+            <div class="quadrant green">
+              <div class="quadrant-header">
+                <div class="quadrant-dot"></div>
+                <span class="quadrant-name">机会空白区</span>
+              </div>
+              <div class="quadrant-desc">远程情感陪伴、双向互动<br>UI/UX + 智能硬件结合</div>
+              <span class="quadrant-tag">PetLoop 定位</span>
+            </div>
+            <div class="quadrant yellow">
+              <div class="quadrant-header">
+                <div class="quadrant-dot"></div>
+                <span class="quadrant-name">新兴市场</span>
+              </div>
+              <div class="quadrant-desc">智能喂食器、宠物监控<br>单向功能，缺乏情感交互</div>
+              <span class="quadrant-tag">快速增长</span>
+            </div>
+            <div class="quadrant blue">
+              <div class="quadrant-header">
+                <div class="quadrant-dot"></div>
+                <span class="quadrant-name">未来设计</span>
+              </div>
+              <div class="quadrant-desc">AI情绪识别、可穿戴设备<br>精准理解宠物状态</div>
+              <span class="quadrant-tag">技术前沿</span>
+            </div>
+          </div>
+
+          <div class="core-opportunity">
+            <div class="core-opportunity-title">⭐ 核心机会</div>
+            <div class="core-opportunity-text">
+              用户希望通过<strong>可感知的方式</strong>理解宠物状态，并建立<strong>持续的情感互动</strong>，而不仅仅是"监控"宠物。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部趋势条 -->
+    <div class="trends-bar">
+      <div class="trend-card">
+        <div class="trend-icon t1">🏠</div>
+        <div class="trend-content">
+          <div class="trend-title">独居养宠人群增长</div>
+          <div class="trend-desc">单身与独居经济规模化，宠物成为重要情感寄托</div>
+        </div>
+      </div>
+      <div class="trend-card">
+        <div class="trend-icon t2">🤖</div>
+        <div class="trend-content">
+          <div class="trend-title">AI情感化演进</div>
+          <div class="trend-desc">生成式AI让数字伴侣拥有"记忆"和"共情"能力</div>
+        </div>
+      </div>
+      <div class="trend-card">
+        <div class="trend-icon t3">📱</div>
+        <div class="trend-content">
+          <div class="trend-title">可穿戴设备成熟</div>
+          <div class="trend-desc">生物传感与数字化疗愈，让"心情"可见可量化</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="data-source">数据来源：《2025年中国宠物行业白皮书》、艾瑞咨询、易观分析、用户访谈 (n=8) · 2026.04</div>
+</body>
+</html>

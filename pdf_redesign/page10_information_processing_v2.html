@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>04 信息处理与数据采集</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:2160px;
+    height:1215px;
+    background:#fafbf8;
+    font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    position:relative;
+    overflow:hidden;
+    color:#2c2c2c;
+  }
+  .bg-circle-1 {
+    position:absolute;
+    top:-200px;
+    right:-100px;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(90,122,74,0.06) 0%, transparent 70%);
+  }
+  .bg-circle-2 {
+    position:absolute;
+    bottom:-150px;
+    left:-100px;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(201,104,46,0.04) 0%, transparent 70%);
+  }
+  .main-content {
+    padding:55px 70px 45px 70px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    z-index:1;
+  }
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:25px;
+  }
+  .header-left {
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+  }
+  .page-num {
+    font-size:64px;
+    font-weight:900;
+    color:rgba(90,122,74,0.15);
+    line-height:1;
+    letter-spacing:-2px;
+  }
+  .page-title-group {
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+  }
+  .page-title-cn {
+    font-size:38px;
+    font-weight:800;
+    color:#2c2c2c;
+    line-height:1.2;
+  }
+  .page-title-en {
+    font-size:14px;
+    color:#5a7a4a;
+    font-weight:500;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  .header-right {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:6px;
+  }
+  .method-label {
+    font-size:10px;
+    color:#999;
+    font-weight:600;
+    letter-spacing:1px;
+  }
+  .method-tags {
+    display:flex;
+    gap:5px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    max-width:450px;
+  }
+  .method-tag {
+    font-size:9px;
+    padding:3px 8px;
+    background:#fff;
+    border-radius:15px;
+    color:#5a7a4a;
+    border:1px solid rgba(90,122,74,0.2);
+    font-weight:500;
+  }
+  .divider {
+    height:1px;
+    background:linear-gradient(90deg, transparent 0%, rgba(90,122,74,0.2) 20%, rgba(90,122,74,0.2) 80%, transparent 100%);
+    margin-bottom:22px;
+  }
+  .content-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    flex:1;
+  }
+  .left-col {
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .right-col {
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .card {
+    background:#fff;
+    border-radius:14px;
+    padding:18px 22px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+  }
+  .section-title {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .section-title-num {
+    width:24px;
+    height:24px;
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    border-radius:7px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+  }
+  .section-title-text {
+    font-size:17px;
+    font-weight:700;
+    color:#2c2c2c;
+  }
+  .section-title-sub {
+    font-size:10px;
+    color:#999;
+    margin-left:auto;
+    font-weight:500;
+  }
+  /* 信息处理三步流程 */
+  .process-flow {
+    display:grid;
+    grid-template-columns:1fr auto 1fr auto 1fr;
+    gap:8px;
+    align-items:stretch;
+    margin-bottom:14px;
+  }
+  .process-step {
+    background:linear-gradient(180deg, rgba(90,122,74,0.06) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:12px;
+    padding:16px 12px;
+    text-align:center;
+    border:1px solid rgba(90,122,74,0.15);
+  }
+  .step-icon {
+    width:44px;
+    height:44px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    margin:0 auto 10px;
+  }
+  .step-num {
+    font-size:10px;
+    color:#5a7a4a;
+    font-weight:800;
+    margin-bottom:4px;
+  }
+  .step-name {
+    font-size:13px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:4px;
+  }
+  .step-desc {
+    font-size:9px;
+    color:#777;
+    line-height:1.4;
+  }
+  .process-arrow {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    color:#5a7a4a;
+  }
+  /* 硬件原型展示 */
+  .hardware-showcase {
+    flex:1;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .hardware-item {
+    border-radius:12px;
+    overflow:hidden;
+    position:relative;
+    background:#f5f7f2;
+    border:1px solid rgba(0,0,0,0.05);
+  }
+  .hardware-item img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .hardware-label {
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    padding:10px 14px;
+    background:linear-gradient(transparent, rgba(0,0,0,0.7));
+    color:#fff;
+  }
+  .hardware-label-name {
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:2px;
+  }
+  .hardware-label-desc {
+    font-size:9px;
+    opacity:0.9;
+  }
+  /* 数据采集流程 */
+  .collection-flow {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    flex:1;
+  }
+  .collection-phase {
+    display:flex;
+    gap:12px;
+    padding:12px 14px;
+    background:linear-gradient(90deg, rgba(90,122,74,0.05) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:10px;
+    border-left:3px solid #5a7a4a;
+    align-items:flex-start;
+  }
+  .phase-num {
+    width:32px;
+    height:32px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:13px;
+    font-weight:800;
+    flex-shrink:0;
+  }
+  .phase-content {
+    flex:1;
+  }
+  .phase-title {
+    font-size:13px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:4px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .phase-tags {
+    display:flex;
+    gap:4px;
+    flex-wrap:wrap;
+  }
+  .phase-tag {
+    font-size:9px;
+    padding:2px 6px;
+    background:rgba(90,122,74,0.1);
+    color:#5a7a4a;
+    border-radius:6px;
+    font-weight:600;
+  }
+  .phase-desc {
+    font-size:10px;
+    color:#666;
+    line-height:1.5;
+    margin-top:4px;
+  }
+  /* 传感器参数 */
+  .sensor-card {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .sensor-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    flex:1;
+  }
+  .sensor-item {
+    background:linear-gradient(180deg, rgba(90,122,74,0.05) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:10px;
+    padding:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border:1px solid rgba(90,122,74,0.1);
+  }
+  .sensor-icon {
+    width:40px;
+    height:40px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    flex-shrink:0;
+  }
+  .sensor-info {
+    flex:1;
+  }
+  .sensor-name {
+    font-size:12px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:2px;
+  }
+  .sensor-spec {
+    font-size:9px;
+    color:#777;
+  }
+  .data-source {
+    position:absolute;
+    bottom:15px;
+    left:70px;
+    right:70px;
+    font-size:9px;
+    color:#bbb;
+    text-align:center;
+    padding-top:10px;
+    border-top:1px solid rgba(0,0,0,0.05);
+  }
+</style>
+</head>
+<body>
+  <div class="bg-circle-1"></div>
+  <div class="bg-circle-2"></div>
+
+  <div class="main-content">
+    <div class="header">
+      <div class="header-left">
+        <span class="page-num">04</span>
+        <div class="page-title-group">
+          <span class="page-title-cn">信息处理与数据采集</span>
+          <span class="page-title-en">Information Processing & Data Collection</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="method-label">HARDWARE & DATA</span>
+        <div class="method-tags">
+          <span class="method-tag">多模态数据融合</span>
+          <span class="method-tag">六轴传感器</span>
+          <span class="method-tag">MFCC音频特征</span>
+          <span class="method-tag">机器学习分类</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="content-grid">
+      <div class="left-col">
+        <!-- 信息处理三步流程 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">01</div>
+            <span class="section-title-text">信息处理三步流程</span>
+            <span class="section-title-sub">多模态数据融合</span>
+          </div>
+          <div class="process-flow">
+            <div class="process-step">
+              <div class="step-icon">🎙️</div>
+              <div class="step-num">STEP 1</div>
+              <div class="step-name">量化行为</div>
+              <div class="step-desc">音频/视频/加速度采集</div>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+              <div class="step-icon">📊</div>
+              <div class="step-num">STEP 2</div>
+              <div class="step-name">特征提取</div>
+              <div class="step-desc">MFCC肢体动作/运动强度</div>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+              <div class="step-icon">🧠</div>
+              <div class="step-num">STEP 3</div>
+              <div class="step-name">数据分析</div>
+              <div class="step-desc">人工标注+机器学习分类</div>
+            </div>
+          </div>
+          <div style="padding:10px 14px;background:linear-gradient(90deg,rgba(90,122,74,0.08),rgba(90,122,74,0.03));border-radius:10px;border-left:3px solid #5a7a4a;display:flex;align-items:center;gap:10px">
+            <span style="font-size:18px">💡</span>
+            <span style="font-size:11px;color:#444;line-height:1.5">通过多模态数据融合，将宠物的<strong style="color:#5a7a4a">行为、声音、生理信号</strong>转化为可分析的情绪特征，建立"动作-声音-情绪"的对应关系。</span>
+          </div>
+        </div>
+
+        <!-- 硬件原型展示 -->
+        <div class="card" style="flex:1;display:flex;flex-direction:column">
+          <div class="section-title">
+            <div class="section-title-num">02</div>
+            <span class="section-title-text">硬件原型展示</span>
+            <span class="section-title-sub">可穿戴背心 + 桌面机器人</span>
+          </div>
+          <div class="hardware-showcase">
+            <div class="hardware-item">
+              <img src="extracted_images/page11_img1.png" alt="可穿戴背心制作">
+              <div class="hardware-label">
+                <div class="hardware-label-name">🐱 可穿戴背心</div>
+                <div class="hardware-label-desc">六轴加速度传感器 + 麦克风阵列 + 心率监测</div>
+              </div>
+            </div>
+            <div class="hardware-item">
+              <img src="extracted_images/page12_img1.png" alt="桌面机器人制作">
+              <div class="hardware-label">
+                <div class="hardware-label-name">🤖 桌面机器人</div>
+                <div class="hardware-label-desc">ESP32主控 + 舵机互动 + LED情绪灯 + 扬声器</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <!-- 数据采集全流程 -->
+        <div class="card" style="flex:1;display:flex;flex-direction:column">
+          <div class="section-title">
+            <div class="section-title-num">03</div>
+            <span class="section-title-text">行为与生理数据采集全流程</span>
+            <span class="section-title-sub">4个阶段</span>
+          </div>
+          <div class="collection-flow">
+            <div class="collection-phase">
+              <div class="phase-num">1</div>
+              <div class="phase-content">
+                <div class="phase-title">
+                  Phase 1 · 破冰与基线状态采集
+                  <div class="phase-tags">
+                    <span class="phase-tag">基线数据</span>
+                    <span class="phase-tag">放松状态</span>
+                  </div>
+                </div>
+                <div class="phase-desc">以熟悉的日常互动建立信任，引导宠物进入放松状态，采集基线状态下的肢体动作、叫声、生理数据。</div>
+              </div>
+            </div>
+            <div class="collection-phase">
+              <div class="phase-num">2</div>
+              <div class="phase-content">
+                <div class="phase-title">
+                  Phase 2 · 行为与情绪关联数据采集
+                  <div class="phase-tags">
+                    <span class="phase-tag">多场景</span>
+                    <span class="phase-tag">情绪标注</span>
+                  </div>
+                </div>
+                <div class="phase-desc">分时段采集进食、玩耍、放松等不同场景下的完整数据，同步记录六轴传感器捕捉的肢体运动数据、声音特征。</div>
+              </div>
+            </div>
+            <div class="collection-phase">
+              <div class="phase-num">3</div>
+              <div class="phase-content">
+                <div class="phase-title">
+                  Phase 3 · 多场景行为与交互数据采集
+                  <div class="phase-tags">
+                    <span class="phase-tag">互动场景</span>
+                    <span class="phase-tag">穿戴测试</span>
+                  </div>
+                </div>
+                <div class="phase-desc">设计多元互动场景，采集不同情绪下的完整数据，同步采集不同情绪下的叫声特征、肢体动作的传感器数据。</div>
+              </div>
+            </div>
+            <div class="collection-phase">
+              <div class="phase-num">4</div>
+              <div class="phase-content">
+                <div class="phase-title">
+                  Phase 4 · 数据复盘与设计落地收尾
+                  <div class="phase-tags">
+                    <span class="phase-tag">数据整理</span>
+                    <span class="phase-tag">模型训练</span>
+                  </div>
+                </div>
+                <div class="phase-desc">对全天采集的六轴传感器、音频数据进行分类整理，完成情绪与行为的对应标注，形成完整数据集。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 传感器参数 -->
+        <div class="card sensor-card">
+          <div class="section-title">
+            <div class="section-title-num">04</div>
+            <span class="section-title-text">核心传感器配置</span>
+            <span class="section-title-sub">6种传感模块</span>
+          </div>
+          <div class="sensor-grid">
+            <div class="sensor-item">
+              <div class="sensor-icon">📐</div>
+              <div class="sensor-info">
+                <div class="sensor-name">六轴加速度计</div>
+                <div class="sensor-spec">MPU6050 · 100Hz采样</div>
+              </div>
+            </div>
+            <div class="sensor-item">
+              <div class="sensor-icon">🎤</div>
+              <div class="sensor-info">
+                <div class="sensor-name">麦克风阵列</div>
+                <div class="sensor-spec">INMP441 · 16kHz采样</div>
+              </div>
+            </div>
+            <div class="sensor-item">
+              <div class="sensor-icon">❤️</div>
+              <div class="sensor-info">
+                <div class="sensor-name">心率监测</div>
+                <div class="sensor-spec">MAX30102 · 光电式</div>
+              </div>
+            </div>
+            <div class="sensor-item">
+              <div class="sensor-icon">🌡️</div>
+              <div class="sensor-info">
+                <div class="sensor-name">体温传感器</div>
+                <div class="sensor-spec">DS18B20 · ±0.5°C</div>
+              </div>
+            </div>
+            <div class="sensor-item">
+              <div class="sensor-icon">🔊</div>
+              <div class="sensor-info">
+                <div class="sensor-name">扬声器模块</div>
+                <div class="sensor-spec">MAX98357 · I2S接口</div>
+              </div>
+            </div>
+            <div class="sensor-item">
+              <div class="sensor-icon">💡</div>
+              <div class="sensor-info">
+                <div class="sensor-name">LED情绪灯</div>
+                <div class="sensor-spec">WS2812B · 全彩RGB</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-source">
+      数据来源：六轴加速度传感器、麦克风阵列、视频录制、人工标注 · 样本量 N=1,247 条 · 2026.04
+    </div>
+  </div>
+</body>
+</html>

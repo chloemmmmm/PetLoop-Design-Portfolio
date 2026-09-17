@@ -16,7 +16,43 @@
     </script>
     <script type="module" crossorigin src="/PetLoop-Design-Portfolio/demo/assets/index-BsMl4Gd-.js"></script>
     <link rel="stylesheet" crossorigin href="/PetLoop-Design-Portfolio/demo/assets/index-1SiBb4Vv.css">
-  </head>
+  <style>
+/* ===== 跨设备响应式优化 ===== */
+@media (max-width: 1280px) {
+  body { overflow-x: auto; }
+  .main-container, .container { min-width: 1200px; }
+}
+
+@media (max-width: 1024px) {
+  body { font-size: 15px; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr !important; }
+  .monitor-section { flex-direction: column !important; }
+  .monitor-feed { width: 100% !important; }
+  .control-panel { width: 100% !important; }
+}
+
+@media (max-width: 768px) {
+  body { font-size: 14px; overflow-x: auto; }
+  .main-container, .container { min-width: 740px; }
+  .hero-title { font-size: 28px !important; }
+  .section-title { font-size: 22px !important; }
+  .card { padding: 16px !important; }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 13px; overflow-x: auto; }
+  .main-container, .container { min-width: 460px; }
+  .hero-title { font-size: 22px !important; }
+  .btn { padding: 10px 16px !important; font-size: 13px !important; }
+}
+
+img { max-width: 100%; height: auto; }
+
+@media (hover: none) and (pointer: coarse) {
+  .btn, a, button { min-height: 44px; min-width: 44px; }
+}
+</style>
+</head>
   <body>
     <div id="portfolio-notice" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#3D5A3E 0%,#5B8C5A 100%);color:#fff;padding:10px 20px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:13px;box-shadow:0 2px 12px rgba(0,0,0,.15)">
       <span style="display:flex;align-items:center;gap:8px">

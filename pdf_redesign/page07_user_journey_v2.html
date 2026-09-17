@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>03 用户旅程与需求分析</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:2160px;
+    height:1215px;
+    background:#fafbf8;
+    font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    position:relative;
+    overflow:hidden;
+    color:#2c2c2c;
+  }
+  .bg-circle-1 {
+    position:absolute;
+    top:-200px;
+    right:-100px;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(90,122,74,0.06) 0%, transparent 70%);
+  }
+  .bg-circle-2 {
+    position:absolute;
+    bottom:-150px;
+    left:-100px;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(201,104,46,0.04) 0%, transparent 70%);
+  }
+  .main-content {
+    padding:55px 70px 45px 70px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    z-index:1;
+  }
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:25px;
+  }
+  .header-left {
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+  }
+  .page-num {
+    font-size:64px;
+    font-weight:900;
+    color:rgba(90,122,74,0.15);
+    line-height:1;
+    letter-spacing:-2px;
+  }
+  .page-title-group {
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+  }
+  .page-title-cn {
+    font-size:38px;
+    font-weight:800;
+    color:#2c2c2c;
+    line-height:1.2;
+  }
+  .page-title-en {
+    font-size:14px;
+    color:#5a7a4a;
+    font-weight:500;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  .header-right {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:6px;
+  }
+  .method-label {
+    font-size:10px;
+    color:#999;
+    font-weight:600;
+    letter-spacing:1px;
+  }
+  .method-tags {
+    display:flex;
+    gap:5px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    max-width:450px;
+  }
+  .method-tag {
+    font-size:9px;
+    padding:3px 8px;
+    background:#fff;
+    border-radius:15px;
+    color:#5a7a4a;
+    border:1px solid rgba(90,122,74,0.2);
+    font-weight:500;
+  }
+  .divider {
+    height:1px;
+    background:linear-gradient(90deg, transparent 0%, rgba(90,122,74,0.2) 20%, rgba(90,122,74,0.2) 80%, transparent 100%);
+    margin-bottom:22px;
+  }
+  .content-grid {
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:20px;
+    flex:1;
+  }
+  .left-col {
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .right-col {
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .card {
+    background:#fff;
+    border-radius:14px;
+    padding:18px 22px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+  }
+  .section-title {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .section-title-num {
+    width:24px;
+    height:24px;
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    border-radius:7px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+  }
+  .section-title-text {
+    font-size:17px;
+    font-weight:700;
+    color:#2c2c2c;
+  }
+  .section-title-sub {
+    font-size:10px;
+    color:#999;
+    margin-left:auto;
+    font-weight:500;
+  }
+  /* 用户画像 */
+  .persona-card {
+    display:grid;
+    grid-template-columns:200px 1fr;
+    gap:16px;
+    align-items:center;
+  }
+  .persona-image {
+    width:200px;
+    height:200px;
+    border-radius:16px;
+    overflow:hidden;
+    background:linear-gradient(135deg, #f5f7f2, #e8ede3);
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  }
+  .persona-image img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .persona-info {
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .persona-name {
+    font-size:24px;
+    font-weight:800;
+    color:#2c2c2c;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .persona-tag {
+    font-size:10px;
+    padding:3px 10px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    color:#fff;
+    border-radius:12px;
+    font-weight:600;
+  }
+  .persona-meta {
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .persona-meta-item {
+    font-size:11px;
+    color:#666;
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  .persona-meta-item strong {
+    color:#5a7a4a;
+  }
+  .persona-tags {
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-top:4px;
+  }
+  .persona-tag-item {
+    font-size:10px;
+    padding:4px 10px;
+    background:rgba(90,122,74,0.08);
+    color:#5a7a4a;
+    border-radius:12px;
+    font-weight:600;
+  }
+  .persona-quote {
+    font-size:12px;
+    color:#555;
+    font-style:italic;
+    padding:10px 14px;
+    background:rgba(90,122,74,0.05);
+    border-radius:10px;
+    border-left:3px solid #5a7a4a;
+    margin-top:4px;
+    line-height:1.6;
+  }
+  /* 用户旅程地图 */
+  .journey-card {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .journey-stages {
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:12px;
+  }
+  .journey-stage {
+    background:linear-gradient(180deg, rgba(90,122,74,0.06) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:10px;
+    padding:12px 8px;
+    text-align:center;
+    position:relative;
+  }
+  .stage-icon {
+    width:36px;
+    height:36px;
+    background:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    margin:0 auto 8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.06);
+  }
+  .stage-name {
+    font-size:12px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:4px;
+  }
+  .stage-desc {
+    font-size:9px;
+    color:#777;
+    line-height:1.4;
+  }
+  .journey-curve {
+    position:relative;
+    height:60px;
+    margin-bottom:12px;
+  }
+  .curve-line {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+  }
+  .curve-points {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+  }
+  .curve-point {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-end;
+    padding-bottom:8px;
+  }
+  .point-dot {
+    width:12px;
+    height:12px;
+    background:#5a7a4a;
+    border-radius:50%;
+    border:3px solid #fff;
+    box-shadow:0 2px 6px rgba(90,122,74,0.3);
+  }
+  .point-label {
+    font-size:9px;
+    color:#5a7a4a;
+    font-weight:700;
+    margin-top:4px;
+  }
+  .journey-insights {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .insight-box {
+    border-radius:10px;
+    padding:12px 14px;
+  }
+  .insight-pain {
+    background:linear-gradient(135deg, rgba(212,117,106,0.1) 0%, rgba(212,117,106,0.04) 100%);
+    border:1px solid rgba(212,117,106,0.2);
+  }
+  .insight-opportunity {
+    background:linear-gradient(135deg, rgba(90,122,74,0.1) 0%, rgba(90,122,74,0.04) 100%);
+    border:1px solid rgba(90,122,74,0.2);
+  }
+  .insight-title {
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:8px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .insight-pain .insight-title { color:#D4756A; }
+  .insight-opportunity .insight-title { color:#5a7a4a; }
+  .insight-list {
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+  }
+  .insight-item {
+    font-size:10px;
+    color:#555;
+    line-height:1.4;
+    display:flex;
+    align-items:flex-start;
+    gap:5px;
+  }
+  .insight-item::before {
+    content:'';
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    margin-top:4px;
+    flex-shrink:0;
+  }
+  .insight-pain .insight-item::before { background:#D4756A; }
+  .insight-opportunity .insight-item::before { background:#5a7a4a; }
+  /* MVP需求范围 */
+  .mvp-card {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .mvp-tags {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .mvp-tag {
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .mvp-tag.p0 {
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    color:#fff;
+  }
+  .mvp-tag.p1 {
+    background:rgba(90,122,74,0.1);
+    color:#5a7a4a;
+    border:1px solid rgba(90,122,74,0.2);
+  }
+  .mvp-tag.p2 {
+    background:rgba(0,0,0,0.04);
+    color:#888;
+    border:1px solid rgba(0,0,0,0.08);
+  }
+  .mvp-visual {
+    flex:1;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:10px;
+    align-items:center;
+  }
+  .mvp-feature {
+    background:linear-gradient(180deg, rgba(90,122,74,0.06) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:12px;
+    padding:16px 12px;
+    text-align:center;
+    border:1px solid rgba(90,122,74,0.15);
+  }
+  .feature-icon {
+    width:44px;
+    height:44px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    margin:0 auto 10px;
+  }
+  .feature-name {
+    font-size:12px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:4px;
+  }
+  .feature-desc {
+    font-size:9px;
+    color:#777;
+    line-height:1.4;
+  }
+  .mvp-summary {
+    margin-top:12px;
+    padding:10px 14px;
+    background:linear-gradient(90deg, rgba(90,122,74,0.08) 0%, rgba(90,122,74,0.03) 100%);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .mvp-summary-icon {
+    font-size:20px;
+  }
+  .mvp-summary-text {
+    font-size:11px;
+    color:#444;
+    line-height:1.5;
+  }
+  .mvp-summary-text strong {
+    color:#5a7a4a;
+  }
+  /* ICE评分 */
+  .ice-card {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .ice-scores {
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .ice-score {
+    background:linear-gradient(180deg, rgba(90,122,74,0.06) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:10px;
+    padding:14px 10px;
+    text-align:center;
+  }
+  .ice-score-num {
+    font-size:28px;
+    font-weight:800;
+    color:#5a7a4a;
+    line-height:1;
+    margin-bottom:5px;
+  }
+  .ice-score-label {
+    font-size:10px;
+    color:#666;
+    font-weight:600;
+  }
+  .ice-list {
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    flex:1;
+  }
+  .ice-item {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 14px;
+    background:rgba(90,122,74,0.03);
+    border-radius:10px;
+  }
+  .ice-rank {
+    width:24px;
+    height:24px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+    flex-shrink:0;
+  }
+  .ice-name {
+    flex:1;
+    font-size:12px;
+    font-weight:600;
+    color:#333;
+  }
+  .ice-value {
+    font-size:13px;
+    font-weight:800;
+    color:#5a7a4a;
+  }
+  .data-source {
+    position:absolute;
+    bottom:15px;
+    left:70px;
+    right:70px;
+    font-size:9px;
+    color:#bbb;
+    text-align:center;
+    padding-top:10px;
+    border-top:1px solid rgba(0,0,0,0.05);
+  }
+</style>
+</head>
+<body>
+  <div class="bg-circle-1"></div>
+  <div class="bg-circle-2"></div>
+
+  <div class="main-content">
+    <div class="header">
+      <div class="header-left">
+        <span class="page-num">03</span>
+        <div class="page-title-group">
+          <span class="page-title-cn">用户旅程与需求分析</span>
+          <span class="page-title-en">User Journey & Requirements</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="method-label">RESEARCH METHODS</span>
+        <div class="method-tags">
+          <span class="method-tag">用户访谈 n=8</span>
+          <span class="method-tag">旅程地图</span>
+          <span class="method-tag">ICE评分</span>
+          <span class="method-tag">MVP筛选</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="content-grid">
+      <div class="left-col">
+        <!-- 核心用户画像 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">01</div>
+            <span class="section-title-text">核心用户画像</span>
+            <span class="section-title-sub">以 Luna 为例</span>
+          </div>
+          <div class="persona-card">
+            <div class="persona-image">
+              <img src="extracted_images/page5_img1.png" alt="用户画像Luna">
+            </div>
+            <div class="persona-info">
+              <div class="persona-name">
+                Luna
+                <span class="persona-tag">核心用户</span>
+              </div>
+              <div class="persona-meta">
+                <span class="persona-meta-item">👩 <strong>28岁</strong></span>
+                <span class="persona-meta-item">💼 <strong>UI设计师</strong></span>
+                <span class="persona-meta-item">🐱 <strong>养猫3年</strong></span>
+                <span class="persona-meta-item">🏠 <strong>独居</strong></span>
+              </div>
+              <div class="persona-tags">
+                <span class="persona-tag-item">情感需求强</span>
+                <span class="persona-tag-item">科技产品爱好者</span>
+                <span class="persona-tag-item">愿意为宠物付费</span>
+                <span class="persona-tag-item">关注宠物心理健康</span>
+              </div>
+              <div class="persona-quote">
+                "上班时总担心猫咪在家孤单，只能看监控但没法互动，感觉它越来越抑郁了..."
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 用户旅程地图 -->
+        <div class="card journey-card">
+          <div class="section-title">
+            <div class="section-title-num">02</div>
+            <span class="section-title-text">核心用户旅程地图</span>
+            <span class="section-title-sub">5个关键阶段</span>
+          </div>
+          <div class="journey-stages">
+            <div class="journey-stage">
+              <div class="stage-icon">😰</div>
+              <div class="stage-name">发现问题</div>
+              <div class="stage-desc">上班时担心猫咪在家状态，频繁查看监控</div>
+            </div>
+            <div class="journey-stage">
+              <div class="stage-icon">🔍</div>
+              <div class="stage-name">寻找方案</div>
+              <div class="stage-desc">搜索智能宠物产品，对比监控摄像头、喂食器</div>
+            </div>
+            <div class="journey-stage">
+              <div class="stage-icon">🛒</div>
+              <div class="stage-name">购买使用</div>
+              <div class="stage-desc">购买 PetLoop，给猫咪穿上可穿戴背心</div>
+            </div>
+            <div class="journey-stage">
+              <div class="stage-icon">😊</div>
+              <div class="stage-name">日常互动</div>
+              <div class="stage-desc">通过桌面机器人了解猫咪状态，发起互动</div>
+            </div>
+            <div class="journey-stage">
+              <div class="stage-icon">❤️</div>
+              <div class="stage-name">情感连接</div>
+              <div class="stage-desc">建立持续的人宠情感闭环，减少分离焦虑</div>
+            </div>
+          </div>
+          <div class="journey-curve">
+            <svg class="curve-line" viewBox="0 0 800 60" preserveAspectRatio="none">
+              <path d="M 40 45 Q 120 45, 160 35 T 320 25 T 480 15 T 640 8 T 760 5" 
+                    stroke="#5a7a4a" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <path d="M 40 45 Q 120 45, 160 35 T 320 25 T 480 15 T 640 8 T 760 5 L 760 60 L 40 60 Z" 
+                    fill="url(#gradient)" opacity="0.1"/>
+              <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" style="stop-color:#5a7a4a;stop-opacity:0.3" />
+                  <stop offset="100%" style="stop-color:#5a7a4a;stop-opacity:0" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="curve-points">
+              <div class="curve-point"><div class="point-dot"></div><div class="point-label">焦虑</div></div>
+              <div class="curve-point"><div class="point-dot"></div><div class="point-label">期待</div></div>
+              <div class="curve-point"><div class="point-dot"></div><div class="point-label">好奇</div></div>
+              <div class="curve-point"><div class="point-dot"></div><div class="point-label">安心</div></div>
+              <div class="curve-point"><div class="point-dot"></div><div class="point-label">幸福</div></div>
+            </div>
+          </div>
+          <div class="journey-insights">
+            <div class="insight-box insight-pain">
+              <div class="insight-title">😣 关键痛点</div>
+              <div class="insight-list">
+                <div class="insight-item">视频监控很被动，无法形成真实互动</div>
+                <div class="insight-item">语音呼叫容易打扰，也不一定有效</div>
+                <div class="insight-item">宠物的状态无法被准确理解</div>
+                <div class="insight-item">离家时间越长，关系维持越依赖他人代劳</div>
+              </div>
+            </div>
+            <div class="insight-box insight-opportunity">
+              <div class="insight-title">💡 设计机会</div>
+              <div class="insight-list">
+                <div class="insight-item">从"远程监看"升级为"远程陪伴与情感反馈"</div>
+                <div class="insight-item">通过可穿戴设备精准感知宠物情绪状态</div>
+                <div class="insight-item">桌面机器人作为情感交互媒介，双向互动</div>
+                <div class="insight-item">建立可追溯的事件时间线，让关心有迹可循</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <!-- MVP需求范围 -->
+        <div class="card mvp-card">
+          <div class="section-title">
+            <div class="section-title-num">03</div>
+            <span class="section-title-text">MVP 需求范围</span>
+            <span class="section-title-sub">ICE 评分筛选</span>
+          </div>
+          <div class="mvp-tags">
+            <span class="mvp-tag p0">🔥 P0 情绪可视化</span>
+            <span class="mvp-tag p0">🤝 P0 双向互动</span>
+            <span class="mvp-tag p0">📅 P0 事件时间线</span>
+            <span class="mvp-tag p1">⚠️ P1 异常预警</span>
+            <span class="mvp-tag p1">📊 P1 数据统计</span>
+            <span class="mvp-tag p2">👥 P2 社区分享</span>
+            <span class="mvp-tag p2">🐾 P2 多宠物管理</span>
+          </div>
+          <div class="mvp-visual">
+            <div class="mvp-feature">
+              <div class="feature-icon">📊</div>
+              <div class="feature-name">情绪可视化</div>
+              <div class="feature-desc">实时展示宠物活动量、声音、情绪状态</div>
+            </div>
+            <div class="mvp-feature">
+              <div class="feature-icon">🤝</div>
+              <div class="feature-name">双向互动</div>
+              <div class="feature-desc">四种互动模式，机器人状态反馈，猫咪画面变化</div>
+            </div>
+            <div class="mvp-feature">
+              <div class="feature-icon">📅</div>
+              <div class="feature-name">事件时间线</div>
+              <div class="feature-desc">可追溯的行为记录，让关心有迹可循</div>
+            </div>
+          </div>
+          <div class="mvp-summary">
+            <span class="mvp-summary-icon">🎯</span>
+            <span class="mvp-summary-text">从 12 项需求中筛选出 <strong>3 项 P0 核心功能</strong>，聚焦"感知-互动-记录"闭环，确保 MVP 能验证核心价值假设。</span>
+          </div>
+        </div>
+
+        <!-- ICE评分 -->
+        <div class="card ice-card">
+          <div class="section-title">
+            <div class="section-title-num">04</div>
+            <span class="section-title-text">核心需求 ICE 评分</span>
+            <span class="section-title-sub">Impact × Confidence × Ease</span>
+          </div>
+          <div class="ice-scores">
+            <div class="ice-score">
+              <div class="ice-score-num">9</div>
+              <div class="ice-score-label">影响力 Impact</div>
+            </div>
+            <div class="ice-score">
+              <div class="ice-score-num">8</div>
+              <div class="ice-score-label">信心 Confidence</div>
+            </div>
+            <div class="ice-score">
+              <div class="ice-score-num">5</div>
+              <div class="ice-score-label">易实现 Ease</div>
+            </div>
+          </div>
+          <div class="ice-list">
+            <div class="ice-item">
+              <div class="ice-rank">1</div>
+              <span class="ice-name">情绪状态实时可视化</span>
+              <span class="ice-value">ICE 360</span>
+            </div>
+            <div class="ice-item">
+              <div class="ice-rank">2</div>
+              <span class="ice-name">低延迟远程双向互动</span>
+              <span class="ice-value">ICE 360</span>
+            </div>
+            <div class="ice-item">
+              <div class="ice-rank">3</div>
+              <span class="ice-name">事件时间线与可追溯证据</span>
+              <span class="ice-value">ICE 392</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-source">
+      数据来源：用户访谈(n=8)、可用性测试、ICE评分模型 · 2026.04
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>05 信息架构与交互设计</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:2160px;
+    height:1215px;
+    background:#fafbf8;
+    font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    position:relative;
+    overflow:hidden;
+    color:#2c2c2c;
+  }
+  .bg-circle-1 {
+    position:absolute;
+    top:-200px;
+    right:-100px;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(90,122,74,0.06) 0%, transparent 70%);
+  }
+  .bg-circle-2 {
+    position:absolute;
+    bottom:-150px;
+    left:-100px;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(201,104,46,0.04) 0%, transparent 70%);
+  }
+  .main-content {
+    padding:55px 70px 45px 70px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    z-index:1;
+  }
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:25px;
+  }
+  .header-left {
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+  }
+  .page-num {
+    font-size:64px;
+    font-weight:900;
+    color:rgba(90,122,74,0.15);
+    line-height:1;
+    letter-spacing:-2px;
+  }
+  .page-title-group {
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+  }
+  .page-title-cn {
+    font-size:38px;
+    font-weight:800;
+    color:#2c2c2c;
+    line-height:1.2;
+  }
+  .page-title-en {
+    font-size:14px;
+    color:#5a7a4a;
+    font-weight:500;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  .header-right {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:6px;
+  }
+  .method-label {
+    font-size:10px;
+    color:#999;
+    font-weight:600;
+    letter-spacing:1px;
+  }
+  .method-tags {
+    display:flex;
+    gap:5px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    max-width:450px;
+  }
+  .method-tag {
+    font-size:9px;
+    padding:3px 8px;
+    background:#fff;
+    border-radius:15px;
+    color:#5a7a4a;
+    border:1px solid rgba(90,122,74,0.2);
+    font-weight:500;
+  }
+  .divider {
+    height:1px;
+    background:linear-gradient(90deg, transparent 0%, rgba(90,122,74,0.2) 20%, rgba(90,122,74,0.2) 80%, transparent 100%);
+    margin-bottom:22px;
+  }
+  .content-grid {
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:20px;
+    flex:1;
+  }
+  .left-col {
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .right-col {
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .card {
+    background:#fff;
+    border-radius:14px;
+    padding:18px 22px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+  }
+  .section-title {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .section-title-num {
+    width:24px;
+    height:24px;
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    border-radius:7px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+  }
+  .section-title-text {
+    font-size:17px;
+    font-weight:700;
+    color:#2c2c2c;
+  }
+  .section-title-sub {
+    font-size:10px;
+    color:#999;
+    margin-left:auto;
+    font-weight:500;
+  }
+  /* 信息架构 */
+  .ia-tree {
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .ia-level-1 {
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    color:#fff;
+    padding:10px 16px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .ia-level-2 {
+    margin-left:20px;
+    background:rgba(90,122,74,0.08);
+    padding:8px 14px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:600;
+    color:#333;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    border-left:3px solid #5a7a4a;
+  }
+  .ia-level-2.core {
+    background:rgba(90,122,74,0.15);
+    border-left-color:#c9682e;
+  }
+  .ia-level-3 {
+    margin-left:40px;
+    font-size:10px;
+    color:#666;
+    padding:4px 10px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .ia-level-3::before {
+    content:'';
+    width:4px;
+    height:4px;
+    background:#999;
+    border-radius:50%;
+  }
+  .core-badge {
+    font-size:9px;
+    padding:2px 6px;
+    background:#c9682e;
+    color:#fff;
+    border-radius:4px;
+    font-weight:700;
+    margin-left:auto;
+  }
+  /* 用户流程 */
+  .user-flow {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    flex:1;
+  }
+  .flow-step {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 16px;
+    background:linear-gradient(90deg, rgba(90,122,74,0.06) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:10px;
+    position:relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content:'↓';
+    position:absolute;
+    bottom:-14px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#5a7a4a;
+    font-size:14px;
+    font-weight:700;
+    z-index:1;
+  }
+  .flow-icon {
+    width:40px;
+    height:40px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    flex-shrink:0;
+  }
+  .flow-content {
+    flex:1;
+  }
+  .flow-title {
+    font-size:13px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:2px;
+  }
+  .flow-desc {
+    font-size:10px;
+    color:#777;
+    line-height:1.4;
+  }
+  .flow-step-num {
+    width:24px;
+    height:24px;
+    background:rgba(90,122,74,0.15);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#5a7a4a;
+    font-size:11px;
+    font-weight:800;
+    flex-shrink:0;
+  }
+  /* 交互设计原则 */
+  .design-principles {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    flex:1;
+  }
+  .principle-card {
+    background:linear-gradient(180deg, rgba(90,122,74,0.06) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:12px;
+    padding:16px 14px;
+    text-align:center;
+    border:1px solid rgba(90,122,74,0.15);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  .principle-icon {
+    width:44px;
+    height:44px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    margin-bottom:10px;
+  }
+  .principle-name {
+    font-size:14px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:4px;
+  }
+  .principle-desc {
+    font-size:10px;
+    color:#777;
+    line-height:1.4;
+  }
+  /* 四种互动模式 */
+  .interaction-modes {
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:8px;
+  }
+  .mode-card {
+    background:linear-gradient(180deg, rgba(90,122,74,0.06) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:10px;
+    padding:12px 8px;
+    text-align:center;
+    border:1px solid rgba(90,122,74,0.15);
+  }
+  .mode-icon {
+    width:36px;
+    height:36px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    margin:0 auto 8px;
+  }
+  .mode-name {
+    font-size:11px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:3px;
+  }
+  .mode-desc {
+    font-size:8px;
+    color:#777;
+    line-height:1.3;
+  }
+  .data-source {
+    position:absolute;
+    bottom:15px;
+    left:70px;
+    right:70px;
+    font-size:9px;
+    color:#bbb;
+    text-align:center;
+    padding-top:10px;
+    border-top:1px solid rgba(0,0,0,0.05);
+  }
+</style>
+</head>
+<body>
+  <div class="bg-circle-1"></div>
+  <div class="bg-circle-2"></div>
+
+  <div class="main-content">
+    <div class="header">
+      <div class="header-left">
+        <span class="page-num">05</span>
+        <div class="page-title-group">
+          <span class="page-title-cn">信息架构与交互设计</span>
+          <span class="page-title-en">Information Architecture & Interaction</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="method-label">DESIGN METHODS</span>
+        <div class="method-tags">
+          <span class="method-tag">信息架构</span>
+          <span class="method-tag">用户流程</span>
+          <span class="method-tag">交互原则</span>
+          <span class="method-tag">Web App</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="content-grid">
+      <div class="left-col">
+        <!-- 网站信息架构 -->
+        <div class="card" style="flex:1;display:flex;flex-direction:column">
+          <div class="section-title">
+            <div class="section-title-num">01</div>
+            <span class="section-title-text">网站信息架构</span>
+            <span class="section-title-sub">PetLoop Web App</span>
+          </div>
+          <div class="ia-tree">
+            <div class="ia-level-1">
+              🏠 PetLoop 人宠情感闭环系统
+              <span style="margin-left:auto;font-size:10px;opacity:0.8">Web App</span>
+            </div>
+            <div class="ia-level-2">
+              📋 项目概述
+              <span style="margin-left:auto;font-size:9px;color:#888">产品定位、系统架构、三大组成</span>
+            </div>
+            <div class="ia-level-2">
+              🔍 研究洞察
+              <span style="margin-left:auto;font-size:9px;color:#888">市场调研、用户画像、需求分析</span>
+            </div>
+            <div class="ia-level-2 core">
+              📊 产品体验 · Console状态总览
+              <span class="core-badge">核心</span>
+            </div>
+            <div class="ia-level-3">宠物状态卡片（活动量/声音/情绪）</div>
+            <div class="ia-level-3">事件时间线（可追溯证据）</div>
+            <div class="ia-level-3">设备状态（可穿戴设备连接/电量）</div>
+            <div class="ia-level-2 core">
+              🤖 互动控制台 · 桌面机器人
+              <span class="core-badge">核心</span>
+            </div>
+            <div class="ia-level-3">四种交互模式（陪伴/安抚/呼叫/玩耍）</div>
+            <div class="ia-level-3">机器人状态反馈（5阶段状态机）</div>
+            <div class="ia-level-3">猫咪监控画面（实时状态变化）</div>
+            <div class="ia-level-2">
+              🔧 产品原型
+              <span style="margin-left:auto;font-size:9px;color:#888">可穿戴设备、桌面机器人设计</span>
+            </div>
+            <div class="ia-level-2">
+              ✅ 验证迭代
+              <span style="margin-left:auto;font-size:9px;color:#888">可用性测试、用户反馈、优化记录</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 四种互动模式 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">02</div>
+            <span class="section-title-text">四种互动模式设计</span>
+            <span class="section-title-sub">机器人 × 猫咪双向互动</span>
+          </div>
+          <div class="interaction-modes">
+            <div class="mode-card">
+              <div class="mode-icon">💬</div>
+              <div class="mode-name">陪伴模式</div>
+              <div class="mode-desc">轻声细语<br>舒缓音乐</div>
+            </div>
+            <div class="mode-card">
+              <div class="mode-icon">😌</div>
+              <div class="mode-name">安抚模式</div>
+              <div class="mode-desc">温和震动<br> calming灯光</div>
+            </div>
+            <div class="mode-card">
+              <div class="mode-icon">📢</div>
+              <div class="mode-name">呼叫模式</div>
+              <div class="mode-desc">主人声音<br>吸引注意</div>
+            </div>
+            <div class="mode-card">
+              <div class="mode-icon">🎾</div>
+              <div class="mode-name">玩耍模式</div>
+              <div class="mode-desc">激光逗猫<br>互动游戏</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <!-- 核心用户流程 -->
+        <div class="card" style="flex:1;display:flex;flex-direction:column">
+          <div class="section-title">
+            <div class="section-title-num">03</div>
+            <span class="section-title-text">核心用户流程</span>
+            <span class="section-title-sub">4步完成互动</span>
+          </div>
+          <div class="user-flow">
+            <div class="flow-step">
+              <div class="flow-step-num">1</div>
+              <div class="flow-icon">📱</div>
+              <div class="flow-content">
+                <div class="flow-title">打开应用，查看宠物状态</div>
+                <div class="flow-desc">首页展示 Console 状态总览，一目了然了解宠物当前状态</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-num">2</div>
+              <div class="flow-icon">📅</div>
+              <div class="flow-content">
+                <div class="flow-title">查看事件时间线，了解发生了什么</div>
+                <div class="flow-desc">按时间顺序浏览宠物行为记录，每条都有可追溯证据</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-num">3</div>
+              <div class="flow-icon">🎮</div>
+              <div class="flow-content">
+                <div class="flow-title">选择交互模式，发起远程互动</div>
+                <div class="flow-desc">从陪伴/安抚/呼叫/玩耍四种模式中选择，机器人执行对应反馈</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-num">4</div>
+              <div class="flow-icon">😊</div>
+              <div class="flow-content">
+                <div class="flow-title">观察宠物反应，获得情感满足</div>
+                <div class="flow-desc">监控画面实时展示宠物状态变化，建立"即使分开也在互动"的陪伴感</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 交互设计原则 -->
+        <div class="card" style="flex:1;display:flex;flex-direction:column">
+          <div class="section-title">
+            <div class="section-title-num">04</div>
+            <span class="section-title-text">交互设计原则</span>
+            <span class="section-title-sub">4大原则</span>
+          </div>
+          <div class="design-principles">
+            <div class="principle-card">
+              <div class="principle-icon">👁️</div>
+              <div class="principle-name">状态可感知</div>
+              <div class="principle-desc">宠物状态一目了然，不需要深入查找</div>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon">🔄</div>
+              <div class="principle-name">反馈即时性</div>
+              <div class="principle-desc">每次交互都有明确的机器人状态和宠物反应反馈</div>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon">📝</div>
+              <div class="principle-name">证据可追溯</div>
+              <div class="principle-desc">每条状态判断都有对应的行为/声音证据支撑</div>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon">❤️</div>
+              <div class="principle-name">情感连接感</div>
+              <div class="principle-desc">从"监看"升级为"陪伴"，建立持续的人宠情感闭环</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-source">
+      设计方法：信息架构设计、用户旅程地图、交互设计原则 · 2026.04
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 2160px; height: 1215px; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: linear-gradient(135deg, #f8faf5 0%, #e8f0e0 100%); position: relative; overflow: hidden; }
+.bg-texture { position: absolute; top: 0; right: 0; width: 100%; height: 100%; opacity: 0.06; background: repeating-radial-gradient(circle at 30% 50%, transparent, transparent 60px, #5a7a4a 60px, #5a7a4a 61px), repeating-radial-gradient(circle at 70% 30%, transparent, transparent 80px, #5a7a4a 80px, #5a7a4a 81px); }
+.content { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 1600px; text-align: center; }
+/* 大标题 */
+.big-title { font-size: 96px; font-weight: 900; color: #1a1a1a; margin-bottom: 20px; letter-spacing: 2px; }
+.big-subtitle { font-size: 42px; color: #5a7a4a; font-weight: 500; margin-bottom: 60px; }
+.divider { width: 200px; height: 4px; background: #5a7a4a; margin: 0 auto 60px auto; border-radius: 2px; }
+/* 项目总结 */
+.summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-bottom: 60px; }
+.summary-item { background: rgba(255,255,255,0.8); border-radius: 16px; padding: 30px 20px; backdrop-filter: blur(10px); }
+.summary-icon { font-size: 48px; margin-bottom: 15px; }
+.summary-num { font-size: 42px; font-weight: 900; color: #5a7a4a; margin-bottom: 8px; }
+.summary-label { font-size: 18px; color: #666; font-weight: 500; }
+/* 核心能力 */
+.skills-section { margin-bottom: 60px; }
+.skills-title { font-size: 28px; font-weight: 700; color: #333; margin-bottom: 25px; }
+.skills-tags { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+.skill-tag { background: #5a7a4a; color: #fff; padding: 12px 24px; border-radius: 25px; font-size: 18px; font-weight: 600; }
+.skill-tag.light { background: #fff; color: #5a7a4a; border: 2px solid #5a7a4a; }
+/* 联系方式 */
+.contact-section { background: rgba(255,255,255,0.9); border-radius: 20px; padding: 40px; backdrop-filter: blur(10px); }
+.contact-title { font-size: 28px; font-weight: 700; color: #333; margin-bottom: 25px; }
+.contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.contact-item { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.contact-icon { font-size: 32px; }
+.contact-text { text-align: left; }
+.contact-label { font-size: 14px; color: #888; }
+.contact-value { font-size: 18px; color: #333; font-weight: 600; }
+/* 底部感谢 */
+.thanks { margin-top: 50px; font-size: 24px; color: #5a7a4a; font-weight: 600; letter-spacing: 4px; }
+</style>
+</head>
+<body>
+<div class="bg-texture"></div>
+<div class="content">
+  <div class="big-title">PetLoop</div>
+  <div class="big-subtitle">人宠情感闭环系统 · 项目总结</div>
+  <div class="divider"></div>
+  
+  <div class="summary-grid">
+    <div class="summary-item">
+      <div class="summary-icon">📚</div>
+      <div class="summary-num">17页</div>
+      <div class="summary-label">完整设计作品集</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-icon">🔬</div>
+      <div class="summary-num">8人</div>
+      <div class="summary-label">用户研究与测试</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-icon">🤖</div>
+      <div class="summary-num">2件</div>
+      <div class="summary-label">硬件原型制作</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-icon">🌐</div>
+      <div class="summary-num">2个</div>
+      <div class="summary-label">网站开发部署</div>
+    </div>
+  </div>
+
+  <div class="skills-section">
+    <div class="skills-title">✨ 综合能力展示</div>
+    <div class="skills-tags">
+      <span class="skill-tag">用户研究</span>
+      <span class="skill-tag light">需求分析</span>
+      <span class="skill-tag">交互设计</span>
+      <span class="skill-tag light">视觉设计</span>
+      <span class="skill-tag">硬件原型</span>
+      <span class="skill-tag light">前端开发</span>
+      <span class="skill-tag">可用性测试</span>
+      <span class="skill-tag light">产品思维</span>
+    </div>
+  </div>
+
+  <div class="contact-section">
+    <div class="contact-title">📮 联系方式</div>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div class="contact-text">
+          <div class="contact-label">Email</div>
+          <div class="contact-value">1710756188@qq.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🔗</div>
+        <div class="contact-text">
+          <div class="contact-label">作品集网站</div>
+          <div class="contact-value">chloemmmmm.github.io</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">💼</div>
+        <div class="contact-text">
+          <div class="contact-label">GitHub</div>
+          <div class="contact-value">github.com/chloemmmmm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="thanks">— 感谢观看 —</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>08 验证与迭代</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:2160px;
+    height:1215px;
+    background:#fafbf8;
+    font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    position:relative;
+    overflow:hidden;
+    color:#2c2c2c;
+  }
+  .bg-circle-1 {
+    position:absolute;
+    top:-200px;
+    right:-100px;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(90,122,74,0.06) 0%, transparent 70%);
+  }
+  .bg-circle-2 {
+    position:absolute;
+    bottom:-150px;
+    left:-100px;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(201,104,46,0.04) 0%, transparent 70%);
+  }
+  .main-content {
+    padding:60px 80px 50px 80px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    z-index:1;
+  }
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:35px;
+  }
+  .header-left {
+    display:flex;
+    align-items:baseline;
+    gap:20px;
+  }
+  .page-num {
+    font-size:72px;
+    font-weight:900;
+    color:rgba(90,122,74,0.15);
+    line-height:1;
+    letter-spacing:-2px;
+  }
+  .page-title-group {
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .page-title-cn {
+    font-size:42px;
+    font-weight:800;
+    color:#2c2c2c;
+    line-height:1.2;
+    letter-spacing:-0.5px;
+  }
+  .page-title-en {
+    font-size:16px;
+    color:#5a7a4a;
+    font-weight:500;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  .header-right {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
+  }
+  .method-label {
+    font-size:11px;
+    color:#999;
+    font-weight:600;
+    letter-spacing:1px;
+  }
+  .method-tags {
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    max-width:500px;
+  }
+  .method-tag {
+    font-size:10px;
+    padding:4px 10px;
+    background:#fff;
+    border-radius:20px;
+    color:#5a7a4a;
+    border:1px solid rgba(90,122,74,0.2);
+    font-weight:500;
+  }
+  .divider {
+    height:1px;
+    background:linear-gradient(90deg, transparent 0%, rgba(90,122,74,0.2) 20%, rgba(90,122,74,0.2) 80%, transparent 100%);
+    margin-bottom:30px;
+  }
+  .content-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+    flex:1;
+  }
+  .left-col {
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+  }
+  .right-col {
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+  }
+  .section-title {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:14px;
+  }
+  .section-title-num {
+    width:28px;
+    height:28px;
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:13px;
+    font-weight:800;
+  }
+  .section-title-text {
+    font-size:20px;
+    font-weight:700;
+    color:#2c2c2c;
+    letter-spacing:-0.3px;
+  }
+  .section-title-sub {
+    font-size:11px;
+    color:#999;
+    margin-left:auto;
+    font-weight:500;
+  }
+  .card {
+    background:#fff;
+    border-radius:16px;
+    padding:22px 26px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+  }
+  /* 可用性测试 */
+  .usability-card {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .usability-stats {
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .usability-stat {
+    background:linear-gradient(180deg, rgba(90,122,74,0.05) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:12px;
+    padding:14px 10px;
+    text-align:center;
+  }
+  .usability-stat-num {
+    font-size:28px;
+    font-weight:800;
+    color:#5a7a4a;
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .usability-stat-num span {
+    font-size:14px;
+  }
+  .usability-stat-label {
+    font-size:10px;
+    color:#666;
+    font-weight:600;
+  }
+  .usability-questions {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    flex:1;
+  }
+  .usability-question {
+    padding:12px 14px;
+    background:rgba(90,122,74,0.03);
+    border-radius:10px;
+    border-left:3px solid #5a7a4a;
+  }
+  .question-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:5px;
+  }
+  .question-text {
+    font-size:12px;
+    font-weight:700;
+    color:#2c2c2c;
+  }
+  .question-score {
+    background:#5a7a4a;
+    color:#fff;
+    padding:3px 10px;
+    border-radius:12px;
+    font-size:11px;
+    font-weight:800;
+  }
+  .question-answer {
+    font-size:10px;
+    color:#666;
+    line-height:1.5;
+  }
+  /* 设计迭代记录 */
+  .iteration-card {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .iteration-timeline {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    flex:1;
+  }
+  .iteration-item {
+    display:flex;
+    gap:12px;
+    padding:10px 14px;
+    background:linear-gradient(90deg, rgba(90,122,74,0.04) 0%, rgba(90,122,74,0.01) 100%);
+    border-radius:10px;
+    position:relative;
+  }
+  .iteration-version {
+    width:52px;
+    height:28px;
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+    flex-shrink:0;
+  }
+  .iteration-content {
+    flex:1;
+  }
+  .iteration-title {
+    font-size:12px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:3px;
+  }
+  .iteration-desc {
+    font-size:10px;
+    color:#666;
+    line-height:1.5;
+  }
+  .iteration-tag {
+    display:inline-block;
+    padding:2px 8px;
+    background:rgba(90,122,74,0.1);
+    color:#5a7a4a;
+    border-radius:10px;
+    font-size:9px;
+    font-weight:700;
+    margin-right:6px;
+  }
+  /* 用户反馈精选 */
+  .feedback-card {
+    grid-column:span 2;
+  }
+  .feedback-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  .feedback-item {
+    background:linear-gradient(180deg, rgba(90,122,74,0.04) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:12px;
+    padding:16px 18px;
+    border-left:3px solid #5a7a4a;
+  }
+  .feedback-user {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .feedback-avatar {
+    width:32px;
+    height:32px;
+    background:linear-gradient(135deg, #5a7a4a 0%, #7A9A6A 100%);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:14px;
+    font-weight:700;
+  }
+  .feedback-user-info {
+    flex:1;
+  }
+  .feedback-user-name {
+    font-size:12px;
+    font-weight:700;
+    color:#2c2c2c;
+  }
+  .feedback-user-meta {
+    font-size:9px;
+    color:#888;
+  }
+  .feedback-text {
+    font-size:11px;
+    color:#555;
+    line-height:1.7;
+    font-style:italic;
+    position:relative;
+    padding-left:16px;
+  }
+  .feedback-text::before {
+    content:'"';
+    position:absolute;
+    left:0;
+    top:-4px;
+    font-size:20px;
+    color:#5a7a4a;
+    font-weight:800;
+  }
+  .data-source {
+    position:absolute;
+    bottom:20px;
+    left:80px;
+    right:80px;
+    font-size:10px;
+    color:#bbb;
+    text-align:center;
+    padding-top:15px;
+    border-top:1px solid rgba(0,0,0,0.05);
+  }
+</style>
+</head>
+<body>
+  <div class="bg-circle-1"></div>
+  <div class="bg-circle-2"></div>
+
+  <div class="main-content">
+    <div class="header">
+      <div class="header-left">
+        <span class="page-num">08</span>
+        <div class="page-title-group">
+          <span class="page-title-cn">验证与迭代</span>
+          <span class="page-title-en">Validation & Iteration</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="method-label">VALIDATION</span>
+        <div class="method-tags">
+          <span class="method-tag">可用性测试</span>
+          <span class="method-tag">SUS评分</span>
+          <span class="method-tag">用户反馈</span>
+          <span class="method-tag">迭代优化</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="content-grid">
+      <div class="left-col">
+        <!-- 可用性测试 -->
+        <div class="card usability-card">
+          <div class="section-title">
+            <div class="section-title-num">01</div>
+            <span class="section-title-text">可用性测试</span>
+            <span class="section-title-sub">N = 8</span>
+          </div>
+          <div class="usability-stats">
+            <div class="usability-stat">
+              <div class="usability-stat-num">8<span>人</span></div>
+              <div class="usability-stat-label">测试用户</div>
+            </div>
+            <div class="usability-stat">
+              <div class="usability-stat-num">4.2</div>
+              <div class="usability-stat-label">SUS 评分</div>
+            </div>
+            <div class="usability-stat">
+              <div class="usability-stat-num">92<span>%</span></div>
+              <div class="usability-stat-label">任务完成率</div>
+            </div>
+            <div class="usability-stat">
+              <div class="usability-stat-num">3.5<span>s</span></div>
+              <div class="usability-stat-label">平均学习时间</div>
+            </div>
+          </div>
+          <div class="usability-questions">
+            <div class="usability-question">
+              <div class="question-header">
+                <span class="question-text">能否快速找到宠物当前状态？</span>
+                <span class="question-score">4.5/5</span>
+              </div>
+              <div class="question-answer">7/8 用户能在 3 秒内找到 Console 状态总览，认为"活动量+声音+情绪"三卡片布局直观清晰。</div>
+            </div>
+            <div class="usability-question">
+              <div class="question-header">
+                <span class="question-text">四种交互模式是否容易理解？</span>
+                <span class="question-score">4.0/5</span>
+              </div>
+              <div class="question-answer">6/8 用户能正确理解每种模式的作用，建议增加模式说明 tooltip 和机器人状态反馈动画。</div>
+            </div>
+            <div class="usability-question">
+              <div class="question-header">
+                <span class="question-text">事件时间线是否有价值？</span>
+                <span class="question-score">4.7/5</span>
+              </div>
+              <div class="question-answer">8/8 用户认为时间线是"最有价值的功能"，能看到"什么时候发生了什么"让他们更安心。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <!-- 设计迭代记录 -->
+        <div class="card iteration-card">
+          <div class="section-title">
+            <div class="section-title-num">02</div>
+            <span class="section-title-text">设计迭代记录</span>
+            <span class="section-title-sub">5 个版本</span>
+          </div>
+          <div class="iteration-timeline">
+            <div class="iteration-item">
+              <div class="iteration-version">V1.0</div>
+              <div class="iteration-content">
+                <div class="iteration-title">初版原型</div>
+                <div class="iteration-desc">
+                  <span class="iteration-tag">信息架构</span>
+                  基础页面结构搭建，Console 状态总览+互动控制台两大核心模块
+                </div>
+              </div>
+            </div>
+            <div class="iteration-item">
+              <div class="iteration-version">V1.1</div>
+              <div class="iteration-content">
+                <div class="iteration-title">视觉优化</div>
+                <div class="iteration-desc">
+                  <span class="iteration-tag">视觉系统</span>
+                  统一绿色主题色，建立色彩/字体/组件规范，暗色模式 Console 界面
+                </div>
+              </div>
+            </div>
+            <div class="iteration-item">
+              <div class="iteration-version">V1.2</div>
+              <div class="iteration-content">
+                <div class="iteration-title">交互增强</div>
+                <div class="iteration-desc">
+                  <span class="iteration-tag">交互设计</span>
+                  四种互动模式+机器人 5 阶段状态机，猫咪监控画面实时变化
+                </div>
+              </div>
+            </div>
+            <div class="iteration-item">
+              <div class="iteration-version">V1.3</div>
+              <div class="iteration-content">
+                <div class="iteration-title">可用性优化</div>
+                <div class="iteration-desc">
+                  <span class="iteration-tag">用户反馈</span>
+                  基于 8 人可用性测试，优化模式说明、状态反馈、时间线可读性
+                </div>
+              </div>
+            </div>
+            <div class="iteration-item">
+              <div class="iteration-version">V2.0</div>
+              <div class="iteration-content">
+                <div class="iteration-title">完整版</div>
+                <div class="iteration-desc">
+                  <span class="iteration-tag">功能完善</span>
+                  作品集网站+交互式 Demo 网站，PRD 文档，完整用户研究与设计流程
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 用户反馈精选 -->
+      <div class="card feedback-card">
+        <div class="section-title">
+          <div class="section-title-num">03</div>
+          <span class="section-title-text">用户反馈精选</span>
+          <span class="section-title-sub">4 位典型用户</span>
+        </div>
+        <div class="feedback-grid">
+          <div class="feedback-item">
+            <div class="feedback-user">
+              <div class="feedback-avatar">L</div>
+              <div class="feedback-user-info">
+                <div class="feedback-user-name">Luna</div>
+                <div class="feedback-user-meta">28岁 · 设计师 · 养猫3年</div>
+              </div>
+            </div>
+            <div class="feedback-text">终于不是只能看监控了！能主动发起互动，而且能看到猫咪的反应，感觉真的在陪伴它。</div>
+          </div>
+          <div class="feedback-item" style="border-left-color:#7A9A6A">
+            <div class="feedback-user">
+              <div class="feedback-avatar" style="background:linear-gradient(135deg,#7A9A6A,#9ABA8A)">张</div>
+              <div class="feedback-user-info">
+                <div class="feedback-user-name">小张</div>
+                <div class="feedback-user-meta">25岁 · 程序员 · 养猫1年</div>
+              </div>
+            </div>
+            <div class="feedback-text">事件时间线太有用了，上班时能知道猫咪今天都做了什么，有没有异常，很安心。</div>
+          </div>
+          <div class="feedback-item" style="border-left-color:#D4756A">
+            <div class="feedback-user">
+              <div class="feedback-avatar" style="background:linear-gradient(135deg,#D4756A,#E4958A)">王</div>
+              <div class="feedback-user-info">
+                <div class="feedback-user-name">王姐</div>
+                <div class="feedback-user-meta">35岁 · 市场经理 · 养猫5年</div>
+              </div>
+            </div>
+            <div class="feedback-text">四种模式设计得很贴心，安抚模式在猫咪紧张时特别有用，机器人的反馈也很可爱。</div>
+          </div>
+          <div class="feedback-item" style="border-left-color:#c9682e">
+            <div class="feedback-user">
+              <div class="feedback-avatar" style="background:linear-gradient(135deg,#c9682e,#e9884e)">李</div>
+              <div class="feedback-user-info">
+                <div class="feedback-user-name">小李</div>
+                <div class="feedback-user-meta">23岁 · 学生 · 养猫2年</div>
+              </div>
+            </div>
+            <div class="feedback-text">界面很好看，绿色主题很舒服，操作也简单，第一次用就能上手，希望能尽快上线！</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-source">
+      测试方法：可用性测试、SUS系统可用性量表、用户访谈 · 样本量 N=8 · 2026.04
+    </div>
+  </div>
+</body>
+</html>

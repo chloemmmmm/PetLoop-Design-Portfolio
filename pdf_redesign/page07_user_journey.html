@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>03 用户旅程与需求分析</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:2160px;
+    height:1215px;
+    background:#fafbf8;
+    font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    position:relative;
+    overflow:hidden;
+    color:#2c2c2c;
+  }
+  .bg-circle-1 {
+    position:absolute;
+    top:-200px;
+    right:-100px;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(90,122,74,0.06) 0%, transparent 70%);
+  }
+  .bg-circle-2 {
+    position:absolute;
+    bottom:-150px;
+    left:-100px;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(201,104,46,0.04) 0%, transparent 70%);
+  }
+  .main-content {
+    padding:60px 80px 50px 80px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    z-index:1;
+  }
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:35px;
+  }
+  .header-left {
+    display:flex;
+    align-items:baseline;
+    gap:20px;
+  }
+  .page-num {
+    font-size:72px;
+    font-weight:900;
+    color:rgba(90,122,74,0.15);
+    line-height:1;
+    letter-spacing:-2px;
+  }
+  .page-title-group {
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .page-title-cn {
+    font-size:42px;
+    font-weight:800;
+    color:#2c2c2c;
+    line-height:1.2;
+    letter-spacing:-0.5px;
+  }
+  .page-title-en {
+    font-size:16px;
+    color:#5a7a4a;
+    font-weight:500;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  .header-right {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
+  }
+  .method-label {
+    font-size:11px;
+    color:#999;
+    font-weight:600;
+    letter-spacing:1px;
+  }
+  .method-tags {
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    max-width:500px;
+  }
+  .method-tag {
+    font-size:10px;
+    padding:4px 10px;
+    background:#fff;
+    border-radius:20px;
+    color:#5a7a4a;
+    border:1px solid rgba(90,122,74,0.2);
+    font-weight:500;
+  }
+  .divider {
+    height:1px;
+    background:linear-gradient(90deg, transparent 0%, rgba(90,122,74,0.2) 20%, rgba(90,122,74,0.2) 80%, transparent 100%);
+    margin-bottom:30px;
+  }
+  .content-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+    flex:1;
+  }
+  .left-col {
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+  }
+  .right-col {
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+  }
+  .section-title {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:14px;
+  }
+  .section-title-num {
+    width:28px;
+    height:28px;
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:13px;
+    font-weight:800;
+  }
+  .section-title-text {
+    font-size:20px;
+    font-weight:700;
+    color:#2c2c2c;
+    letter-spacing:-0.3px;
+  }
+  .section-title-sub {
+    font-size:11px;
+    color:#999;
+    margin-left:auto;
+    font-weight:500;
+  }
+  .card {
+    background:#fff;
+    border-radius:16px;
+    padding:22px 26px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+  }
+  /* 用户旅程图 */
+  .journey-card {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .journey-steps {
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:10px;
+    margin-bottom:16px;
+  }
+  .journey-step {
+    background:linear-gradient(180deg, rgba(90,122,74,0.04) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:12px;
+    padding:14px 10px;
+    text-align:center;
+    position:relative;
+  }
+  .journey-step-icon {
+    width:36px;
+    height:36px;
+    background:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 8px;
+    font-size:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.06);
+  }
+  .journey-step-name {
+    font-size:13px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:4px;
+  }
+  .journey-step-desc {
+    font-size:9px;
+    color:#666;
+    line-height:1.4;
+  }
+  /* 情绪曲线 */
+  .emotion-curve {
+    position:relative;
+    height:60px;
+    margin-bottom:16px;
+  }
+  .emotion-line {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+  }
+  .emotion-points {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    height:100%;
+    padding:0 5%;
+  }
+  .emotion-point {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+  }
+  .emotion-dot {
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#5a7a4a;
+    border:3px solid #fff;
+    box-shadow:0 2px 8px rgba(90,122,74,0.3);
+  }
+  .emotion-label {
+    font-size:10px;
+    color:#5a7a4a;
+    font-weight:700;
+  }
+  /* 痛点和机会 */
+  .pain-opportunity {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    flex:1;
+  }
+  .pain-box {
+    background:rgba(200,80,60,0.04);
+    border-radius:12px;
+    padding:14px 16px;
+    border-left:3px solid #c8503c;
+  }
+  .opportunity-box {
+    background:rgba(90,122,74,0.06);
+    border-radius:12px;
+    padding:14px 16px;
+    border-left:3px solid #5a7a4a;
+  }
+  .box-title {
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .pain-box .box-title { color:#c8503c; }
+  .opportunity-box .box-title { color:#5a7a4a; }
+  .box-list {
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+  }
+  .box-list li {
+    font-size:10px;
+    color:#444;
+    line-height:1.5;
+    padding-left:14px;
+    position:relative;
+  }
+  .box-list li::before {
+    content:'';
+    position:absolute;
+    left:0;
+    top:6px;
+    width:5px;
+    height:5px;
+    border-radius:50%;
+  }
+  .pain-box .box-list li::before { background:#c8503c; }
+  .opportunity-box .box-list li::before { background:#5a7a4a; }
+  /* MVP需求 */
+  .mvp-card {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .mvp-tags {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .mvp-tag {
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+  }
+  .mvp-tag.p0 {
+    background:#5a7a4a;
+    color:#fff;
+  }
+  .mvp-tag.p1 {
+    background:rgba(90,122,74,0.15);
+    color:#5a7a4a;
+  }
+  .mvp-tag.p2 {
+    background:rgba(0,0,0,0.06);
+    color:#666;
+  }
+  .mvp-desc {
+    font-size:11px;
+    color:#666;
+    line-height:1.6;
+    padding:12px 14px;
+    background:rgba(90,122,74,0.04);
+    border-radius:10px;
+    margin-bottom:14px;
+  }
+  /* ICE评分 */
+  .ice-card {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .ice-scores {
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .ice-score {
+    background:linear-gradient(180deg, rgba(90,122,74,0.06) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:12px;
+    padding:16px 12px;
+    text-align:center;
+  }
+  .ice-score-num {
+    font-size:32px;
+    font-weight:800;
+    color:#5a7a4a;
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .ice-score-label {
+    font-size:10px;
+    color:#666;
+    font-weight:600;
+  }
+  .ice-requirements {
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    flex:1;
+  }
+  .ice-req-item {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 14px;
+    background:rgba(90,122,74,0.04);
+    border-radius:10px;
+  }
+  .ice-req-rank {
+    width:24px;
+    height:24px;
+    background:#5a7a4a;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+    flex-shrink:0;
+  }
+  .ice-req-name {
+    font-size:11px;
+    color:#333;
+    font-weight:600;
+    flex:1;
+  }
+  .ice-req-score {
+    font-size:12px;
+    color:#5a7a4a;
+    font-weight:800;
+  }
+  .data-source {
+    position:absolute;
+    bottom:20px;
+    left:80px;
+    right:80px;
+    font-size:10px;
+    color:#bbb;
+    text-align:center;
+    padding-top:15px;
+    border-top:1px solid rgba(0,0,0,0.05);
+  }
+</style>
+</head>
+<body>
+  <div class="bg-circle-1"></div>
+  <div class="bg-circle-2"></div>
+
+  <div class="main-content">
+    <div class="header">
+      <div class="header-left">
+        <span class="page-num">03</span>
+        <div class="page-title-group">
+          <span class="page-title-cn">用户旅程与需求分析</span>
+          <span class="page-title-en">User Journey & Requirements</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="method-label">RESEARCH METHODS</span>
+        <div class="method-tags">
+          <span class="method-tag">用户访谈 n=8</span>
+          <span class="method-tag">旅程地图</span>
+          <span class="method-tag">ICE评分</span>
+          <span class="method-tag">MVP筛选</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="content-grid">
+      <div class="left-col">
+        <!-- 用户旅程图 -->
+        <div class="card journey-card">
+          <div class="section-title">
+            <div class="section-title-num">01</div>
+            <span class="section-title-text">核心用户旅程地图</span>
+            <span class="section-title-sub">以 Luna 为例</span>
+          </div>
+          <div class="journey-steps">
+            <div class="journey-step">
+              <div class="journey-step-icon">😟</div>
+              <div class="journey-step-name">发现问题</div>
+              <div class="journey-step-desc">上班时担心猫咪在家状态，频繁查看监控</div>
+            </div>
+            <div class="journey-step">
+              <div class="journey-step-icon">🔍</div>
+              <div class="journey-step-name">寻找方案</div>
+              <div class="journey-step-desc">搜索智能宠物产品，对比监控摄像头、喂食器</div>
+            </div>
+            <div class="journey-step">
+              <div class="journey-step-icon">🛒</div>
+              <div class="journey-step-name">购买使用</div>
+              <div class="journey-step-desc">购买 PetLoop，给猫咪穿上可穿戴背心</div>
+            </div>
+            <div class="journey-step">
+              <div class="journey-step-icon">😊</div>
+              <div class="journey-step-name">日常互动</div>
+              <div class="journey-step-desc">通过桌面机器人了解猫咪状态，发起互动</div>
+            </div>
+            <div class="journey-step">
+              <div class="journey-step-icon">❤️</div>
+              <div class="journey-step-name">情感连接</div>
+              <div class="journey-step-desc">建立持续的人宠情感闭环，减少分离焦虑</div>
+            </div>
+          </div>
+          <div class="emotion-curve">
+            <svg class="emotion-line" viewBox="0 0 1000 60" preserveAspectRatio="none">
+              <path d="M 50 45 Q 150 40, 250 35 T 450 25 T 650 15 T 850 8 T 950 5" 
+                    fill="none" stroke="#5a7a4a" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <div class="emotion-points">
+              <div class="emotion-point">
+                <div class="emotion-dot"></div>
+                <span class="emotion-label">焦虑</span>
+              </div>
+              <div class="emotion-point">
+                <div class="emotion-dot"></div>
+                <span class="emotion-label">期待</span>
+              </div>
+              <div class="emotion-point">
+                <div class="emotion-dot"></div>
+                <span class="emotion-label">好奇</span>
+              </div>
+              <div class="emotion-point">
+                <div class="emotion-dot"></div>
+                <span class="emotion-label">安心</span>
+              </div>
+              <div class="emotion-point">
+                <div class="emotion-dot"></div>
+                <span class="emotion-label">幸福</span>
+              </div>
+            </div>
+          </div>
+          <div class="pain-opportunity">
+            <div class="pain-box">
+              <div class="box-title">😣 关键痛点</div>
+              <ul class="box-list">
+                <li>视频监控很被动，无法形成真实互动</li>
+                <li>语音呼叫容易打扰，也不一定有效</li>
+                <li>宠物的状态无法被准确理解</li>
+                <li>离家时间越长，关系维持越依赖他人代劳</li>
+              </ul>
+            </div>
+            <div class="opportunity-box">
+              <div class="box-title">💡 设计机会</div>
+              <ul class="box-list">
+                <li>从"远程监看"升级为"远程陪伴与情感反馈"</li>
+                <li>通过可穿戴设备精准感知宠物情绪状态</li>
+                <li>桌面机器人作为情感交互媒介，双向互动</li>
+                <li>建立可追溯的事件时间线，让关心有迹可循</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <!-- MVP需求范围 -->
+        <div class="card mvp-card">
+          <div class="section-title">
+            <div class="section-title-num">02</div>
+            <span class="section-title-text">MVP 需求范围</span>
+            <span class="section-title-sub">ICE 评分筛选</span>
+          </div>
+          <div class="mvp-tags">
+            <span class="mvp-tag p0">P0 情绪可视化</span>
+            <span class="mvp-tag p0">P0 双向互动</span>
+            <span class="mvp-tag p0">P0 事件时间线</span>
+            <span class="mvp-tag p1">P1 异常预警</span>
+            <span class="mvp-tag p1">P1 数据统计</span>
+            <span class="mvp-tag p2">P2 社区分享</span>
+            <span class="mvp-tag p2">P2 多宠物管理</span>
+          </div>
+          <div class="mvp-desc">
+            从 12 项需求中筛选出 3 项 P0 核心功能，聚焦<strong style="color:#5a7a4a">"感知-互动-记录"</strong>闭环，确保 MVP 能验证核心价值假设。
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center">
+            <div style="text-align:center">
+              <div style="font-size:48px;font-weight:900;color:rgba(90,122,74,0.15);line-height:1;margin-bottom:8px">3</div>
+              <div style="font-size:12px;color:#666;font-weight:600">P0 核心功能</div>
+              <div style="font-size:10px;color:#999;margin-top:4px">感知 · 互动 · 记录</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 核心需求ICE评分 -->
+        <div class="card ice-card">
+          <div class="section-title">
+            <div class="section-title-num">03</div>
+            <span class="section-title-text">核心需求 ICE 评分</span>
+            <span class="section-title-sub">Impact × Confidence × Ease</span>
+          </div>
+          <div class="ice-scores">
+            <div class="ice-score">
+              <div class="ice-score-num">9</div>
+              <div class="ice-score-label">影响力 Impact</div>
+            </div>
+            <div class="ice-score">
+              <div class="ice-score-num">8</div>
+              <div class="ice-score-label">信心 Confidence</div>
+            </div>
+            <div class="ice-score">
+              <div class="ice-score-num">5</div>
+              <div class="ice-score-label">易实现 Ease</div>
+            </div>
+          </div>
+          <div class="ice-requirements">
+            <div class="ice-req-item">
+              <div class="ice-req-rank">1</div>
+              <span class="ice-req-name">情绪状态实时可视化</span>
+              <span class="ice-req-score">ICE 360</span>
+            </div>
+            <div class="ice-req-item">
+              <div class="ice-req-rank">2</div>
+              <span class="ice-req-name">低延迟远程双向互动</span>
+              <span class="ice-req-score">ICE 360</span>
+            </div>
+            <div class="ice-req-item">
+              <div class="ice-req-rank">3</div>
+              <span class="ice-req-name">事件时间线与可追溯证据</span>
+              <span class="ice-req-score">ICE 392</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-source">
+      数据来源：用户访谈(n=8)、可用性测试、ICE评分模型 · 2026.04
+    </div>
+  </div>
+</body>
+</html>

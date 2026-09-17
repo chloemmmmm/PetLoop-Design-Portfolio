@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>03 用户画像</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:2160px;
+    height:1215px;
+    background:#fafbf8;
+    font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    position:relative;
+    overflow:hidden;
+    color:#2c2c2c;
+  }
+  .bg-circle-1 {
+    position:absolute;
+    top:-200px;
+    right:-100px;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(90,122,74,0.06) 0%, transparent 70%);
+  }
+  .bg-circle-2 {
+    position:absolute;
+    bottom:-150px;
+    left:-100px;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(201,104,46,0.04) 0%, transparent 70%);
+  }
+  .main-content {
+    padding:50px 60px 40px 60px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    z-index:1;
+  }
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:20px;
+  }
+  .header-left {
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+  }
+  .page-num {
+    font-size:58px;
+    font-weight:900;
+    color:rgba(90,122,74,0.15);
+    line-height:1;
+    letter-spacing:-2px;
+  }
+  .page-title-group {
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .page-title-cn {
+    font-size:34px;
+    font-weight:800;
+    color:#2c2c2c;
+    line-height:1.2;
+  }
+  .page-title-en {
+    font-size:13px;
+    color:#5a7a4a;
+    font-weight:500;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  .header-right {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:5px;
+  }
+  .method-label {
+    font-size:9px;
+    color:#999;
+    font-weight:600;
+    letter-spacing:1px;
+  }
+  .method-tags {
+    display:flex;
+    gap:4px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    max-width:400px;
+  }
+  .method-tag {
+    font-size:8px;
+    padding:2px 7px;
+    background:#fff;
+    border-radius:12px;
+    color:#5a7a4a;
+    border:1px solid rgba(90,122,74,0.2);
+    font-weight:500;
+  }
+  .divider {
+    height:1px;
+    background:linear-gradient(90deg, transparent 0%, rgba(90,122,74,0.2) 20%, rgba(90,122,74,0.2) 80%, transparent 100%);
+    margin-bottom:18px;
+  }
+  .content-grid {
+    display:grid;
+    grid-template-columns:1fr 1.3fr;
+    gap:16px;
+    flex:1;
+  }
+  .left-col {
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .right-col {
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .card {
+    background:#fff;
+    border-radius:12px;
+    padding:16px 20px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+  }
+  .section-title {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .section-title-num {
+    width:22px;
+    height:22px;
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:10px;
+    font-weight:800;
+  }
+  .section-title-text {
+    font-size:15px;
+    font-weight:700;
+    color:#2c2c2c;
+  }
+  .section-title-sub {
+    font-size:9px;
+    color:#999;
+    margin-left:auto;
+    font-weight:500;
+  }
+  /* 用户照片区域 */
+  .persona-photo-card {
+    position:relative;
+    border-radius:12px;
+    overflow:hidden;
+    height:380px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.04);
+  }
+  .persona-photo-card img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .persona-photo-overlay {
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    padding:20px 24px;
+    background:linear-gradient(transparent, rgba(0,0,0,0.7));
+    color:#fff;
+  }
+  .persona-name-large {
+    font-size:32px;
+    font-weight:800;
+    margin-bottom:4px;
+  }
+  .persona-tagline {
+    font-size:13px;
+    opacity:0.9;
+  }
+  .cat-avatar {
+    position:absolute;
+    top:20px;
+    right:20px;
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    border:4px solid #fff;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+  }
+  .cat-avatar img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  /* 基础属性 */
+  .basic-info-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+  .info-item {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 10px;
+    background:rgba(90,122,74,0.03);
+    border-radius:8px;
+  }
+  .info-icon {
+    width:28px;
+    height:28px;
+    background:linear-gradient(135deg, rgba(90,122,74,0.1), rgba(90,122,74,0.05));
+    border-radius:7px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    flex-shrink:0;
+  }
+  .info-content {
+    flex:1;
+  }
+  .info-label {
+    font-size:9px;
+    color:#888;
+    margin-bottom:1px;
+  }
+  .info-value {
+    font-size:12px;
+    font-weight:700;
+    color:#333;
+  }
+  /* 标签 */
+  .persona-tags {
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:10px;
+  }
+  .persona-tag {
+    padding:5px 12px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    color:#fff;
+    border-radius:15px;
+    font-size:10px;
+    font-weight:600;
+  }
+  /* 目标动机 */
+  .motivation-list {
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .motivation-item {
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:10px 12px;
+    background:linear-gradient(90deg, rgba(90,122,74,0.05) 0%, rgba(90,122,74,0.02) 100%);
+    border-radius:8px;
+    border-left:3px solid #5a7a4a;
+  }
+  .motivation-icon {
+    font-size:18px;
+    flex-shrink:0;
+  }
+  .motivation-content {
+    flex:1;
+  }
+  .motivation-title {
+    font-size:12px;
+    font-weight:700;
+    color:#333;
+    margin-bottom:2px;
+  }
+  .motivation-desc {
+    font-size:10px;
+    color:#666;
+    line-height:1.4;
+  }
+  /* 行为习惯 */
+  .habit-list {
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .habit-item {
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .habit-bar {
+    flex:1;
+    height:8px;
+    background:rgba(90,122,74,0.1);
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .habit-fill {
+    height:100%;
+    background:linear-gradient(90deg, #5a7a4a, #7A9A6A);
+    border-radius:4px;
+  }
+  .habit-text {
+    font-size:10px;
+    color:#555;
+    width:180px;
+    flex-shrink:0;
+  }
+  .habit-percent {
+    font-size:10px;
+    color:#5a7a4a;
+    font-weight:700;
+    width:30px;
+    text-align:right;
+  }
+  /* 痛点 */
+  .pain-list {
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .pain-item {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 10px;
+    background:rgba(212,117,106,0.05);
+    border-radius:6px;
+    border-left:2px solid #D4756A;
+  }
+  .pain-icon {
+    font-size:14px;
+    flex-shrink:0;
+  }
+  .pain-text {
+    font-size:10px;
+    color:#555;
+    line-height:1.4;
+  }
+  /* App截图 */
+  .app-screenshots {
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:8px;
+  }
+  .app-screenshot {
+    border-radius:8px;
+    overflow:hidden;
+    aspect-ratio:9/16;
+    background:#f5f7f2;
+    border:1px solid rgba(0,0,0,0.05);
+  }
+  .app-screenshot img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .data-source {
+    position:absolute;
+    bottom:12px;
+    left:60px;
+    right:60px;
+    font-size:8px;
+    color:#bbb;
+    text-align:center;
+    padding-top:8px;
+    border-top:1px solid rgba(0,0,0,0.05);
+  }
+</style>
+</head>
+<body>
+  <div class="bg-circle-1"></div>
+  <div class="bg-circle-2"></div>
+
+  <div class="main-content">
+    <div class="header">
+      <div class="header-left">
+        <span class="page-num">03</span>
+        <div class="page-title-group">
+          <span class="page-title-cn">用户画像</span>
+          <span class="page-title-en">User Persona</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="method-label">RESEARCH METHODS</span>
+        <div class="method-tags">
+          <span class="method-tag">用户访谈 n=8</span>
+          <span class="method-tag">问卷调研 n=1247</span>
+          <span class="method-tag">亲和图分析</span>
+          <span class="method-tag">典型用户画像</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="content-grid">
+      <div class="left-col">
+        <!-- 用户照片 -->
+        <div class="persona-photo-card">
+          <img src="extracted_images/page5_img1.png" alt="用户Luna">
+          <div class="cat-avatar">
+            <img src="extracted_images/page5_img1.png" alt="猫咪">
+          </div>
+          <div class="persona-photo-overlay">
+            <div class="persona-name-large">Luna</div>
+            <div class="persona-tagline">27岁 · 互联网运营 · 养猫1年 · 独居都市养宠人群</div>
+          </div>
+        </div>
+
+        <!-- 基础属性 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">01</div>
+            <span class="section-title-text">基础属性</span>
+            <span class="section-title-sub">Basic Profile</span>
+          </div>
+          <div class="basic-info-grid">
+            <div class="info-item">
+              <div class="info-icon">👩</div>
+              <div class="info-content">
+                <div class="info-label">姓名&年龄</div>
+                <div class="info-value">女 · 27岁</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">💼</div>
+              <div class="info-content">
+                <div class="info-label">职业</div>
+                <div class="info-value">互联网运营</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">💰</div>
+              <div class="info-content">
+                <div class="info-label">收入水平</div>
+                <div class="info-value">中等偏上</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">🐱</div>
+              <div class="info-content">
+                <div class="info-label">宠物</div>
+                <div class="info-value">1只猫</div>
+              </div>
+            </div>
+          </div>
+          <div class="persona-tags">
+            <span class="persona-tag">#独居养宠</span>
+            <span class="persona-tag">#情感依赖</span>
+            <span class="persona-tag">#智能设备接受度高</span>
+            <span class="persona-tag">#愿为陪伴价值付费</span>
+          </div>
+        </div>
+
+        <!-- 行为习惯 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">02</div>
+            <span class="section-title-text">行为习惯</span>
+            <span class="section-title-sub">Behavior Habits</span>
+          </div>
+          <div class="habit-list">
+            <div class="habit-item">
+              <span class="habit-text">上班期间反复查看宠物摄像头</span>
+              <div class="habit-bar"><div class="habit-fill" style="width:90%"></div></div>
+              <span class="habit-percent">90%</span>
+            </div>
+            <div class="habit-item">
+              <span class="habit-text">拍摄记录宠物日常分享社交平台</span>
+              <div class="habit-bar"><div class="habit-fill" style="width:75%"></div></div>
+              <span class="habit-percent">75%</span>
+            </div>
+            <div class="habit-item">
+              <span class="habit-text">喜欢购买宠物周边、智能用品</span>
+              <div class="habit-bar"><div class="habit-fill" style="width:80%"></div></div>
+              <span class="habit-percent">80%</span>
+            </div>
+            <div class="habit-item">
+              <span class="habit-text">对"有温度的科技产品"接受度高</span>
+              <div class="habit-bar"><div class="habit-fill" style="width:85%"></div></div>
+              <span class="habit-percent">85%</span>
+            </div>
+            <div class="habit-item">
+              <span class="habit-text">晚上回家主动和宠物互动、抚摸</span>
+              <div class="habit-bar"><div class="habit-fill" style="width:95%"></div></div>
+              <span class="habit-percent">95%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <!-- 目标动机 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">03</div>
+            <span class="section-title-text">目标动机</span>
+            <span class="section-title-sub">Goals & Motivations</span>
+          </div>
+          <div class="motivation-list">
+            <div class="motivation-item">
+              <span class="motivation-icon">😌</span>
+              <div class="motivation-content">
+                <div class="motivation-title">缓解职场压力</div>
+                <div class="motivation-desc">下班后通过与宠物互动、整理潮玩，快速切换状态，释放工作紧绷感</div>
+              </div>
+            </div>
+            <div class="motivation-item">
+              <span class="motivation-icon">❤️</span>
+              <div class="motivation-content">
+                <div class="motivation-title">获得情感陪伴</div>
+                <div class="motivation-desc">宠物成为无条件、低能耗的温暖伙伴，是真正的家人</div>
+              </div>
+            </div>
+            <div class="motivation-item">
+              <span class="motivation-icon">🏠</span>
+              <div class="motivation-content">
+                <div class="motivation-title">建立可控安全感</div>
+                <div class="motivation-desc">通过收藏的秩序感和规律照料宠物，在不确定的生活中重建自己完全掌控的稳定锚点</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 使用目标 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">04</div>
+            <span class="section-title-text">使用目标</span>
+            <span class="section-title-sub">Usage Goals</span>
+          </div>
+          <div class="motivation-list">
+            <div class="motivation-item" style="border-left-color:#7A9A6A">
+              <span class="motivation-icon">📱</span>
+              <div class="motivation-content">
+                <div class="motivation-title">持续感知宠物状态</div>
+                <div class="motivation-desc">在办公或外出时，持续感知宠物状态</div>
+              </div>
+            </div>
+            <div class="motivation-item" style="border-left-color:#7A9A6A">
+              <span class="motivation-icon">😊</span>
+              <div class="motivation-content">
+                <div class="motivation-title">获得更情绪化的陪伴反馈</div>
+                <div class="motivation-desc">获得更直观、更情绪化的陪伴反馈</div>
+              </div>
+            </div>
+            <div class="motivation-item" style="border-left-color:#7A9A6A">
+              <span class="motivation-icon">🤖</span>
+              <div class="motivation-content">
+                <div class="motivation-title">通过抚摸机器人传递安抚</div>
+                <div class="motivation-desc">通过抚摸机器人，将安抚和回应传递给宠物</div>
+              </div>
+            </div>
+            <div class="motivation-item" style="border-left-color:#7A9A6A">
+              <span class="motivation-icon">💞</span>
+              <div class="motivation-content">
+                <div class="motivation-title">建立"即使分开也在互动"的陪伴关系</div>
+                <div class="motivation-desc">建立一种"即使分开，也仍然在互动"的陪伴关系</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 痛点障碍 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">05</div>
+            <span class="section-title-text">痛点障碍</span>
+            <span class="section-title-sub">Pain Points</span>
+          </div>
+          <div class="pain-list">
+            <div class="pain-item">
+              <span class="pain-icon">😰</span>
+              <span class="pain-text">视频监控很被动，无法形成真实互动</span>
+            </div>
+            <div class="pain-item">
+              <span class="pain-icon">📢</span>
+              <span class="pain-text">语音呼叫容易打扰，也不一定有效</span>
+            </div>
+            <div class="pain-item">
+              <span class="pain-icon">❓</span>
+              <span class="pain-text">宠物的状态无法被准确理解</span>
+            </div>
+            <div class="pain-item">
+              <span class="pain-icon">⏰</span>
+              <span class="pain-text">离家时间越长，关系维持越依赖他人代劳</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- App截图 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">06</div>
+            <span class="section-title-text">产品界面预览</span>
+            <span class="section-title-sub">App Screenshots</span>
+          </div>
+          <div class="app-screenshots">
+            <div class="app-screenshot">
+              <img src="extracted_images/page5_img1.png" alt="Console状态总览">
+            </div>
+            <div class="app-screenshot">
+              <img src="extracted_images/page5_img1.png" alt="互动控制台">
+            </div>
+            <div class="app-screenshot">
+              <img src="extracted_images/page5_img1.png" alt="事件时间线">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-source">
+      把宠物视为家人、存在长期分离场景、希望从"远程监看"升级为"远程陪伴与情感反馈"的都市养宠人群 · 用户访谈(n=8)、问卷调研(n=1247) · 2026.04
+    </div>
+  </div>
+</body>
+</html>

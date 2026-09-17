@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 2160px; height: 1215px; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #fff; position: relative; overflow: hidden; }
+.bg-texture { position: absolute; top: 0; right: 0; width: 60%; height: 100%; opacity: 0.08; background: repeating-radial-gradient(circle at 70% 30%, transparent, transparent 40px, #5a7a4a 40px, #5a7a4a 41px), repeating-radial-gradient(circle at 80% 60%, transparent, transparent 60px, #5a7a4a 60px, #5a7a4a 61px); }
+.sidebar { position: absolute; right: 60px; top: 120px; width: 180px; height: 900px; border-left: 2px dashed #c5d5b8; padding-left: 30px; }
+.sidebar-title { font-size: 22px; color: #999; margin-bottom: 40px; font-weight: 300; }
+.sidebar-item { font-size: 24px; color: #333; margin-bottom: 35px; font-weight: 500; position: relative; }
+.sidebar-item.active { color: #5a7a4a; font-weight: 700; }
+.sidebar-item.active::before { content: ''; position: absolute; left: -38px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: #5a7a4a; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 2px #5a7a4a; }
+.sidebar-section { font-size: 22px; color: #999; margin: 50px 0 25px 0; font-weight: 300; }
+.content { position: absolute; left: 80px; top: 80px; width: 1750px; height: 1055px; }
+.page-title { display: flex; align-items: baseline; margin-bottom: 40px; }
+.page-number { font-size: 72px; font-weight: 900; color: #1a1a1a; margin-right: 25px; }
+.page-title-text { font-size: 56px; font-weight: 700; color: #1a1a1a; }
+.page-subtitle { font-size: 32px; color: #5a7a4a; margin-left: 30px; font-weight: 500; }
+.grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.card { background: #f8faf5; border-radius: 16px; padding: 30px; border-left: 6px solid #5a7a4a; }
+.card-title { font-size: 26px; font-weight: 700; color: #5a7a4a; margin-bottom: 20px; }
+.flow-steps { display: flex; align-items: center; justify-content: space-between; margin: 20px 0; }
+.flow-step { flex: 1; text-align: center; padding: 15px; background: #fff; border-radius: 10px; margin: 0 5px; }
+.step-icon { font-size: 36px; margin-bottom: 8px; }
+.step-name { font-size: 17px; font-weight: 700; color: #333; margin-bottom: 5px; }
+.step-desc { font-size: 13px; color: #666; line-height: 1.4; }
+.flow-arrow { font-size: 28px; color: #5a7a4a; font-weight: bold; }
+.data-phase { background: #fff; border-radius: 10px; padding: 15px; margin-bottom: 12px; border-left: 4px solid #7a9a6a; }
+.phase-title { font-size: 18px; font-weight: 700; color: #5a7a4a; margin-bottom: 6px; }
+.phase-desc { font-size: 14px; color: #555; line-height: 1.5; }
+.highlight-box { background: #e8f0e0; border-radius: 10px; padding: 20px; margin-top: 15px; }
+.highlight-text { font-size: 16px; color: #3d5a3e; line-height: 1.7; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="bg-texture"></div>
+<div class="sidebar">
+  <div class="sidebar-title">项目规划</div>
+  <div class="sidebar-item">选题分析</div><div class="sidebar-item">选题来源</div><div class="sidebar-item">市场调研</div><div class="sidebar-item">用户画像</div>
+  <div class="sidebar-section">调研</div><div class="sidebar-item">数据收集</div><div class="sidebar-item">行为总结</div><div class="sidebar-item">语言总结</div><div class="sidebar-item">技术调研</div>
+  <div class="sidebar-section">设计</div><div class="sidebar-item active">系统图</div>
+  <div class="sidebar-section">开发</div>
+</div>
+<div class="content">
+  <div class="page-title">
+    <span class="page-number">04</span>
+    <span class="page-title-text">信息处理与数据采集</span>
+    <span class="page-subtitle">Information Processing & Data Collection</span>
+  </div>
+  <div class="grid-2col">
+    <div class="card">
+      <div class="card-title">🔄 信息处理三步流程</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="step-icon">🎙️</div><div class="step-name">步骤1</div><div class="step-desc">量化行为<br>音频/视频/加速度采集</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="step-icon">📊</div><div class="step-name">步骤2</div><div class="step-desc">特征提取<br>MFCC/肢体动作/运动强度</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="step-icon">🧠</div><div class="step-name">步骤3</div><div class="step-desc">数据分析<br>人工标注+机器学习分类</div></div>
+      </div>
+      <div class="highlight-box">
+        <div class="highlight-text">
+          💡 通过多模态数据融合，将宠物的行为、声音、生理信号转化为可分析的情绪特征，
+          建立"动作-声音-情绪"的对应关系，为后续的情绪识别提供数据基础。
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 行为与生理数据采集全流程</div>
+      <div class="data-phase">
+        <div class="phase-title">Phase 1 · 破冰与基线状态采集</div>
+        <div class="phase-desc">以熟悉的日常互动建立信任，引导宠物进入放松状态，采集基线状态下的肢体动作、叫声、生理数据，作为后续情绪与行为分析的参照基准。</div>
+      </div>
+      <div class="data-phase">
+        <div class="phase-title">Phase 2 · 行为与情绪关联数据采集</div>
+        <div class="phase-desc">分时段采集进食、玩耍、放松等不同场景下的完整数据，同步记录六轴传感器捕捉的肢体运动数据、声音特征，关联情绪标注，建立动作-声音-情绪的对应关系。</div>
+      </div>
+      <div class="data-phase">
+        <div class="phase-title">Phase 3 · 多场景行为与交互数据采集</div>
+        <div class="phase-desc">设计多元互动场景，采集不同情绪下的完整数据，同步采集不同情绪下的叫声特征、肢体动作的传感器数据，补充穿戴试穿样衣时的动作数据、舒适度反馈，优化衣服的尺寸与结构设计。</div>
+      </div>
+      <div class="data-phase">
+        <div class="phase-title">Phase 4 · 数据复盘与设计落地收尾</div>
+        <div class="phase-desc">对全天采集的六轴传感器、音频数据进行分类整理，完成情绪与行为的对应标注，形成完整数据集，基于身材尺寸数据完成定制衣服的版型设计、结构优化，最终验证数据采集与方案调整。</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

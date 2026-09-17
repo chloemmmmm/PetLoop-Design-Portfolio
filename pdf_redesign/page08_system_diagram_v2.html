@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>04 系统架构</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:2160px;
+    height:1215px;
+    background:#fafbf8;
+    font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    position:relative;
+    overflow:hidden;
+    color:#2c2c2c;
+  }
+  .bg-circle-1 {
+    position:absolute;
+    top:-200px;
+    right:-100px;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(90,122,74,0.06) 0%, transparent 70%);
+  }
+  .bg-circle-2 {
+    position:absolute;
+    bottom:-150px;
+    left:-100px;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(201,104,46,0.04) 0%, transparent 70%);
+  }
+  .main-content {
+    padding:50px 60px 40px 60px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    z-index:1;
+  }
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:20px;
+  }
+  .header-left {
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+  }
+  .page-num {
+    font-size:58px;
+    font-weight:900;
+    color:rgba(90,122,74,0.15);
+    line-height:1;
+    letter-spacing:-2px;
+  }
+  .page-title-group {
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .page-title-cn {
+    font-size:34px;
+    font-weight:800;
+    color:#2c2c2c;
+    line-height:1.2;
+  }
+  .page-title-en {
+    font-size:13px;
+    color:#5a7a4a;
+    font-weight:500;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  .header-right {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:5px;
+  }
+  .method-label {
+    font-size:9px;
+    color:#999;
+    font-weight:600;
+    letter-spacing:1px;
+  }
+  .method-tags {
+    display:flex;
+    gap:4px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    max-width:400px;
+  }
+  .method-tag {
+    font-size:8px;
+    padding:2px 7px;
+    background:#fff;
+    border-radius:12px;
+    color:#5a7a4a;
+    border:1px solid rgba(90,122,74,0.2);
+    font-weight:500;
+  }
+  .divider {
+    height:1px;
+    background:linear-gradient(90deg, transparent 0%, rgba(90,122,74,0.2) 20%, rgba(90,122,74,0.2) 80%, transparent 100%);
+    margin-bottom:18px;
+  }
+  .content-grid {
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:16px;
+    flex:1;
+  }
+  .left-col {
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .right-col {
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .card {
+    background:#fff;
+    border-radius:12px;
+    padding:16px 20px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+  }
+  .section-title {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .section-title-num {
+    width:22px;
+    height:22px;
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:10px;
+    font-weight:800;
+  }
+  .section-title-text {
+    font-size:15px;
+    font-weight:700;
+    color:#2c2c2c;
+  }
+  .section-title-sub {
+    font-size:9px;
+    color:#999;
+    margin-left:auto;
+    font-weight:500;
+  }
+  /* 系统架构图 */
+  .system-diagram-card {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .system-diagram {
+    flex:1;
+    position:relative;
+    background:linear-gradient(135deg, #f5f7f2 0%, #eef2e8 100%);
+    border-radius:10px;
+    padding:20px;
+    overflow:hidden;
+  }
+  .system-flow {
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    height:100%;
+  }
+  .system-row {
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .system-node {
+    flex:1;
+    padding:12px 16px;
+    border-radius:10px;
+    text-align:center;
+    position:relative;
+  }
+  .node-green {
+    background:linear-gradient(135deg, #5a7a4a 0%, #4a6a3a 100%);
+    color:#fff;
+  }
+  .node-light-green {
+    background:linear-gradient(135deg, rgba(90,122,74,0.15) 0%, rgba(90,122,74,0.08) 100%);
+    color:#5a7a4a;
+    border:1px solid rgba(90,122,74,0.2);
+  }
+  .node-blue {
+    background:linear-gradient(135deg, #4A7AA8 0%, #3A6A98 100%);
+    color:#fff;
+  }
+  .node-orange {
+    background:linear-gradient(135deg, #c9682e 0%, #e9884e 100%);
+    color:#fff;
+  }
+  .node-title {
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:3px;
+  }
+  .node-desc {
+    font-size:9px;
+    opacity:0.85;
+    line-height:1.3;
+  }
+  .system-arrow {
+    font-size:20px;
+    color:#5a7a4a;
+    flex-shrink:0;
+  }
+  .system-arrow-down {
+    text-align:center;
+    font-size:20px;
+    color:#5a7a4a;
+    margin:2px 0;
+  }
+  .system-label {
+    font-size:10px;
+    font-weight:700;
+    color:#5a7a4a;
+    padding:4px 10px;
+    background:rgba(90,122,74,0.1);
+    border-radius:10px;
+    display:inline-block;
+    margin-bottom:8px;
+  }
+  /* 核心模块 */
+  .core-modules {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .core-module {
+    padding:14px;
+    border-radius:10px;
+    background:linear-gradient(135deg, rgba(90,122,74,0.06) 0%, rgba(90,122,74,0.02) 100%);
+    border:1px solid rgba(90,122,74,0.15);
+  }
+  .module-icon {
+    width:36px;
+    height:36px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    margin-bottom:8px;
+  }
+  .module-title {
+    font-size:13px;
+    font-weight:700;
+    color:#2c2c2c;
+    margin-bottom:4px;
+  }
+  .module-desc {
+    font-size:10px;
+    color:#666;
+    line-height:1.4;
+  }
+  /* 数据流程 */
+  .data-flow {
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .flow-step {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    background:rgba(90,122,74,0.03);
+    border-radius:8px;
+    border-left:3px solid #5a7a4a;
+  }
+  .flow-num {
+    width:24px;
+    height:24px;
+    background:linear-gradient(135deg, #5a7a4a, #4a6a3a);
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+    flex-shrink:0;
+  }
+  .flow-content {
+    flex:1;
+  }
+  .flow-title {
+    font-size:11px;
+    font-weight:700;
+    color:#333;
+    margin-bottom:2px;
+  }
+  .flow-desc {
+    font-size:9px;
+    color:#777;
+    line-height:1.3;
+  }
+  .flow-arrow {
+    font-size:14px;
+    color:#5a7a4a;
+    flex-shrink:0;
+  }
+  /* 技术栈 */
+  .tech-stack {
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .tech-tag {
+    padding:5px 10px;
+    background:linear-gradient(135deg, rgba(90,122,74,0.1) 0%, rgba(90,122,74,0.05) 100%);
+    border:1px solid rgba(90,122,74,0.2);
+    border-radius:8px;
+    font-size:10px;
+    font-weight:600;
+    color:#5a7a4a;
+  }
+  .data-source {
+    position:absolute;
+    bottom:12px;
+    left:60px;
+    right:60px;
+    font-size:8px;
+    color:#bbb;
+    text-align:center;
+    padding-top:8px;
+    border-top:1px solid rgba(0,0,0,0.05);
+  }
+</style>
+</head>
+<body>
+  <div class="bg-circle-1"></div>
+  <div class="bg-circle-2"></div>
+
+  <div class="main-content">
+    <div class="header">
+      <div class="header-left">
+        <span class="page-num">04</span>
+        <div class="page-title-group">
+          <span class="page-title-cn">系统架构</span>
+          <span class="page-title-en">System Architecture</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="method-label">SYSTEM DESIGN</span>
+        <div class="method-tags">
+          <span class="method-tag">可穿戴设备</span>
+          <span class="method-tag">桌面机器人</span>
+          <span class="method-tag">AI情绪识别</span>
+          <span class="method-tag">双向互动</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="content-grid">
+      <div class="left-col">
+        <!-- 系统架构图 -->
+        <div class="card system-diagram-card">
+          <div class="section-title">
+            <div class="section-title-num">01</div>
+            <span class="section-title-text">人宠情感闭环系统架构</span>
+            <span class="section-title-sub">双向情感交互闭环</span>
+          </div>
+          <div class="system-diagram">
+            <div class="system-flow">
+              <!-- 主人端 -->
+              <div>
+                <span class="system-label">👤 主人端</span>
+                <div class="system-row">
+                  <div class="system-node node-green">
+                    <div class="node-title">主人做出互动</div>
+                    <div class="node-desc">抚摸、语音沟通等动作</div>
+                  </div>
+                  <span class="system-arrow">→</span>
+                  <div class="system-node node-light-green">
+                    <div class="node-title">主人桌面机器人</div>
+                    <div class="node-desc">被主人捕捉到互动动作</div>
+                  </div>
+                  <span class="system-arrow">→</span>
+                  <div class="system-node node-light-green">
+                    <div class="node-title">将主人行为数据化</div>
+                    <div class="node-desc">把人的互动动作映射为可识别、可记录的反馈数据</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="system-arrow-down">↓</div>
+
+              <!-- 数据处理 -->
+              <div>
+                <span class="system-label">⚙️ 数据处理层</span>
+                <div class="system-row">
+                  <div class="system-node node-blue">
+                    <div class="node-title">将主人行为与数据库对应</div>
+                    <div class="node-desc">将宠物状态转化为可视、可感知的桌面反馈媒介</div>
+                  </div>
+                  <span class="system-arrow">↔</span>
+                  <div class="system-node node-blue">
+                    <div class="node-title">问题根源与基础策略</div>
+                    <div class="node-desc">Concerns on Pet Behavior & Health Risks</div>
+                  </div>
+                  <span class="system-arrow">↔</span>
+                  <div class="system-node node-blue">
+                    <div class="node-title">通过训练好的AI模型进行情绪判定</div>
+                    <div class="node-desc">持续记录宠物行为变化，并连接宠物端与系统端</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="system-arrow-down">↓</div>
+
+              <!-- 宠物端 -->
+              <div>
+                <span class="system-label">🐱 宠物端</span>
+                <div class="system-row">
+                  <div class="system-node node-orange">
+                    <div class="node-title">宠物可穿戴设备</div>
+                    <div class="node-desc">通过不同传感器识别宠物动作与声音</div>
+                  </div>
+                  <span class="system-arrow">→</span>
+                  <div class="system-node node-orange">
+                    <div class="node-title">将动作和声音数据化</div>
+                    <div class="node-desc">转化为可分析的数据内容</div>
+                  </div>
+                  <span class="system-arrow">→</span>
+                  <div class="system-node node-orange">
+                    <div class="node-title">输出设备 · 输入设备</div>
+                    <div class="node-desc">通过声音、动作等方式将人的回应传递给宠物端</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="system-arrow-down">↓</div>
+
+              <!-- 反馈循环 -->
+              <div class="system-row">
+                <div class="system-node node-green" style="flex:2">
+                  <div class="node-title">🔄 情感闭环 · 反馈给桌面机器人进行可视化</div>
+                  <div class="node-desc">宠物接收来自系统的反馈，并产生新的行为变化 → 持续循环，形成人宠情感交互闭环</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 核心模块 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">02</div>
+            <span class="section-title-text">四大核心模块</span>
+            <span class="section-title-sub">Core Modules</span>
+          </div>
+          <div class="core-modules">
+            <div class="core-module">
+              <div class="module-icon">📱</div>
+              <div class="module-title">Console 状态总览</div>
+              <div class="module-desc">宠物情绪状态实时可视化，5种情绪状态识别，异常行为预警</div>
+            </div>
+            <div class="core-module">
+              <div class="module-icon">🎮</div>
+              <div class="module-title">互动控制台</div>
+              <div class="module-desc">四种互动模式（安抚/玩耍/喂食/呼唤），低延迟远程双向互动</div>
+            </div>
+            <div class="core-module">
+              <div class="module-icon">📅</div>
+              <div class="module-title">事件时间线</div>
+              <div class="module-desc">可追溯证据记录，宠物日常行为时间轴，异常事件标记</div>
+            </div>
+            <div class="core-module">
+              <div class="module-icon">🤖</div>
+              <div class="module-title">桌面机器人</div>
+              <div class="module-desc">5阶段状态机，情感反馈媒介，主人互动输入端</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <!-- 数据流程 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">03</div>
+            <span class="section-title-text">数据处理流程</span>
+            <span class="section-title-sub">Data Pipeline</span>
+          </div>
+          <div class="data-flow">
+            <div class="flow-step">
+              <div class="flow-num">1</div>
+              <div class="flow-content">
+                <div class="flow-title">数据采集</div>
+                <div class="flow-desc">可穿戴设备6种传感器采集宠物动作、声音、心率等数据</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-num">2</div>
+              <div class="flow-content">
+                <div class="flow-title">数据传输</div>
+                <div class="flow-desc">低功耗蓝牙/WiFi传输，边缘计算预处理，云端数据同步</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-num">3</div>
+              <div class="flow-content">
+                <div class="flow-title">AI情绪识别</div>
+                <div class="flow-desc">训练好的AI模型进行情绪判定，5种情绪状态分类</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-num">4</div>
+              <div class="flow-content">
+                <div class="flow-title">可视化反馈</div>
+                <div class="flow-desc">桌面机器人状态变化，App界面实时展示，事件时间线记录</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-num">5</div>
+              <div class="flow-content">
+                <div class="flow-title">主人互动输入</div>
+                <div class="flow-desc">主人抚摸机器人、语音沟通，转化为数据化互动指令</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-num">6</div>
+              <div class="flow-content">
+                <div class="flow-title">宠物端输出</div>
+                <div class="flow-desc">可穿戴设备发出声音、动作，将主人回应传递给宠物</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 技术栈 -->
+        <div class="card">
+          <div class="section-title">
+            <div class="section-title-num">04</div>
+            <span class="section-title-text">技术栈</span>
+            <span class="section-title-sub">Tech Stack</span>
+          </div>
+          <div class="tech-stack">
+            <span class="tech-tag">ESP32 微控制器</span>
+            <span class="tech-tag">MPU6050 加速度计</span>
+            <span class="tech-tag">MAX9814 麦克风</span>
+            <span class="tech-tag">PulseSensor 心率</span>
+            <span class="tech-tag">NTC 温度传感器</span>
+            <span class="tech-tag">VL53L0X 距离</span>
+            <span class="tech-tag">低功耗蓝牙 BLE</span>
+            <span class="tech-tag">WiFi 无线传输</span>
+            <span class="tech-tag">TensorFlow Lite</span>
+            <span class="tech-tag">LSTM 时序模型</span>
+            <span class="tech-tag">React Native</span>
+            <span class="tech-tag">Node.js 后端</span>
+            <span class="tech-tag">MongoDB 数据库</span>
+            <span class="tech-tag">MQTT 消息协议</span>
+          </div>
+        </div>
+
+        <!-- 系统特点 -->
+        <div class="card" style="flex:1">
+          <div class="section-title">
+            <div class="section-title-num">05</div>
+            <span class="section-title-text">系统特点</span>
+            <span class="section-title-sub">Key Features</span>
+          </div>
+          <div class="data-flow">
+            <div class="flow-step" style="border-left-color:#c9682e">
+              <div class="flow-num" style="background:linear-gradient(135deg,#c9682e,#e9884e)">⚡</div>
+              <div class="flow-content">
+                <div class="flow-title">低延迟双向互动</div>
+                <div class="flow-desc">端到端延迟 < 200ms，实时情感交互体验</div>
+              </div>
+            </div>
+            <div class="flow-step" style="border-left-color:#7A9A6A">
+              <div class="flow-num" style="background:linear-gradient(135deg,#7A9A6A,#9ABA8A)">🎯</div>
+              <div class="flow-content">
+                <div class="flow-title">精准情绪识别</div>
+                <div class="flow-desc">5种情绪状态分类，准确率 > 85%</div>
+              </div>
+            </div>
+            <div class="flow-step" style="border-left-color:#4A7AA8">
+              <div class="flow-num" style="background:linear-gradient(135deg,#4A7AA8,#6A9AC8)">🔒</div>
+              <div class="flow-content">
+                <div class="flow-title">隐私安全保护</div>
+                <div class="flow-desc">端侧计算，数据加密传输，用户隐私可控</div>
+              </div>
+            </div>
+            <div class="flow-step" style="border-left-color:#D4756A">
+              <div class="flow-num" style="background:linear-gradient(135deg,#D4756A,#E4958A)">🔋</div>
+              <div class="flow-content">
+                <div class="flow-title">低功耗长续航</div>
+                <div class="flow-desc">可穿戴设备续航 > 7天，低功耗设计</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-source">
+      人宠情感闭环系统 · 可穿戴背心 + 桌面机器人双向交互 · AI情绪识别 · 2026.04
+    </div>
+  </div>
+</body>
+</html>

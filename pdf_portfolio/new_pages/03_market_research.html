@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 2160px;
+  height: 1215px;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+/* 背景等高线纹理 */
+.bg-texture {
+  position: absolute;
+  top: 0; right: 0;
+  width: 60%; height: 100%;
+  opacity: 0.08;
+  background: 
+    repeating-radial-gradient(circle at 70% 30%, transparent, transparent 40px, #5a7a4a 40px, #5a7a4a 41px),
+    repeating-radial-gradient(circle at 80% 60%, transparent, transparent 60px, #5a7a4a 60px, #5a7a4a 61px);
+}
+/* 右侧导航栏 */
+.sidebar {
+  position: absolute;
+  right: 60px;
+  top: 120px;
+  width: 180px;
+  height: 900px;
+  border-left: 2px dashed #c5d5b8;
+  padding-left: 30px;
+}
+.sidebar-title {
+  font-size: 22px;
+  color: #999;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+.sidebar-item {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 35px;
+  font-weight: 500;
+  position: relative;
+}
+.sidebar-item.active {
+  color: #5a7a4a;
+  font-weight: 700;
+}
+.sidebar-item.active::before {
+  content: '';
+  position: absolute;
+  left: -38px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  background: #5a7a4a;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #5a7a4a;
+}
+.sidebar-section {
+  font-size: 22px;
+  color: #999;
+  margin: 50px 0 25px 0;
+  font-weight: 300;
+}
+/* 主内容区 */
+.content {
+  position: absolute;
+  left: 80px;
+  top: 80px;
+  width: 1750px;
+  height: 1055px;
+}
+/* 标题 */
+.page-title {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 50px;
+}
+.page-number {
+  font-size: 72px;
+  font-weight: 900;
+  color: #1a1a1a;
+  margin-right: 25px;
+}
+.page-title-text {
+  font-size: 56px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+.page-subtitle {
+  font-size: 32px;
+  color: #5a7a4a;
+  margin-left: 30px;
+  font-weight: 500;
+}
+/* 内容网格 */
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  margin-top: 30px;
+}
+/* 卡片 */
+.card {
+  background: #f8faf5;
+  border-radius: 16px;
+  padding: 35px;
+  border-left: 6px solid #5a7a4a;
+}
+.card-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #5a7a4a;
+  margin-bottom: 20px;
+}
+.card-content {
+  font-size: 20px;
+  line-height: 1.8;
+  color: #444;
+}
+/* 数据高亮 */
+.highlight {
+  display: inline-block;
+  background: #5a7a4a;
+  color: #fff;
+  padding: 4px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  margin: 0 4px;
+}
+.highlight-num {
+  font-size: 48px;
+  font-weight: 900;
+  color: #5a7a4a;
+}
+/* 市场体量图表 */
+.market-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 30px;
+  height: 200px;
+  margin: 20px 0;
+}
+.chart-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.bar {
+  width: 100%;
+  background: linear-gradient(180deg, #7a9a6a 0%, #5a7a4a 100%);
+  border-radius: 8px 8px 0 0;
+  position: relative;
+}
+.bar-value {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  font-weight: 700;
+  color: #5a7a4a;
+}
+.bar-label {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+}
+/* 竞争格局四象限 */
+.quadrant {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  background: #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 280px;
+  margin-top: 15px;
+}
+.quad-cell {
+  background: #f8faf5;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.quad-cell.highlight-cell {
+  background: #e8f0e0;
+}
+.quad-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.quad-desc {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
+}
+.quad-tag {
+  display: inline-block;
+  background: #5a7a4a;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  margin-top: 8px;
+  width: fit-content;
+}
+</style>
+</head>
+<body>
+<div class="bg-texture"></div>
+
+<!-- 右侧导航栏 -->
+<div class="sidebar">
+  <div class="sidebar-title">项目规划</div>
+  <div class="sidebar-item active">选题分析</div>
+  <div class="sidebar-item">选题来源</div>
+  <div class="sidebar-item">市场调研</div>
+  <div class="sidebar-item">用户画像</div>
+  <div class="sidebar-section">调研</div>
+  <div class="sidebar-item">数据收集</div>
+  <div class="sidebar-item">行为总结</div>
+  <div class="sidebar-item">语言总结</div>
+  <div class="sidebar-item">技术调研</div>
+  <div class="sidebar-section">设计</div>
+  <div class="sidebar-item">系统图</div>
+  <div class="sidebar-section">开发</div>
+</div>
+
+<!-- 主内容 -->
+<div class="content">
+  <div class="page-title">
+    <span class="page-number">02</span>
+    <span class="page-title-text">市场调研</span>
+    <span class="page-subtitle">Market Research & Opportunity</span>
+  </div>
+
+  <div class="grid-2col">
+    <!-- 左侧：市场体量 -->
+    <div class="card">
+      <div class="card-title">📊 宠物情绪消费市场体量</div>
+      <div class="card-content">
+        <p style="margin-bottom: 15px;">情绪消费主力年龄 <span class="highlight">18-35岁</span> 占 <span class="highlight-num" style="font-size:32px;">73%</span></p>
+        
+        <div class="market-chart">
+          <div class="chart-bar">
+            <div class="bar" style="height: 55%;"><span class="bar-value">3002亿</span></div>
+            <div class="bar-label">城镇犬猫<br>消费市场</div>
+          </div>
+          <div class="chart-bar">
+            <div class="bar" style="height: 40%;"><span class="bar-value">1180亿</span></div>
+            <div class="bar-label">智能用品<br>市场</div>
+          </div>
+          <div class="chart-bar">
+            <div class="bar" style="height: 25%;"><span class="bar-value">1460亿</span></div>
+            <div class="bar-label">宠物医疗<br>市场</div>
+          </div>
+        </div>
+
+        <p style="margin-top: 15px; font-size: 18px;">
+          <span class="highlight">74.4%</span> 的消费者曾因"情绪价值"而购买产品或服务，
+          宠物从"功能型"向"情感陪伴型"转变。
+        </p>
+      </div>
+    </div>
+
+    <!-- 右侧：竞争格局四象限 -->
+    <div class="card">
+      <div class="card-title">🎯 竞争格局与机会空间</div>
+      <div class="card-content">
+        <div class="quadrant">
+          <div class="quad-cell">
+            <div class="quad-title">🔴 红海市场</div>
+            <div class="quad-desc">宠物玩具、服饰、家具<br>基础功能，同质化严重</div>
+          </div>
+          <div class="quad-cell highlight-cell">
+            <div class="quad-title">🟢 机会空白区</div>
+            <div class="quad-desc">远程情感陪伴、双向互动<br>UI/UX + 智能硬件结合</div>
+            <span class="quad-tag">PetLoop 定位</span>
+          </div>
+          <div class="quad-cell">
+            <div class="quad-title">🟡 新兴市场</div>
+            <div class="quad-desc">智能喂食器、宠物监控<br>单向功能，缺乏情感交互</div>
+          </div>
+          <div class="quad-cell">
+            <div class="quad-title">🔵 未来设计</div>
+            <div class="quad-desc">AI情绪识别、可穿戴设备<br>精准理解宠物状态</div>
+          </div>
+        </div>
+        <p style="margin-top: 15px; font-size: 17px; color: #5a7a4a; font-weight: 600;">
+          💡 核心机会：用户希望通过可感知的方式理解宠物状态，并建立持续的情感互动，
+          而不仅仅是"监看"宠物。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部：三大增长驱动 -->
+  <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px;">
+    <div style="background: #f0f5ea; border-radius: 12px; padding: 25px; text-align: center;">
+      <div style="font-size: 40px; margin-bottom: 10px;">🏠</div>
+      <div style="font-size: 22px; font-weight: 700; color: #5a7a4a; margin-bottom: 8px;">独居养宠人群增长</div>
+      <div style="font-size: 16px; color: #666; line-height: 1.6;">单身与独居经济规模化，宠物成为重要情感寄托</div>
+    </div>
+    <div style="background: #f0f5ea; border-radius: 12px; padding: 25px; text-align: center;">
+      <div style="font-size: 40px; margin-bottom: 10px;">🤖</div>
+      <div style="font-size: 22px; font-weight: 700; color: #5a7a4a; margin-bottom: 8px;">AI情感化演进</div>
+      <div style="font-size: 16px; color: #666; line-height: 1.6;">生成式AI让数字陪伴拥有"忆"和"共情"能力</div>
+    </div>
+    <div style="background: #f0f5ea; border-radius: 12px; padding: 25px; text-align: center;">
+      <div style="font-size: 40px; margin-bottom: 10px;">📱</div>
+      <div style="font-size: 22px; font-weight: 700; color: #5a7a4a; margin-bottom: 8px;">可穿戴设备成熟</div>
+      <div style="font-size: 16px; color: #666; line-height: 1.6;">生物传感与数字化疗愈，让"心情"可见可量化</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

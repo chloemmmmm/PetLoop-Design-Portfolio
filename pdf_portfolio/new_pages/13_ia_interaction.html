@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 2160px; height: 1215px; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #fff; position: relative; overflow: hidden; }
+.bg-texture { position: absolute; top: 0; right: 0; width: 60%; height: 100%; opacity: 0.08; background: repeating-radial-gradient(circle at 70% 30%, transparent, transparent 40px, #5a7a4a 40px, #5a7a4a 41px), repeating-radial-gradient(circle at 80% 60%, transparent, transparent 60px, #5a7a4a 60px, #5a7a4a 61px); }
+.sidebar { position: absolute; right: 60px; top: 120px; width: 180px; height: 900px; border-left: 2px dashed #c5d5b8; padding-left: 30px; }
+.sidebar-title { font-size: 22px; color: #999; margin-bottom: 40px; font-weight: 300; }
+.sidebar-item { font-size: 24px; color: #333; margin-bottom: 35px; font-weight: 500; position: relative; }
+.sidebar-item.active { color: #5a7a4a; font-weight: 700; }
+.sidebar-item.active::before { content: ''; position: absolute; left: -38px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: #5a7a4a; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 2px #5a7a4a; }
+.sidebar-section { font-size: 22px; color: #999; margin: 50px 0 25px 0; font-weight: 300; }
+.content { position: absolute; left: 80px; top: 80px; width: 1750px; height: 1055px; }
+.page-title { display: flex; align-items: baseline; margin-bottom: 40px; }
+.page-number { font-size: 72px; font-weight: 900; color: #1a1a1a; margin-right: 25px; }
+.page-title-text { font-size: 56px; font-weight: 700; color: #1a1a1a; }
+.page-subtitle { font-size: 32px; color: #5a7a4a; margin-left: 30px; font-weight: 500; }
+.grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.card { background: #f8faf5; border-radius: 16px; padding: 30px; border-left: 6px solid #5a7a4a; }
+.card-title { font-size: 26px; font-weight: 700; color: #5a7a4a; margin-bottom: 20px; }
+/* 信息架构树 */
+.ia-tree { font-size: 16px; line-height: 2; }
+.ia-level1 { font-weight: 700; color: #3d5a3e; font-size: 18px; margin: 10px 0 5px 0; }
+.ia-level2 { padding-left: 25px; color: #555; position: relative; }
+.ia-level2::before { content: '└'; position: absolute; left: 5px; color: #8a9a7a; }
+.ia-tag { display: inline-block; background: #5a7a4a; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-left: 8px; }
+/* 用户流程图 */
+.user-flow { display: flex; flex-direction: column; gap: 12px; }
+.flow-node { background: #fff; border-radius: 10px; padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-left: 4px solid #5a7a4a; }
+.flow-node-icon { font-size: 28px; }
+.flow-node-text { flex: 1; }
+.flow-node-title { font-size: 17px; font-weight: 700; color: #333; }
+.flow-node-desc { font-size: 14px; color: #666; margin-top: 3px; }
+.flow-arrow { text-align: center; color: #5a7a4a; font-size: 20px; font-weight: bold; }
+/* 交互原则 */
+.principle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+.principle-item { background: #fff; border-radius: 10px; padding: 15px; text-align: center; }
+.principle-icon { font-size: 32px; margin-bottom: 8px; }
+.principle-name { font-size: 16px; font-weight: 700; color: #5a7a4a; margin-bottom: 5px; }
+.principle-desc { font-size: 13px; color: #666; line-height: 1.4; }
+</style>
+</head>
+<body>
+<div class="bg-texture"></div>
+<div class="sidebar">
+  <div class="sidebar-title">项目规划</div>
+  <div class="sidebar-item">选题分析</div><div class="sidebar-item">选题来源</div><div class="sidebar-item">市场调研</div><div class="sidebar-item">用户画像</div>
+  <div class="sidebar-section">调研</div><div class="sidebar-item">数据收集</div><div class="sidebar-item">行为总结</div><div class="sidebar-item">语言总结</div><div class="sidebar-item">技术调研</div>
+  <div class="sidebar-section">设计</div><div class="sidebar-item active">系统图</div>
+  <div class="sidebar-section">开发</div>
+</div>
+<div class="content">
+  <div class="page-title">
+    <span class="page-number">05</span>
+    <span class="page-title-text">信息架构与交互设计</span>
+    <span class="page-subtitle">Information Architecture & Interaction</span>
+  </div>
+  <div class="grid-2col">
+    <div class="card">
+      <div class="card-title">🏗️ 网站信息架构</div>
+      <div class="ia-tree">
+        <div class="ia-level1">PetLoop 人宠情感闭环系统 <span class="ia-tag">Web App</span></div>
+        <div class="ia-level2">项目概述 - 产品定位、系统架构、三大组成</div>
+        <div class="ia-level2">研究洞察 - 市场调研、用户画像、需求分析</div>
+        <div class="ia-level2">产品体验 - Console状态总览 <span class="ia-tag">核心</span></div>
+        <div class="ia-level2" style="padding-left: 50px;">└ 宠物状态卡片（活动量/声音/情绪）</div>
+        <div class="ia-level2" style="padding-left: 50px;">└ 事件时间线（可追溯证据）</div>
+        <div class="ia-level2" style="padding-left: 50px;">└ 设备状态（可穿戴设备连接/电量）</div>
+        <div class="ia-level2">互动控制台 - 桌面机器人 <span class="ia-tag">核心</span></div>
+        <div class="ia-level2" style="padding-left: 50px;">└ 四种交互模式（陪伴/安抚/呼叫/玩耍）</div>
+        <div class="ia-level2" style="padding-left: 50px;">└ 机器人状态反馈（5阶段状态机）</div>
+        <div class="ia-level2" style="padding-left: 50px;">└ 猫咪监控画面（实时状态变化）</div>
+        <div class="ia-level2">产品原型 - 可穿戴设备、桌面机器人设计</div>
+        <div class="ia-level2">验证迭代 - 可用性测试、用户反馈、优化记录</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">👤 核心用户流程</div>
+      <div class="user-flow">
+        <div class="flow-node">
+          <div class="flow-node-icon">📱</div>
+          <div class="flow-node-text">
+            <div class="flow-node-title">打开应用，查看宠物状态</div>
+            <div class="flow-node-desc">首页展示Console状态总览，一目了然了解宠物当前状态</div>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">
+          <div class="flow-node-icon">🔍</div>
+          <div class="flow-node-text">
+            <div class="flow-node-title">查看事件时间线，了解发生了什么</div>
+            <div class="flow-node-desc">按时间顺序浏览宠物行为记录，每条都有可追溯证据</div>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">
+          <div class="flow-node-icon">🤖</div>
+          <div class="flow-node-text">
+            <div class="flow-node-title">选择交互模式，发起远程互动</div>
+            <div class="flow-node-desc">从陪伴/安抚/呼叫/玩耍四种模式中选择，机器人执行对应反馈</div>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">
+          <div class="flow-node-icon">😊</div>
+          <div class="flow-node-text">
+            <div class="flow-node-title">观察宠物反应，获得情感满足</div>
+            <div class="flow-node-desc">监控画面实时展示宠物状态变化，建立"即使分开也在互动"的陪伴感</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top: 30px;">
+    <div class="card-title">✨ 交互设计原则</div>
+    <div class="principle-grid">
+      <div class="principle-item">
+        <div class="principle-icon">👁️</div>
+        <div class="principle-name">状态可感知</div>
+        <div class="principle-desc">宠物状态一目了然，不需要深入查找</div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-icon">🔄</div>
+        <div class="principle-name">反馈即时性</div>
+        <div class="principle-desc">每次交互都有明确的机器人状态和宠物反应反馈</div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-icon">📝</div>
+        <div class="principle-name">证据可追溯</div>
+        <div class="principle-desc">每条状态判断都有对应的行为/声音证据支撑</div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-icon">🤝</div>
+        <div class="principle-name">情感连接感</div>
+        <div class="principle-desc">从"监看"升级为"陪伴"，建立持续的人宠情感闭环</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
